@@ -42,7 +42,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            // 'driver' => 'token', 
+            'driver' => 'jwt', // By default is token, please change it by jwt
             'provider' => 'users',
             'hash' => false,
         ],
