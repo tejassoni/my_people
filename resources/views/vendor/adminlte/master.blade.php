@@ -39,6 +39,7 @@
 @yield('adminlte_js')
 @else
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/admin/admin-js.js') }}"></script>
 @endif
 
 </body>
