@@ -1,0 +1,25 @@
+/* Admin Footer Css Starts */
+
+footer {
+    display: block;
+    width: 100%;
+}
+
+.footer-main {
+    display: flex;
+}
+
+span.footer-left {
+    display: block;
+    width: 50%;
+    text-align: left;
+}
+
+span.footer-right {
+    display: flex;
+    width: 30%;
+    text-align: right;
+}
+
+
+/* Admin Footer Css Ends */

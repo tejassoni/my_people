@@ -23,6 +23,7 @@
     @else
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @endif
+    <link rel="stylesheet" href="{{ asset('css/admin/admin-css.css') }}">
 </head>
 <body class="@yield('classes_body')" @yield('body_data')>
 
@@ -41,4 +42,5 @@
 @endif
 
 </body>
+@extends('adminlte::admin-footer')
 </html>
