@@ -15,11 +15,11 @@ class CreateHairTable extends Migration
     {
         Schema::create('hair_master', function (Blueprint $table) {
             $table->bigIncrements('hair_id');
-            $table->string('hair_style_name', 255);
-            $table->string('hair_color', 255);            
-            $table->text('hair_description');      
-            $table->string('hair_img', 255);                  
-            $table->enum('status', ['active', 'in-active']);
+            $table->string('hair_style_name', 255)->nullable();
+            $table->string('hair_color', 255)->nullable();            
+            $table->text('hair_description')->nullable();      
+            $table->string('hair_img', 255)->nullable();                  
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

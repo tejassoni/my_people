@@ -15,11 +15,11 @@ class CreateJawTable extends Migration
     {
         Schema::create('jaw_master', function (Blueprint $table) {
             $table->bigIncrements('jaw_id');
-            $table->string('jaw_name', 255);
-            $table->string('jaw_color', 255);            
-            $table->text('jaw_description');      
-            $table->string('jaw_img', 255);                  
-            $table->enum('status', ['active', 'in-active']);
+            $table->string('jaw_name', 255)->nullable();
+            $table->string('jaw_color', 255)->nullable();            
+            $table->text('jaw_description')->nullable();      
+            $table->string('jaw_img', 255)->nullable();                  
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

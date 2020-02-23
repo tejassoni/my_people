@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlanTable extends Migration
+class CreateCurrencyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreatePlanTable extends Migration
      */
     public function up()
     {
-        Schema::create('plan_master', function (Blueprint $table) {
-            $table->bigIncrements('plan_id');
-            $table->string('plan_name', 100)->nullable();
-            $table->string('plan_alias', 50)->nullable();
-            $table->text('plan_description')->nullable();
+        Schema::create('currency_master', function (Blueprint $table) {
+            $table->bigIncrements('currency_id');
+            $table->string('country_name', 100)->nullable(true);
+            $table->string('currency_name', 100)->nullable(true);
+            $table->string('code', 20)->nullable(true);
+            $table->string('symbol', 20)->nullable(true);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
@@ -30,6 +31,6 @@ class CreatePlanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plan_master');
+        Schema::dropIfExists('currency_master');
     }
 }

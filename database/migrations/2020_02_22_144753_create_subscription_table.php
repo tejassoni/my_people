@@ -15,12 +15,11 @@ class CreateSubscriptionTable extends Migration
     {
         Schema::create('subscription_master', function (Blueprint $table) {
             $table->bigIncrements('sub_id');
-            $table->string('sub_name', 100);
-            $table->string('sub_alias', 50);
-            $table->text('sub_description');
-            $table->integer('plan_id');
-            $table->enum('trail_pack', ['active', 'in-active']);
-            $table->enum('status', ['active', 'in-active']);
+            $table->string('sub_name', 100)->nullable();
+            $table->string('sub_alias', 50)->nullable();
+            $table->text('sub_description')->nullable();
+            $table->integer('plan_id')->nullable();            
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

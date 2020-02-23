@@ -15,11 +15,11 @@ class CreateSkinTable extends Migration
     {
         Schema::create('skin_master', function (Blueprint $table) {
             $table->bigIncrements('skin_id');
-            $table->string('skin_name', 255);
-            $table->string('skin_color', 255);            
-            $table->text('skin_description');      
-            $table->string('skin_img', 255);                  
-            $table->enum('status', ['active', 'in-active']);
+            $table->string('skin_name', 255)->nullable();
+            $table->string('skin_color', 255)->nullable();            
+            $table->text('skin_description')->nullable();      
+            $table->string('skin_img', 255)->nullable();                  
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

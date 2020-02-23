@@ -15,11 +15,11 @@ class CreateEarTable extends Migration
     {
         Schema::create('ear_master', function (Blueprint $table) {
             $table->bigIncrements('ear_id');
-            $table->string('ear_name', 255);
-            $table->string('ear_color', 255);            
-            $table->text('ear_description');      
-            $table->string('ear_img', 255);                  
-            $table->enum('status', ['active', 'in-active']);
+            $table->string('ear_name', 255)->nullable();
+            $table->string('ear_color', 255)->nullable();            
+            $table->text('ear_description')->nullable();      
+            $table->string('ear_img', 255)->nullable();                  
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

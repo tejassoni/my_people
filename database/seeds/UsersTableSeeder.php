@@ -14,10 +14,12 @@ class UsersTableSeeder extends Seeder
     {
         //Add this lines
         User::query()->truncate(); // truncate user table each time of seeders run
-        User::create([ // create a new user
-            'email' => 'admin1@admin.com',
+        User::create([ // create a new user values
+            'email' => 'admin@admin.com',
             'password' => Hash::make('admin'),
-            'name' => 'Administrator'
+            'f_name' => 'Administrator',
+            'm_name' => 'm_admin',
+            'l_name' => 'l_admin',
         ]);
     }
 }

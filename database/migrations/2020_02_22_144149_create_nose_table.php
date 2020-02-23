@@ -15,11 +15,11 @@ class CreateNoseTable extends Migration
     {
         Schema::create('nose_master', function (Blueprint $table) {
             $table->bigIncrements('nose_id');
-            $table->string('nose_name', 255);
-            $table->string('nose_color', 255);            
-            $table->text('nose_description');      
-            $table->string('nose_img', 255);                  
-            $table->enum('status', ['active', 'in-active']);
+            $table->string('nose_name', 255)->nullable();
+            $table->string('nose_color', 255)->nullable();            
+            $table->text('nose_description')->nullable();      
+            $table->string('nose_img', 255)->nullable();                  
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

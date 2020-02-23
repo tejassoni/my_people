@@ -15,11 +15,11 @@ class CreateEyeBrowTable extends Migration
     {
         Schema::create('eye_brow_master', function (Blueprint $table) {
             $table->bigIncrements('eye_brow_id');
-            $table->string('eye_brow_name', 255);
-            $table->string('eye_brow_color', 255);            
-            $table->text('eye_brow_description');      
-            $table->string('eye_brow_img', 255);                  
-            $table->enum('status', ['active', 'in-active']);
+            $table->string('eye_brow_name', 255)->nullable();
+            $table->string('eye_brow_color', 255)->nullable();            
+            $table->text('eye_brow_description')->nullable();      
+            $table->string('eye_brow_img', 255)->nullable();                  
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

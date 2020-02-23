@@ -14,12 +14,12 @@ class CreateLipTable extends Migration
     public function up()
     {
         Schema::create('lip_master', function (Blueprint $table) {
-            $table->bigIncrements('lip_id');
-            $table->string('lip_name', 255);
-            $table->string('lip_color', 255);            
-            $table->text('lip_description');      
-            $table->string('lip_img', 255);                  
-            $table->enum('status', ['active', 'in-active']);
+            $table->bigIncrements('lip_id')->nullable();
+            $table->string('lip_name', 255)->nullable();
+            $table->string('lip_color', 255)->nullable();            
+            $table->text('lip_description')->nullable();      
+            $table->string('lip_img', 255)->nullable();                  
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

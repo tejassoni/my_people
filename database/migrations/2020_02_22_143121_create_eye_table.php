@@ -15,11 +15,11 @@ class CreateEyeTable extends Migration
     {
         Schema::create('eye_master', function (Blueprint $table) {
             $table->bigIncrements('eye_id');
-            $table->string('eye_name', 255);
-            $table->string('eye_color', 255);            
-            $table->text('eye_description');      
-            $table->string('eye_img', 255);                  
-            $table->enum('status', ['active', 'in-active']);
+            $table->string('eye_name', 255)->nullable();
+            $table->string('eye_color', 255)->nullable();            
+            $table->text('eye_description')->nullable();      
+            $table->string('eye_img', 255)->nullable();                  
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

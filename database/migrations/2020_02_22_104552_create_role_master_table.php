@@ -15,10 +15,10 @@ class CreateRoleMasterTable extends Migration
     {
         Schema::create('role_master', function (Blueprint $table) {
             $table->bigIncrements('role_id');
-            $table->string('role_name', 100);
-            $table->string('role_alias', 50);
-            $table->text('role_description');
-            $table->enum('status', ['active', 'in-active']);
+            $table->string('role_name', 100)->nullable();
+            $table->string('role_alias', 50)->nullable();
+            $table->text('role_description')->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
