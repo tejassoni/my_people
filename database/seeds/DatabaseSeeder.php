@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
       //  $this->call(StateTableSeeder::class);
       //  $this->call(CityTableSeeder::class);
       //  $this->call(CurrencyTableSeeder::class);
+       $this->call(RoleTableSeeder::class);
     }
 }
