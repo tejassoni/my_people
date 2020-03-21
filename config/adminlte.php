@@ -200,12 +200,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Role List',
-                    'url'  => '#',
+                    'url'  => '/admin/role_list',
                     'icon'    => 'fas fa-fw fa-th-list',
                 ],                
                 [
                     'text' => 'Role Add',
-                    'url'  => '#',
+                    'url'  => '/admin/role_add',
                     'icon'    => 'fas fa-fw fa-plus-circle',
                 ],
             ],

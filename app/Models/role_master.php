@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class role_master extends Model
 {
@@ -41,5 +42,9 @@ class role_master extends Model
      */
     protected $guarded = ['created_at', 'updated_at'];
 
+
+    public function insert_data($inputs) {
+		return self::create($inputs);
+	}
 
 }

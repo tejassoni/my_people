@@ -20,3 +20,15 @@ Auth::routes();
 Route::get('/home', function() {
     return view('home');
 })->name('home')->middleware('auth');
+
+
+// Admin Panel all routs from website backend
+Route::group(['prefix' => 'admin'], function () {
+    // Role Master Module Starts here...!
+    Route::get('/role_list', 'Admin\UserRolesController@list_view');
+    Route::get('/role_add', 'Admin\UserRolesController@add_view');
+
+    Route::post('/role_insert', 'Admin\UserRolesController@insert_records');
+    // Role Master Module Ends here...!
+    
+});
