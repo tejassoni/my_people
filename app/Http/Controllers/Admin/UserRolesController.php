@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\role_master;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateUserRolesRequest;
+use DataTables;
 
 class UserRolesController extends Controller
 {

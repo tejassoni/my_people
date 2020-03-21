@@ -14,7 +14,9 @@
         "jeroennoten/laravel-adminlte": "^3.0",
         "laravel/framework": "6.*",
         "laravel/tinker": "^1.0",
-        "tymon/jwt-auth": "1.0.*"
+        "tymon/jwt-auth": "1.0.*",
+        "yajra/laravel-datatables": "^1.0",
+        "yajra/laravel-datatables-oracle": "^9.9"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

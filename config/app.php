@@ -174,9 +174,11 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        // Jwt auth library
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
+        // Yajra Datatables
+        Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
     /*
