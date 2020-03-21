@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\role_master;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateUserRolesRequest;
 
 class UserRolesController extends Controller
 {
@@ -48,7 +49,7 @@ class UserRolesController extends Controller
      * @param  Name, Alias, Description, Status
      * @return success or fail flash message in view
      */
-    public function insert_records(Request $request)
+    public function insert_records(CreateUserRolesRequest $request)
     {
         // default response formate initialize
         $resp = config('response_format.RES_RESULT');
@@ -56,7 +57,7 @@ class UserRolesController extends Controller
         $status = 0;
         if ($request->has('status')) {
             $status = 1;
-        }
+        }    
 
         // Set Insert data array for pass into insert query
         $insert_data = array(
