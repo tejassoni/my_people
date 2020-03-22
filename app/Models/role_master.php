@@ -45,6 +45,18 @@ class role_master extends Model
 
     public function insert_data($inputs) {
 		return self::create($inputs);
+  }
+  
+  public function list_all() {
+    // DB::enableQueryLog();
+		$data = self::select('*')				
+				        ->where('status', 1)->get();
+
+			if (!empty($data)) {
+				  $data = $data->toArray();
+      }      
+      // dd(DB::getQueryLog());
+			return $data;
 	}
 
 }

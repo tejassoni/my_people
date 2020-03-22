@@ -26,10 +26,15 @@ class UserRolesController extends Controller
      * @param  none
      * @return role/view/list_view.blade.php
      */
-    public function list_view()
-    {
-        $data = array(123);
-        return view('admin.list_view', $data);
+    public function list_view(Request $request)
+    {   
+        if($request->ajax()){
+            $role_obj = new role_master;
+            $list = $role_obj->list_all();    
+           return DataTables::of($list)
+            ->make(true);
+        }       
+        return view('admin.list_view');
     }
 
     /**

@@ -9,14 +9,11 @@
 @yield('title_postfix', config('adminlte.title_postfix', ''))</title>
     @if(! config('adminlte.enabled_laravel_mix'))
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-
     @include('adminlte::plugins', ['type' => 'css'])
-
     @yield('adminlte_css_pre')
 
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">   
+    <link rel="stylesheet" href="{{ asset('vendor/datatables/css/jquery.dataTables.min.css') }}">
     @yield('adminlte_css')
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -40,8 +37,10 @@
 @else
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/admin/admin-js.js') }}"></script>
-@endif
 
+@endif
+<script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('js/admin/role_master.js') }}"></script>  
 </body>
 @extends('adminlte::admin-footer')
 </html>
