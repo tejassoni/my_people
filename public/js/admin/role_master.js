@@ -1,7 +1,8 @@
 // A $( document ).ready() block.
 $(document).ready(function() {
-
+    
     $('#role_list_table').DataTable({
+        fixedHeader: true,
         "processing": true,
         "serverSide": true,
         "type": 'get',
@@ -10,7 +11,8 @@ $(document).ready(function() {
             { data: 'role_name', name: 'role_name' },
             { data: 'role_alias', name: 'role_alias' },
             { data: 'role_description', name: 'role_description' },
-            { data: 'status', name: 'status' }
+            { data: 'status', name: 'status' },
+            { data: 'action', name: 'action', orderable: false, searchable: false },
         ]
     });
 });

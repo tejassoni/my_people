@@ -21,7 +21,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" name="role_add" id="role_add" method="post" action="/admin/role_insert">
+              <form role="form" name="role_add" id="role_add" method="post" action="{{ url('admin/role_insert') }}">
                    <!-- csrf security starts -->
                       @csrf
                    <!-- csrf security ends -->
@@ -49,6 +49,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
+                  <a href="{{ url('admin/role_list') }}" class="btn btn-info"><i class="fas fa-arrow-left"></i> Back</a> &nbsp;
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
               </form>

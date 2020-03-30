@@ -11,9 +11,9 @@
     <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
+            <!-- <div class="card-header">
               <h3 class="card-title">DataTable with minimal features &amp; hover style</h3>
-            </div>
+            </div> -->
             <!-- /.card-header -->
             <div class="card-body">
             <table id="role_list_table" class="display datatables table table-striped table-bordered w-100" sty>

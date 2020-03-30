@@ -12,8 +12,12 @@
     @include('adminlte::plugins', ['type' => 'css'])
     @yield('adminlte_css_pre')
 
-    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">   
-    <link rel="stylesheet" href="{{ asset('vendor/datatables/css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">       
+    <link rel="stylesheet" href="{{ asset('vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">   
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}"> 
+    
+    <link rel="stylesheet" href="{{ asset('vendor/datatables/css/dataTables.bootstrap4.min.css') }}">
+    
     @yield('adminlte_css')
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -36,10 +40,13 @@
 @yield('adminlte_js')
 @else
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/admin/admin-js.js') }}"></script>
+
 
 @endif
+<script src="{{ asset('js/admin/admin-js.js') }}"></script>
+<script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('js/admin/role_master.js') }}"></script>  
 </body>
 @extends('adminlte::admin-footer')

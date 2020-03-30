@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use DB;
+use DB; // DB::enableQueryLog(); dd(DB::getQueryLog());
 
 class role_master extends Model
 {
@@ -42,21 +42,59 @@ class role_master extends Model
      */
     protected $guarded = ['created_at', 'updated_at'];
 
-
+    /*
+    * author : Tejas Soni
+    * insert_data - insert records into table : role_master
+    * @param  - array of input records // Fields will be same as table column name        
+    * @return : boolean
+    */
     public function insert_data($inputs) {
-		return self::create($inputs);
-  }
+		  return self::create($inputs);
+    }
   
-  public function list_all() {
-    // DB::enableQueryLog();
-		$data = self::select('*')				
-				        ->where('status', 1)->get();
-
+  /*
+    * author : Tejas Soni
+    * list_all - get all table : role_master records    
+    * @param  - None        
+    * @return : array of all list records
+    */
+  public function list_all() {    
+		$data = self::select('*')->get();
 			if (!empty($data)) {
 				  $data = $data->toArray();
       }      
-      // dd(DB::getQueryLog());
 			return $data;
-	}
+  }  
+
+   /*
+    * author : Tejas Soni
+    * list_by_params - check dynamic where condition from controller table : role_master 
+    * @param  - dynamic where conditions
+    * @return : array of all list records
+    */
+  public function list_by_params($where_params = array()) {    
+    if(is_array($where_params) && !empty($where_params)){
+            $data = self::select('*');
+            foreach($where_params as $column_name => $column_value){
+                  $data->where($column_name, $column_value);
+            }                      
+    }else{
+        $data = self::select('*')->get();
+    }		 
+    if (!empty($data)) {
+      $data = $data->get();
+    }     
+		return $data;
+  }
+  
+    /*
+    * author : Tejas Soni
+    * update_records - update records into table : role_master 
+    * @param  - where id defined
+    * @return : boolean
+    */
+    public function update_records($udpate_data = array(), $where_check) {    
+          return self::where('role_id', $where_check)->update($udpate_data);
+    }
 
 }

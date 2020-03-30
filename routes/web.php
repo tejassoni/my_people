@@ -26,9 +26,13 @@ Route::get('/home', function() {
 Route::group(['prefix' => 'admin'], function () {
     // Role Master Module Starts here...!
     Route::get('/role_list', 'Admin\UserRolesController@list_view');
+    
     Route::get('/role_add', 'Admin\UserRolesController@add_view');
-
     Route::post('/role_insert', 'Admin\UserRolesController@insert_records');
+
+    Route::get('/role_edit/{id?}', 'Admin\UserRolesController@get_edit_records');
+    Route::put('/role_update/{id?}', 'Admin\UserRolesController@update_records');
+
     // Role Master Module Ends here...!
     
 });

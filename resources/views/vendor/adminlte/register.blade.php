@@ -22,10 +22,14 @@
 @endif
 
 @section('body')
-    <div class="register-box">
+
+
+   <div class="register-box">
+   @include('vendor.adminlte.partials.header_responce_messages')
         <div class="register-logo">
             <a href="{{ $dashboard_url }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
         </div>
+        
         <div class="card">
             <div class="card-body register-card-body">
             <p class="login-box-msg">{{ __('adminlte::adminlte.register_message') }}</p>
@@ -86,6 +90,22 @@
                     @if ($errors->has('password_confirmation'))
                         <div class="invalid-feedback">
                             <strong>{{ $errors->first('password_confirmation') }}</strong>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="form-group">                  
+                  <select name="role_id" id="role_id" class="form-control select2 {{ $errors->has('role') ? 'is-invalid' : '' }}" style="width: 100%;">
+                    <option value="null" {{ (is_array(old()) && !empty(old('role_id')))? '' : "selected=selected" }} disabled>{{ __('adminlte::adminlte.select_role') }}</option>
+                    @if(isset($role_data) && !empty($role_data))
+                        @foreach($role_data as $role_key => $role_val)                          
+                            <option value="{{ $role_val->role_id }}" {{ (is_array(old()) && old('role_id') == $role_val->role_id )? "selected=selected" : "" }}>{{ $role_val->role_name }}</option>
+                        @endforeach
+                    @endif
+                  </select>
+                  @if ($errors->has('role'))
+                        <div class="invalid-feedback">
+                            <strong>{{ $errors->first('role') }}</strong>
                         </div>
                     @endif
                 </div>
