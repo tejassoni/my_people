@@ -29,6 +29,7 @@
 @endif
 
 @section('body')
+@include('vendor.adminlte.partials.header_responce_messages')
     <div class="login-box">
         <div class="login-logo">
             <a href="{{ $dashboard_url }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
