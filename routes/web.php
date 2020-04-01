@@ -36,3 +36,7 @@ Route::group(['prefix' => 'admin'], function () {
     // Role Master Module Ends here...!
     
 });
+
+
+// Send Email URL
+Route::get('send-mail','Email\MailSend@mailsend');
