@@ -29,15 +29,15 @@ class SendMail extends Mailable
      * @return $this
      */
     public function build()
-    {           
-       $email = $this->view('templates.email.activation_template')
-                     ->from('raju@gmail.com')
-                     ->cc('sonu@gmail.com')
-                     ->bcc('pintu@gmail.com')
-                     ->replyTo('noreply@gmail.com')
-                     ->subject('MyPeople Solutions Pvt. Ltd')
-                     ->with('email_content', $this->details);     
-        
-        return $email;                                    
+    {
+        $email = $this->markdown('templates.email.activation_template')
+            // ->from('tejas.soni@sinelogix.com', 'Tejas Soni')
+            ->cc('test.intransure@gmail.com')
+            ->bcc('mypeoplesolution@gmail.com')
+            ->replyTo('noreply@gmail.com')
+            ->subject('MyPeople Solutions Pvt. Ltd')
+            ->with('email_content', $this->details);
+
+        return $email;
     }
 }

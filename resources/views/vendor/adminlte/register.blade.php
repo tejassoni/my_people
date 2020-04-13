@@ -1,8 +1,8 @@
 @extends('adminlte::master')
 
 @section('adminlte_css')
-    @stack('css')
-    @yield('css')
+@stack('css')
+@yield('css')
 @stop
 
 @section('classes_body', 'register-page')
@@ -12,33 +12,32 @@
 @php( $dashboard_url = View::getSection('dashboard_url') ?? config('adminlte.dashboard_url', 'home') )
 
 @if (config('adminlte.use_route_url', false))
-    @php( $login_url = $login_url ? route($login_url) : '' )
-    @php( $register_url = $register_url ? route($register_url) : '' )
-    @php( $dashboard_url = $dashboard_url ? route($dashboard_url) : '' )
+@php( $login_url = $login_url ? route($login_url) : '' )
+@php( $register_url = $register_url ? route($register_url) : '' )
+@php( $dashboard_url = $dashboard_url ? route($dashboard_url) : '' )
 @else
-    @php( $login_url = $login_url ? url($login_url) : '' )
-    @php( $register_url = $register_url ? url($register_url) : '' )
-    @php( $dashboard_url = $dashboard_url ? url($dashboard_url) : '' )
+@php( $login_url = $login_url ? url($login_url) : '' )
+@php( $register_url = $register_url ? url($register_url) : '' )
+@php( $dashboard_url = $dashboard_url ? url($dashboard_url) : '' )
 @endif
 
 @section('body')
 
 
-   <div class="register-box">
-   @include('vendor.adminlte.partials.header_responce_messages')
-        <div class="register-logo">
-            <a href="{{ $dashboard_url }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
-        </div>
-        
-        <div class="card">
-            <div class="card-body register-card-body">
+<div class="register-box">
+    @include('vendor.adminlte.partials.header_responce_messages')
+    <div class="register-logo">
+        <a href="{{ $dashboard_url }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body register-card-body">
             <p class="login-box-msg">{{ __('adminlte::adminlte.register_message') }}</p>
             <form action="{{ $register_url }}" method="post">
                 {{ csrf_field() }}
 
                 <div class="input-group mb-3">
-                    <input type="text" name="name" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" value="{{ old('name') }}"
-                           placeholder="{{ __('adminlte::adminlte.full_name') }}" autofocus>
+                    <input type="text" name="name" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" value="{{ old('name') }}" placeholder="{{ __('adminlte::adminlte.full_name') }}" autofocus>
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -46,67 +45,64 @@
                     </div>
 
                     @if ($errors->has('name'))
-                        <div class="invalid-feedback">
-                            <strong>{{ $errors->first('name') }}</strong>
-                        </div>
+                    <div class="invalid-feedback">
+                        <strong>{{ $errors->first('name') }}</strong>
+                    </div>
                     @endif
                 </div>
                 <div class="input-group mb-3">
-                    <input type="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}"
-                           placeholder="{{ __('adminlte::adminlte.email') }}">
+                    <input type="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" value="{{ old('email') }}" placeholder="{{ __('adminlte::adminlte.email') }}">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
                         </div>
                     </div>
                     @if ($errors->has('email'))
-                        <div class="invalid-feedback">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </div>
+                    <div class="invalid-feedback">
+                        <strong>{{ $errors->first('email') }}</strong>
+                    </div>
                     @endif
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" name="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                           placeholder="{{ __('adminlte::adminlte.password') }}">
+                    <input type="password" name="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" placeholder="{{ __('adminlte::adminlte.password') }}">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
                         </div>
                     </div>
                     @if ($errors->has('password'))
-                        <div class="invalid-feedback">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </div>
+                    <div class="invalid-feedback">
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </div>
                     @endif
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" name="password_confirmation" class="form-control {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}"
-                           placeholder="{{ __('adminlte::adminlte.retype_password') }}">
+                    <input type="password" name="password_confirmation" class="form-control {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}" placeholder="{{ __('adminlte::adminlte.retype_password') }}">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
                         </div>
                     </div>
                     @if ($errors->has('password_confirmation'))
-                        <div class="invalid-feedback">
-                            <strong>{{ $errors->first('password_confirmation') }}</strong>
-                        </div>
+                    <div class="invalid-feedback">
+                        <strong>{{ $errors->first('password_confirmation') }}</strong>
+                    </div>
                     @endif
                 </div>
 
-                <div class="form-group">                  
-                  <select name="role_id" id="role_id" class="form-control select2 {{ $errors->has('role') ? 'is-invalid' : '' }}" style="width: 100%;">
-                    <option value="null" {{ (is_array(old()) && !empty(old('role_id')))? '' : "selected=selected" }} disabled>{{ __('adminlte::adminlte.select_role') }}</option>
-                    @if(isset($role_data) && !empty($role_data))
-                        @foreach($role_data as $role_key => $role_val)                          
-                            <option value="{{ $role_val->role_id }}" {{ (is_array(old()) && old('role_id') == $role_val->role_id )? "selected=selected" : "" }}>{{ $role_val->role_name }}</option>
+                <div class="form-group">
+                    <select name="role_id" id="role_id" class="form-control select2 {{ $errors->has('role_id') ? 'is-invalid' : '' }}" style="width: 100%;">
+                        <option value="null" {{ (is_array(old()) && !empty(old('role_id')))? '' : "selected=selected" }} disabled>{{ __('adminlte::adminlte.select_role') }}</option>
+                        @if(isset($role_data) && !empty($role_data))
+                        @foreach($role_data as $role_key => $role_val)
+                        <option value="{{ $role_val->role_id }}" {{ (is_array(old()) && old('role_id') == $role_val->role_id )? "selected=selected" : "" }}>{{ $role_val->role_name }}</option>
                         @endforeach
-                    @endif
-                  </select>
-                  @if ($errors->has('role'))
-                        <div class="invalid-feedback">
-                            <strong>{{ $errors->first('role') }}</strong>
-                        </div>
+                        @endif
+                    </select>
+                    @if ($errors->has('role_id'))
+                    <div class="invalid-feedback">
+                        <strong>{{ $errors->first('role_id') }}</strong>
+                    </div>
                     @endif
                 </div>
                 <button type="submit" class="btn btn-primary btn-block btn-flat">
@@ -121,10 +117,10 @@
         </div>
         <!-- /.form-box -->
     </div><!-- /.register-box -->
-@stop
+    @stop
 
-@section('adminlte_js')
+    @section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     @stack('js')
     @yield('js')
-@stop
+    @stop

@@ -40,7 +40,7 @@ class RegisterController extends Controller
      * @return void
      */
     public function __construct()
-    {        
+    {
         $this->middleware('guest');
     }
 
@@ -73,39 +73,40 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role_id' => $data['role_id'],
-        ]);                
+        ]);
     }
 
     public function showRegistrationForm()
-    {   
-        $role_data = role_master::all();        
+    {
+        $role_data = role_master::all();
         return view('auth.register', compact('role_data'));
     }
 
 
     /**
      * Handle a registration request for the application.
-     *
+     * You can use this for custom email verfication feature
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    /* public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-        event(new Registered($user = $this->create($request->all())));
+        event(new Registered($user = $this->create($request->all()))); */
 
-        if(!empty($user)){
-            $resp['status'] = true;
-            $resp['data'] = array();
-            $resp['message'] = 'New User Registered successfully...!';
-            $request->session()->put('success', $resp['message']);
-            return redirect()->back()->with('success', $resp['message']);
-        }else{     
-            $resp['status'] = false;
-            $resp['data'] = array();
-            $resp['message'] = 'New User not Registred...! Please try again.';
-            $request->session()->put('error', $resp['message']);
-            return redirect()->back()->with('error', $resp['message']);
-        }
-    }
+    /* Restrict Laravel for autologin */
+    // if (!empty($user)) {
+    //     $resp['status'] = true;
+    //     $resp['data'] = array();
+    //     $resp['message'] = 'New User Registered successfully...!';
+    //     $request->session()->put('success', $resp['message']);
+    //     return redirect()->back()->with('success', $resp['message']);
+    // } else {
+    //     $resp['status'] = false;
+    //     $resp['data'] = array();
+    //     $resp['message'] = 'New User not Registred...! Please try again.';
+    //     $request->session()->put('error', $resp['message']);
+    //     return redirect()->back()->with('error', $resp['message']);
+    // }
+    /* }  */
 }

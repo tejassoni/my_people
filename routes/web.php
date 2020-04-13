@@ -15,18 +15,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Email Verified enables
+Auth::routes(['verify' => true]);
 
-Route::get('/home', function() {
+Route::get('/home', function () {
     return view('home');
-})->name('home')->middleware('auth');
+})->name('home')->middleware(['verified', 'auth']); // Bind auth and Email verified
 
 
 // Admin Panel all routs from website backend
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function () {
     // Role Master Module Starts here...!
     Route::get('/role_list', 'Admin\UserRolesController@list_view');
-    
+
     Route::get('/role_add', 'Admin\UserRolesController@add_view');
     Route::post('/role_insert', 'Admin\UserRolesController@insert_records');
 
@@ -34,9 +35,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('/role_update/{id?}', 'Admin\UserRolesController@update_records');
 
     // Role Master Module Ends here...!
-    
-});
+
+}); // Email Verified enables
 
 
-// Send Email URL
-Route::get('send-mail','Email\MailSend@mailsend');
+
+// Send Email By Hit URL
+Route::get('send-mail', 'Email\MailSend@mailsend');
+Route::post('user_email/{id?}', 'Email\MailSend@mailsend');

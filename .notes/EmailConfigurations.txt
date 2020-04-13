@@ -1,0 +1,47 @@
+
+Quick Tutorial on Email for command line processes - Author: Tejas Soni
+
+- Purpose: To provide other developers information on how to develop and run command line processes
+
+- Creating a command line process class.
+
+1. Run Commands on at root of my_people folder
+   a) php artisan make:mail SendMail
+   -> Will Create Folder with file in App/Mail/SendMail.php
+   b) php artisan make:controller Email/MailSend
+   -> Will Create Folder with file in App/Http/Controller/Email/MailSend.php
+   c) Import below mail enable services in controller
+      use App\Mail\SendMail;
+      use Illuminate\Support\Facades\Mail;
+
+
+2) Email configurations
+
+   a) For mailtrap io paste or replace this following into .env file
+
+	MAIL_DRIVER=smtp
+	MAIL_HOST=smtp.mailtrap.io
+	MAIL_PORT=465
+	MAIL_USERNAME=0d1ebd5a5a4649
+	MAIL_PASSWORD=4e3e5649e35579
+	MAIL_ENCRYPTION=null
+	MAIL_FROM_ADDRESS=tejas.soni@sinelogix.com
+	MAIL_FROM_NAME=MyPeople
+
+   b) For mailtrap io paste or replace this following into .env file
+
+	MAIL_DRIVER=smtp
+	MAIL_HOST=smtp.googlemail.com
+	MAIL_PORT=465
+	MAIL_USERNAME=tejas.soni@sinelogix.com
+	MAIL_PASSWORD=
+	MAIL_ENCRYPTION=ssl
+	MAIL_FROM_ADDRESS=tejas.soni@sinelogix.com
+	MAIL_FROM_NAME=MyPeople
+
+   
+
+
+
+
+

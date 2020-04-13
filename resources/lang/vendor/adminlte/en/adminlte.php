@@ -20,13 +20,14 @@ return [
     'reset_password'              => 'Reset Password',
     'send_password_reset_link'    => 'Send Password Reset Link',
     'verify_message'              => 'Your account needs a verification',
-    'verify_email_sent'                => 'A fresh verification link has been sent to your email address.',
+    'verify_email_sent'           => 'A fresh verification link has been sent to your email address.',
     'verify_check_your_email'     => 'Before proceeding, please check your email for a verification link.',
     'verify_if_not_recieved'      => 'If you did not receive the email',
     'verify_request_another'      => 'click here to request another',
 
     // Role Module Start
     'role'                        => 'Role',
+    'role_id'                     => 'Role Name',
     'name'                        => 'Name',
     'description'                 => 'Description',
     'phone'                       => 'Phone',
