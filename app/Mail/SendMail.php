@@ -37,7 +37,7 @@ class SendMail extends Mailable
             ->replyTo('noreply@gmail.com')
             ->subject('MyPeople Solutions Pvt. Ltd')
             ->with('email_content', $this->details);
-
+        // ->attach($this->details['attachment']['file_path'], ['as' => $this->details['attachment']['display_name'], 'mime' => $this->details['attachment']['mime_type']]);
         return $email;
     }
 }

@@ -23,6 +23,23 @@ class MailSend extends Controller
     public function mailsend(Request $request)
     {
         try {
+            // Validation Enables
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required:email',
+                'subject' => 'required',
+                'message' => 'required',
+                'file_test' => 'mimes:jpeg,png,jpg,gif,svg,txt,pdf,ppt,doc,docx,xls',
+            ]);
+
+            // File attachement validation //
+            // if ($request->hasFile('file_test')) {
+            //     $image = $request->file('file_test');
+            //     $fileName = $image->getClientOriginalName();
+            //     $fileExtension = $image->getClientOriginalExtension();
+            //     $fileMime = $image->getMimeType();
+            // }
+
             // Dynamic Data will be pass into email template view starts
             $details = [
                 'name' => 'Tejas Soni',
@@ -41,6 +58,8 @@ class MailSend extends Controller
                 'address' => 'MyPeople Solutions Pvt. Ltd',
                 'address2' => 'Gotri, Vadodara',
                 'pincode' => '390021',
+                //'attachment' => ['file_path' => \public_path() . '/assets/images/logo_1.png', 'display_name' => 'LogoTest.png', 'mime_type' => 'image/png'],
+                //'attachment' => ['file_path' => $image->getRealPath(), 'display_name' => $fileName . $fileExtension, 'mime_type' => $fileMime],
             ];
             // Dynamic Data will be pass into email template view ends
 
