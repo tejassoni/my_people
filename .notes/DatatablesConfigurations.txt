@@ -1,0 +1,164 @@
+
+Quick Tutorial on Datatables for command line processes - Author: Tejas Soni
+
+- Purpose: To provide other developers information on how to develop and run command line processes
+
+- Creating a command line process class.
+
+Reference  : https://cdn.datatables.net/
+Custom PDF : https://codepen.io/RedJokingInn/pen/XMVoXL
+Custom PDF : https://stackoverflow.com/questions/40727591/jquery-datatable-pdf-export-table-cells-has-no-borders
+
+/* Basic Datatables reqruired */
+1. Import following datatables CSS files into your Header  
+   a) <link rel="stylesheet" href="{{ asset('vendor/datatables/css/dataTables.bootstrap4.min.css') }}">
+   cdn version :  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+2) Import following datatables JS files into your Footer
+	a) <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+	cdn version : <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	b)  <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+	cdn version : <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	c) <script src="{{ asset('vendor/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+	cdn version : <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+/* Select2 Datatables reqruired */
+1. Import following css files into your header above dataTables.bootstrap4.min.css
+   a) <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
+   cdn version : <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.12/js/select2.min.js">
+   b) <link rel="stylesheet" href="{{ asset('vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+   cdn version : <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css">
+    
+/* Datatable Server SideProcessing */
+
+1) Datatables With ServerSide process without Export example 1
+
+$('#datatable_table').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "type": 'get',
+        "ajax": "role_list",
+        "columns": [{
+                data: 'role_name',
+                name: 'role_name',
+                title: "Name",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: 'role_alias',
+                name: 'role_alias',
+                title: "Alias",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: 'action',
+                name: 'action',
+                title: "Action",
+                orderable: false,
+                searchable: false
+            },
+        ]        
+    });
+
+2) Datatables With ServerSide process with Export example 2
+
+    $('#role_list_table').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "type": 'get',
+        "ajax": "role_list",
+        "columns": [{
+                data: 'role_name',
+                name: 'role_name',
+                title: "Name",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: 'action',
+                name: 'action',
+                title: "Action",
+                orderable: false,
+                searchable: false
+            },
+        ],
+        /* All information with default design table options */
+         dom: 'Blfrtip', 
+        /* All information with default custom design table options Not included Export Buttons*/
+         dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" + // Top Header
+             "<'row'<'col-sm-12'tr>>" + // Table Body
+             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>", // Bottom Footer
+        /* all information with default custom design table options with included Export Buttons*/
+        dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-6 text-center mb-2'B><'col-sm-12 col-md-3'f>>" + // Top Header
+            "<'row'<'col-sm-12'tr>>" + // Table Body
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>", // Bottom Footer
+        buttons: [
+            csv', 'excel', 'pdf', 'print', 'copy', 'reload'
+        ]
+    });
+
+   3) Datatables With ServerSide process with Custom Export Options example 3
+
+   $('#role_list_table').DataTable({
+      "processing": true,
+      "serverSide": true,
+      "type": 'get',
+      "ajax": "role_list",
+      "columns": [{
+               data: 'role_name',
+               name: 'role_name',
+               title: "Name",
+               orderable: true,
+               searchable: true
+         },
+         {
+               data: 'action',
+               name: 'action',
+               title: "Action",
+               orderable: false,
+               searchable: false
+         },
+      ],
+      /* All information with default design table options */
+      dom: 'Blfrtip',
+      buttons: [
+            {
+                extend:    'copyHtml5',
+                text:      '<i class="fa fa-files-o"></i>',
+                titleAttr: 'Copy'
+            },
+            {
+                extend:    'excelHtml5',
+                text:      '<i class="fa fa-file-excel-o"></i>',
+                titleAttr: 'Excel'
+            },
+            {
+                extend:    'csvHtml5',
+                text:      '<i class="fa fa-file-text-o"></i>',
+                titleAttr: 'CSV'
+            },
+            {
+                extend:    'pdfHtml5',
+                text:      '<i class="fa fa-file-pdf-o"></i>',
+                titleAttr: 'PDF'
+            },
+            {
+               extend:    'pdfHtml5',
+               text:      '<i class="fa fa-file-pdf-o"></i>',
+               titleAttr: 'Reload',
+               action: function ( e, dt, node, config ) {
+                  dt.ajax.reload();
+               }
+            }
+      ]
+   });
+
+____________________________________
+For Yajra DataTables
+____________________________________
+php artisan make:controller Datatable/RolesListDatatables
+
+
+
