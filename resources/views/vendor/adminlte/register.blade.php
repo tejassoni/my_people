@@ -25,7 +25,7 @@
 
 
 <div class="register-box">
-    @include('vendor.adminlte.partials.header_responce_messages')
+    @include('vendor.adminlte.partials.header_response_messages')
     <div class="register-logo">
         <a href="{{ $dashboard_url }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
     </div>

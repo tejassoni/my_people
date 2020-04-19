@@ -34,6 +34,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function ()
     Route::get('/role_edit/{id?}', 'Admin\UserRolesController@get_edit_records');
     Route::put('/role_update/{id?}', 'Admin\UserRolesController@update_records');
 
+    Route::get('/role_delete/{id?}', 'Admin\UserRolesController@delete_records');
+    Route::post('/delete_roles', 'Admin\UserRolesController@delete_all_records');
+
+    Route::post('/role_status', 'Admin\UserRolesController@status_change');
     // Role Master Module Ends here...!
 
 }); // Email Verified enables

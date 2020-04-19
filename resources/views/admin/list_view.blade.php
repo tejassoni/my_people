@@ -1,9 +1,26 @@
 @extends('adminlte::page')
 
 @section('title', 'AdminLTE')
-
+@include('vendor.adminlte.partials.header_response_messages')
 @section('content_header')
-<h1 class="m-0 text-dark">Role List</h1>
+<div class="row">
+  <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+    <h1 class="m-0 text-dark">Role List</h1>
+  </div>
+  <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 ">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">
+          <a href="/home" title="MyPeople Dashboard">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="/admin/role_list" title="User Roles">Roles</a>
+        </li>
+        <li class="breadcrumb-item active">List</li>
+      </ol>
+    </nav>
+  </div>
+</div>
 @stop
 
 @section('content')
@@ -19,6 +36,10 @@
           <table id="role_list_table" class="display datatables table table-striped table-bordered w-100" sty>
             <thead>
               <tr>
+                <!-- Enable If First Column is Checkbox  -->
+                <th>
+                  <input type="checkbox" name="select_all_chkbox" class="select_all_chkbox" value="0" id="select_all_chkbox">
+                </th>
                 <th>Name</th>
                 <th>Alias</th>
                 <th>Description</th>
