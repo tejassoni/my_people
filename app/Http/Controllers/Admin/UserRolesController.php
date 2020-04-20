@@ -32,7 +32,7 @@ class UserRolesController extends Controller
      */
     public function add_view()
     {
-        return view('admin.add_view');
+        return view('admin.roles.add_view');
     }
 
     /**
@@ -116,7 +116,7 @@ class UserRolesController extends Controller
                 ->rawColumns(['action', 'status'])
                 ->make(true);
         }
-        return view('admin.list_view');
+        return view('admin.roles.list_view');
     }
 
     /**
@@ -129,7 +129,7 @@ class UserRolesController extends Controller
     {
         $role_obj = new role_master();
         $role_result = role_master::find($role_id);
-        return view('admin.edit_view', compact(['role_result']));
+        return view('admin.roles.edit_view', compact(['role_result']));
     }
 
     /**

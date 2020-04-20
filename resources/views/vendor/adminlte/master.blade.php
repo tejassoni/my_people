@@ -24,8 +24,8 @@
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('vendor/datatables/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/fontawesome.min.css') }}">
 
     @yield('adminlte_css')
 
@@ -55,19 +55,27 @@
     @endif
     <script src="{{ asset('js/admin/admin-js.js') }}"></script>
     <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>
+
+    <!-- Minimum Datatables JS Requires Starts -->
     <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <!-- Minimum Datatables JS Requires Ends -->
 
-    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+    <!-- Export Buttons Datatables JS Requires Starts -->
+    <script src="{{ asset('vendor/datatables-plugins/buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables-plugins/buttons/js/buttons.flash.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables-plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables-plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables-plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('vendor/datatables-plugins/buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables-plugins/buttons/js/buttons.print.min.js') }}"></script>
+    <!-- Export Buttons Datatables JS Requires Starts -->
 
-
+    <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'role_list') !== false)
     <script src="{{ asset('js/admin/role_master.js') }}"></script>
+    @endif
+
 </body>
 @include('vendor.adminlte.partials.modal_messages')
 @extends('adminlte::admin-footer')

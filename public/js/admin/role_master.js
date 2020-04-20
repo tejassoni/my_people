@@ -1,12 +1,12 @@
-// A $( document ).ready() block.
 $(document).ready(function() {
 
+    // Datatables Operation Starts
     $('#role_list_table').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "type": 'get',
-        "ajax": "role_list",
-        "order": [
+        processing: true,
+        serverSide: true,
+        type: 'get',
+        ajax: "role_list",
+        order: [
             [1, "asc"] // asc OR desc
         ],
         aLengthMenu: [ // Sort Numbers of Rows
@@ -14,63 +14,57 @@ $(document).ready(function() {
             [10, 25, 50, 100, 200, "All"]
         ],
         iDisplayLength: 10, // Default Display Numbers of Rows
-        "autoWidth": true,
-        "columns": [{ // First Column Checkbox
-                targets: 0,
-                searchable: false,
-                orderable: false,
-                className: "dt-body-center",
-                render: function(data, type, full, meta, row) { // function to modify dynamic data
-                    return '<input type="checkbox" class="child_chkbox" name="child_chkbox[]" value="' + $('<div/>').text(full.role_id).html() + '">';
-                }
-            },
-            {
-                width: "10%",
-                visible: true,
-                data: 'role_name',
-                name: 'role_name',
-                title: "Name",
-                orderable: true,
-                searchable: true
-            },
-            {
-                data: 'role_alias',
-                name: 'role_alias',
-                title: "Alias",
-                orderable: true,
-                searchable: true
-            },
-            {
-                data: 'role_description',
-                name: 'role_description',
-                title: "Description",
-                orderable: true,
-                searchable: true
-            },
-            {
-                width: "11%",
-                data: 'status',
-                name: 'status',
-                title: "Status",
-                orderable: true,
-                searchable: true
-            },
-            {
-                width: "15%",
-                data: 'action',
-                name: 'action',
-                title: "Action",
-                orderable: false,
-                searchable: false
-            },
-        ],
+        autoWidth: true,
+        columns: [{ // First Column As a Checkbox
+            targets: 0,
+            searchable: false,
+            orderable: false,
+            className: "dt-body-center",
+            render: function(data, type, full, meta, row) { // function to modify dynamic data
+                return '<input type="checkbox" class="child_chkbox" name="child_chkbox[]" value="' + $('<div/>').text(full.role_id).html() + '">';
+            }
+        }, {
+            width: "10%",
+            visible: true, // Hide Which Column Do not need to show in Datatable list
+            data: 'role_name',
+            name: 'role_name',
+            title: "Name",
+            orderable: true,
+            searchable: true
+        }, {
+            data: 'role_alias',
+            name: 'role_alias',
+            title: "Alias",
+            orderable: true,
+            searchable: true
+        }, {
+            data: 'role_description',
+            name: 'role_description',
+            title: "Description",
+            orderable: true,
+            searchable: true
+        }, {
+            width: "11%",
+            data: 'status',
+            name: 'status',
+            title: "Status",
+            orderable: true,
+            searchable: true
+        }, {
+            width: "15%",
+            data: 'action',
+            name: 'action',
+            title: "Action",
+            orderable: false,
+            searchable: false
+        }, ],
         dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-6 text-center mb-2'B><'col-sm-12 col-md-3'f>>" + // Top Header
             "<'row'<'col-sm-12'tr>>" + // Table Body
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>", // Bottom Footer
         buttons: [{
                 extend: 'excelHtml5',
                 className: 'btn btn-default',
-                text: '<i class="fa fa-file-excel-o"></i>',
+                text: '<i class="fa fa-file-excel"></i>',
                 titleAttr: 'Excel',
                 filename: 'ExcelReport',
                 sheetName: "Sheet1",
@@ -82,7 +76,7 @@ $(document).ready(function() {
             {
                 extend: 'csvHtml5',
                 className: 'btn btn-default',
-                text: '<i class="fa fa-file-text-o"></i>',
+                text: '<i class="fa fa-file-csv"></i>',
                 titleAttr: 'CSV',
                 width: 'auto',
                 filename: 'CSVReport',
@@ -104,7 +98,7 @@ $(document).ready(function() {
             {
                 extend: 'pdfHtml5',
                 className: 'btn btn-default',
-                text: '<i class="fa fa-file-pdf-o"></i>',
+                text: '<i class="fa fa-file-pdf"></i>',
                 titleAttr: 'PDF',
                 filename: 'PDFReport',
                 title: 'PDF Title', // Heading Title
@@ -117,7 +111,7 @@ $(document).ready(function() {
             {
                 extend: 'copyHtml5',
                 className: 'btn btn-default',
-                text: '<i class="fa fa-files-o"></i>',
+                text: '<i class="fa fa-copy"></i>',
                 titleAttr: 'Copy',
                 exportOptions: {
                     columns: ':visible:not(:last-child)'
@@ -126,13 +120,14 @@ $(document).ready(function() {
             {
                 extend: 'pdfHtml5',
                 className: 'btn btn-default',
-                text: '<i class="fa fa-refresh"></i>',
+                text: '<i class="fas fa-sync-alt"></i>',
                 titleAttr: 'Reload',
                 action: function(e, dt, node, config) {
                     dt.ajax.reload();
                 }
             },
             { // Delete All Custom Button
+                className: 'btn btn-default',
                 text: '<i class="fa fa-trash"></i>',
                 titleAttr: 'Delete Selected',
                 action: function(e, dt, node, config) {
@@ -167,8 +162,9 @@ $(document).ready(function() {
             }
         ]
     });
+    // Datatables Operation Ends
 
-    /* Bulk Delete ajax */
+    /* Bulk Delete ajax Starts */
     function ajaxDelete(ids = []) {
         $.ajax({
             url: APPURL + "/admin/delete_roles",
@@ -205,8 +201,9 @@ $(document).ready(function() {
             }
         });
     }
+    /* Bulk Delete ajax Ends */
 
-    // Handle click on "Select all" control
+    // Handle click on "Select all" control Starts
     $(document).on('click', '#select_all_chkbox', function() {
         var attr = $(this).attr('checked');
         if (typeof attr !== typeof undefined && attr !== false) {
@@ -227,8 +224,9 @@ $(document).ready(function() {
             $('.child_chkbox').closest("tr").addClass("bg-secondary text-white");
         }
     });
+    // Handle click on "Select all" control Ends
 
-    // Checkbox checked popup
+    // Checkbox checked popup Starts
     $(document).on('click', '.child_chkbox', function() {
         var attr = $(this).attr('checked');
         if (typeof attr !== typeof undefined && attr !== false) {
@@ -244,9 +242,10 @@ $(document).ready(function() {
             $(this).closest("tr").addClass("bg-secondary text-white");
         }
     });
+    // Checkbox checked popup Ends
 
 
-    // Action Delete Specific
+    // Action Delete Specific Starts
     $(document).on('click', '.btn_delete', function() {
         if (confirm("Are you sure you want to Delete?")) {
             // Ajax CSRF Token Setup
@@ -260,8 +259,9 @@ $(document).ready(function() {
             return false;
         }
     });
+    // Action Delete Specific Ends
 
-    /* Bulk Delete ajax */
+    /* Bulk Delete ajax Starts */
     function ajaxDeleteSpecific(ids) {
         $.ajax({
             url: APPURL + "/admin/role_delete/" + ids,
@@ -297,8 +297,9 @@ $(document).ready(function() {
             }
         });
     }
+    /* Bulk Delete ajax Ends */
 
-    // Status Change Dynamically
+    // Status Change Dynamically Starts
     $(document).on('click', '.btn_status', function() {
         // Ajax CSRF Token Setup
         $.ajaxSetup({
@@ -342,4 +343,5 @@ $(document).ready(function() {
             }
         });
     });
+    // Status Change Dynamically Ends
 });
