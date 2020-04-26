@@ -1,0 +1,26 @@
+
+Quick Tutorial on Bootstrap for configuration processes - Author: Tejas Soni
+
+- Purpose: To provide other developers information on how to develop and run command line processes
+
+- Creating a command line process class.
+
+Reference  : #
+
+/* ColorPicker reqruired */
+1. Import following datatables CSS files into your Header  
+   a) <link rel="stylesheet" type="text/css" href="{{ asset('vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
+   cdn version :  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/css/bootstrap-colorpicker.min.css">
+
+2) Import following datatables JS files into your Footer
+	a) <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+	cdn version : <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	b)  <script src="{{ asset('vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
+	cdn version : <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/js/bootstrap-colorpicker.min.js"></script>
+
+3) Initialize Colorpicker
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.colorpicker').colorpicker();
+        });
+    </script>

@@ -186,7 +186,7 @@ return [
                     'text' => 'User List',
                     'url'  => '#',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],                
+                ],
                 [
                     'text' => 'User Add',
                     'url'  => '#',
@@ -202,10 +202,123 @@ return [
                     'text' => 'Role List',
                     'url'  => '/admin/role_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],                
+                ],
                 [
                     'text' => 'Role Add',
                     'url'  => '/admin/role_add',
+                    'icon'    => 'fas fa-fw fa-plus-circle',
+                ],
+            ],
+        ],
+        ['header' => 'Masters'],
+        [
+            'text'    => 'Ear Master',
+            'icon'    => 'fas fa-fw fa-assistive-listening-systems',
+            'submenu' => [
+                [
+                    'text' => 'Ear List',
+                    'url'  => '/admin/ear_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ],
+                [
+                    'text' => 'Ear Add',
+                    'url'  => '/admin/ear_add',
+                    'icon'    => 'fas fa-fw fa-plus-circle',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Eye Master',
+            'icon'    => 'fas fa-fw fa-eye',
+            'submenu' => [
+                [
+                    'text' => 'Eye List',
+                    'url'  => '/admin/eye_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ],
+                [
+                    'text' => 'Eye Add',
+                    'url'  => '/admin/eye_add',
+                    'icon'    => 'fas fa-fw fa-plus-circle',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Eye Brow Master',
+            'icon'    => 'fas fa-fw fa-eye-slash',
+            'submenu' => [
+                [
+                    'text' => 'Eye Brow List',
+                    'url'  => '/admin/eyebrow_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ],
+                [
+                    'text' => 'Eye Add',
+                    'url'  => '/admin/eyebrow_add',
+                    'icon'    => 'fas fa-fw fa-plus-circle',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Hair Master',
+            'icon'    => 'fas fa-fw fa-leaf',
+            'submenu' => [
+                [
+                    'text' => 'Hair List',
+                    'url'  => '/admin/hair_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ],
+                [
+                    'text' => 'Hair Add',
+                    'url'  => '/admin/hair_add',
+                    'icon'    => 'fas fa-fw fa-plus-circle',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Jaw Master',
+            'icon'    => 'fas fa-fw fa-smile',
+            'submenu' => [
+                [
+                    'text' => 'Jaw List',
+                    'url'  => '/admin/jaw_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ],
+                [
+                    'text' => 'Jaw Add',
+                    'url'  => '/admin/jaw_add',
+                    'icon'    => 'fas fa-fw fa-plus-circle',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Lips Master',
+            'icon'    => 'fas fa-fw fa-anchor',
+            'submenu' => [
+                [
+                    'text' => 'Lips List',
+                    'url'  => '/admin/lips_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ],
+                [
+                    'text' => 'Lips Add',
+                    'url'  => '/admin/lips_add',
+                    'icon'    => 'fas fa-fw fa-plus-circle',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Nose Master',
+            'icon'    => 'fas fa-fw fa-fire',
+            'submenu' => [
+                [
+                    'text' => 'Nose List',
+                    'url'  => '/admin/nose_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ],
+                [
+                    'text' => 'Nose Add',
+                    'url'  => '/admin/nose_add',
                     'icon'    => 'fas fa-fw fa-plus-circle',
                 ],
             ],

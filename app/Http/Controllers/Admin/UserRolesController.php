@@ -76,11 +76,11 @@ class UserRolesController extends Controller
      */
     private function _prepareInsertData($request = "", $additional = array())
     {
-        $insertArr['role_name'] = $request->input('role_name');
-        $insertArr['role_alias'] = $request->input('role_alias');
-        $insertArr['role_description'] = $request->input('role_name');
-        $insertArr['status'] = $additional[0];
-        return $insertArr;
+        $preArr['role_name'] = $request->input('role_name');
+        $preArr['role_alias'] = $request->input('role_alias');
+        $preArr['role_description'] = $request->input('role_name');
+        $preArr['status'] = $additional[0];
+        return $preArr;
     }
 
     /**
@@ -98,8 +98,8 @@ class UserRolesController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($list) {
                     $button = '';
-                    $edit_button = '<a href="' . url("/admin/role_edit/{$list['role_id']}") . '" class="btn btn-xs btn-warning btn_edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
-                    $delete_button = '<a href="#delete-' . $list['role_id'] . '" delete_id="' . $list['role_id'] . '" class="btn btn-xs btn-danger btn_delete"><i class="far fa-trash-alt"></i> Delete</a>';
+                    $edit_button = '<a href="' . url("/admin/role_edit/{$list['role_id']}") . '" class="btn btn-xs btn-warning btn_edit" title="Edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
+                    $delete_button = '<a href="#delete-' . $list['role_id'] . '" delete_id="' . $list['role_id'] . '" class="btn btn-xs btn-danger btn_delete" title="Delete"><i class="far fa-trash-alt"></i> Delete</a>';
                     $button .= $edit_button;
                     $button .= $delete_button;
                     return $button;
@@ -107,9 +107,9 @@ class UserRolesController extends Controller
                 ->addColumn('status', function ($list) {
                     $button = '';
                     if ($list['status'])
-                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-success btn_status" user_id=' . $list['role_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-on" aria-hidden="true"></i> Active</a> &nbsp;';
+                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-success btn_status" title="Status Change" user_id=' . $list['role_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-on" aria-hidden="true"></i> Active</a> &nbsp;';
                     else
-                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-warning btn_status" user_id=' . $list['role_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-off" aria-hidden="true"></i> In-Active</a>';
+                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-warning btn_status" title="Status Change" user_id=' . $list['role_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-off" aria-hidden="true"></i> In-Active</a>';
                     $button .= $status_button;
                     return $button;
                 })
@@ -174,11 +174,11 @@ class UserRolesController extends Controller
      */
     private function _prepareUpdateData($request = "", $additional = array())
     {
-        $updateArr['role_name'] = $request->input('role_name');
-        $updateArr['role_alias'] = $request->input('role_alias');
-        $updateArr['role_description'] = $request->input('role_name');
-        $updateArr['status'] = $additional[0];
-        return $updateArr;
+        $preArr['role_name'] = $request->input('role_name');
+        $preArr['role_alias'] = $request->input('role_alias');
+        $preArr['role_description'] = $request->input('role_name');
+        $preArr['status'] = $additional[0];
+        return $preArr;
     }
 
     /**

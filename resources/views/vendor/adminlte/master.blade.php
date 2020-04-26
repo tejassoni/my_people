@@ -27,6 +27,13 @@
     <link rel="stylesheet" href="{{ asset('vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/fontawesome.min.css') }}">
 
+    <!-- Admin Backend Page wise CSS Load -->
+    @if(strpos(Request::url(), 'ear_add') !== false ||
+    strpos(Request::url(), 'ear_list') !== false ||
+    strpos(Request::url(), 'ear_edit') !== false)
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
+    @endif
+
     @yield('adminlte_css')
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -72,8 +79,22 @@
     <!-- Export Buttons Datatables JS Requires Starts -->
 
     <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'ear_add') !== false ||
+    strpos(Request::url(), 'ear_list') !== false ||
+    strpos(Request::url(), 'ear_edit') !== false)
+    <script src="{{ asset('vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
     @if(strpos(Request::url(), 'role_list') !== false)
     <script src="{{ asset('js/admin/role_master.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'ear_add') !== false ||
+    strpos(Request::url(), 'ear_list') !== false ||
+    strpos(Request::url(), 'ear_edit') !== false)
+    <script src="{{ asset('js/admin/ear_master.js') }}"></script>
     @endif
 
 </body>

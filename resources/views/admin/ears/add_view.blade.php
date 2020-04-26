@@ -6,7 +6,7 @@
 @include('vendor.adminlte.partials.header_messages')
 <div class="row">
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-    <h1 class="m-0 text-dark"><?= ('Role Add') ?></h1>
+    <h1 class="m-0 text-dark">Ear Add</h1>
   </div>
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 ">
     <nav aria-label="breadcrumb">
@@ -15,7 +15,7 @@
           <a href="/home" title="MyPeople Dashboard"><?= ('Dashboard') ?></a>
         </li>
         <li class="breadcrumb-item">
-          <a href="/admin/role_list" title="User Roles"><?= ('Roles') ?></a>
+          <a href="/admin/ear_list" title="Ears"><?= ('Ears') ?></a>
         </li>
         <li class="breadcrumb-item active"><?= ('Add') ?></li>
       </ol>
@@ -35,41 +35,55 @@
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title"><?= ('Add User Roles') ?></h3>
+            <h3 class="card-title"><?= ('Add Ear') ?></h3>
 
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <form role="form" name="role_add" id="role_add" method="post" action="{{ url('admin/role_insert') }}">
+          <form ear="form" name="ear_add" id="ear_add" method="post" action="{{ url('admin/ear_insert') }}" enctype="multipart/form-data">
             <!-- csrf security starts -->
             @csrf
             <!-- csrf security ends -->
             <div class="card-body">
               <div class="form-group">
-                <label for="role_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="role_name" id="role_name" placeholder="Enter Role Name" value="{{ old('role_name') }}" required>
+                <label for="ear_name"><?= ('Name') ?></label>
+                <input type="text" class="form-control" name="ear_name" id="ear_name" placeholder="Enter Ear Name" value="{{ old('ear_name') }}">
               </div>
               <div class="form-group">
-                <label for="role_alias"><?= ('Alias') ?></label>
-                <input type="text" class="form-control" name="role_alias" id="role_alias" placeholder="Enter Role Alias" value="{{ old('role_alias') }}" maxlength="10" required>
+                <label for="ear_color"><?= ('Color') ?></label>
+                <input type="text" class="form-control" name="ear_color" id="ear_color" placeholder="Select Ear Color" value="{{ old('ear_color') }}" />
               </div>
+
               <div class="form-group">
-                <label for="role_description"><?= ('Description') ?></label>
-                <textarea class="form-control" name="role_description" id="role_description" rows="3" placeholder="Enter Role Description" required>{{ old('role_description') }}</textarea>
+                <label for="ear_description"><?= ('Description') ?></label>
+                <textarea class="form-control" name="ear_description" id="ear_description" rows="3" placeholder="Enter Ear Description" required>{{ old('ear_description') }}</textarea>
               </div>
+
+
+              <div class="form-group custom-file mb-3">
+                <input type="file" class="custom-file-input" id="ear_img" name="filename">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+                <!-- File preview Starts -->
+                <img class="file_preview mb-5 d-none" id="img_view" src="#" height="70" width="70">
+                <button type="button" class="file_preview close float-left d-none" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                <!-- File preview Ends -->
+              </div>
+
 
               <div class="form-group">
                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                   <input type="checkbox" class="custom-control-input" name="status" id="status" @if(is_array(old()) && old('status')=='on' ) checked @endif>
-                  <label class="custom-control-label" for="status"><?= ('Status') ?></label>
+                  <label class="custom-control-label" for="status">Status</label>
                 </div>
               </div>
             </div>
             <!-- /.card-body -->
 
             <div class="card-footer">
-              <a href="{{ url('admin/role_list') }}" class="btn btn-info"><i class="fas fa-arrow-left"></i> <?= ('Back') ?></a> &nbsp;
-              <button type="submit" class="btn btn-primary"><?= ('Submit') ?></button>
+              <a href="{{ url('admin/ear_list') }}" class="btn btn-info"><i class="fas fa-arrow-left"></i> Back</a> &nbsp;
+              <button type="submit" class="btn btn-primary">Submit</button>
             </div>
           </form>
         </div>

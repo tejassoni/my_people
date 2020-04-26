@@ -25,21 +25,27 @@ Route::get('/home', function () {
 
 // Admin Panel all routs from website backend
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function () {
-    // Role Master Module Starts here...!
+    /* Role Master Module Starts here...! */
     Route::get('/role_list', 'Admin\UserRolesController@list_view');
-
     Route::get('/role_add', 'Admin\UserRolesController@add_view');
     Route::post('/role_insert', 'Admin\UserRolesController@insert_records');
-
     Route::get('/role_edit/{id?}', 'Admin\UserRolesController@get_edit_records');
     Route::put('/role_update/{id?}', 'Admin\UserRolesController@update_records');
-
     Route::get('/role_delete/{id?}', 'Admin\UserRolesController@delete_records');
     Route::post('/delete_roles', 'Admin\UserRolesController@delete_all_records');
-
     Route::post('/role_status', 'Admin\UserRolesController@status_change');
-    // Role Master Module Ends here...!
+    /* Role Master Module Ends here...! */
 
+    /* Ear Master Module Starts here...! */
+    Route::get('/ear_list', 'Admin\EarMasterController@list_view');
+    Route::get('/ear_add', 'Admin\EarMasterController@add_view');
+    Route::post('/ear_insert', 'Admin\EarMasterController@insert_records');
+    Route::post('/delete_ears', 'Admin\EarMasterController@delete_all_records');
+    Route::get('/ear_delete/{id?}', 'Admin\EarMasterController@delete_records');
+    Route::post('/ear_status', 'Admin\EarMasterController@status_change');
+    Route::get('/ear_edit/{id?}', 'Admin\EarMasterController@get_edit_records');
+    Route::put('/ear_update/{id?}', 'Admin\EarMasterController@update_records');
+    /* Ear Master Module Ends here...! */
 }); // Email Verified enables
 
 
