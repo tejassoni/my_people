@@ -30,7 +30,10 @@
     <!-- Admin Backend Page wise CSS Load -->
     @if(strpos(Request::url(), 'ear_add') !== false ||
     strpos(Request::url(), 'ear_list') !== false ||
-    strpos(Request::url(), 'ear_edit') !== false)
+    strpos(Request::url(), 'ear_edit') !== false ||
+    strpos(Request::url(), 'eyebrow_add') !== false ||
+    strpos(Request::url(), 'eyebrow_list') !== false ||
+    strpos(Request::url(), 'eyebrow_edit') !== false)
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
     @endif
 
@@ -81,7 +84,10 @@
     <!-- Admin Backend Page wise JS Load -->
     @if(strpos(Request::url(), 'ear_add') !== false ||
     strpos(Request::url(), 'ear_list') !== false ||
-    strpos(Request::url(), 'ear_edit') !== false)
+    strpos(Request::url(), 'ear_edit') !== false ||
+    strpos(Request::url(), 'eyebrow_add') !== false ||
+    strpos(Request::url(), 'eyebrow_list') !== false ||
+    strpos(Request::url(), 'eyebrow_edit') !== false)
     <script src="{{ asset('vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
     @endif
 
@@ -91,9 +97,16 @@
     @endif
 
     <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'eyebrow_add') !== false ||
+    strpos(Request::url(), 'eyebrow_list') !== false ||
+    strpos(Request::url(), 'eyebrow_edit') !== false)
+    <script src="{{ asset('js/admin/eyebrow_master.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
     @if(strpos(Request::url(), 'ear_add') !== false ||
     strpos(Request::url(), 'ear_list') !== false ||
-    strpos(Request::url(), 'ear_edit') !== false)
+    strpos(Request::url(), 'ear_edit') !== false )
     <script src="{{ asset('js/admin/ear_master.js') }}"></script>
     @endif
 

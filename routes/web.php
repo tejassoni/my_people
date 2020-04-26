@@ -46,6 +46,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function ()
     Route::get('/ear_edit/{id?}', 'Admin\EarMasterController@get_edit_records');
     Route::put('/ear_update/{id?}', 'Admin\EarMasterController@update_records');
     /* Ear Master Module Ends here...! */
+
+    /* Ear Master Module Starts here...! */
+    Route::get('/eyebrow_list', 'Admin\EyeBrowMasterController@list_view');
+    Route::get('/eyebrow_add', 'Admin\EyeBrowMasterController@add_view');
+    Route::post('/eyebrow_insert', 'Admin\EyeBrowMasterController@insert_records');
+    Route::post('/delete_eyebrow', 'Admin\EyeBrowMasterController@delete_all_records');
+    Route::get('/eyebrow_delete/{id?}', 'Admin\EyeBrowMasterController@delete_records');
+    Route::post('/eyebrow_status', 'Admin\EyeBrowMasterController@status_change');
+    Route::get('/eyebrow_edit/{id?}', 'Admin\EyeBrowMasterController@get_edit_records');
+    Route::put('/eyebrow_update/{id?}', 'Admin\EyeBrowMasterController@update_records');
+    /* Ear Master Module Ends here...! */
 }); // Email Verified enables
 
 

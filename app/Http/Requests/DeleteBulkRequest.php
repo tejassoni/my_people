@@ -4,10 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StatusUserRoleRequest extends FormRequest
+class DeleteBulkRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * DeterminDeleteBulkRequeste if the user is authorized to make this request.
      *
      * @return bool
      */
@@ -27,8 +27,7 @@ class StatusUserRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required',
-            'status' => 'required',
+            'ids' => 'required',
         ];
     }
 
@@ -40,8 +39,7 @@ class StatusUserRoleRequest extends FormRequest
     public function messages()
     {
         return [
-            'id.required' => 'Role ID is required..!',
-            'status.required' => 'Role Status is required..!'
+            'ids.required' => 'Atleast one checkbox must be select..!',
         ];
     }
 }

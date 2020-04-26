@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteUserRoleRequest extends FormRequest
+class StatusUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,8 @@ class DeleteUserRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids' => 'required',
+            'id' => 'required',
+            'status' => 'required',
         ];
     }
 
@@ -39,7 +40,8 @@ class DeleteUserRoleRequest extends FormRequest
     public function messages()
     {
         return [
-            'ids.required' => 'Atleast one role must be select..!',
+            'id.required' => 'Role ID is required..!',
+            'status.required' => 'Role Status is required..!'
         ];
     }
 }

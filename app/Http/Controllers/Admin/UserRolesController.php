@@ -6,8 +6,8 @@ use DataTables;
 use App\Models\role_master;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DeleteUserRoleRequest;
-use App\Http\Requests\StatusUserRoleRequest;
+use App\Http\Requests\DeleteBulkRequest;
+use App\Http\Requests\StatusUpdateRequest;
 use App\Http\Requests\UpdateUserRoleRequest;
 use App\Http\Requests\CreateUserRolesRequest;
 
@@ -187,7 +187,7 @@ class UserRolesController extends Controller
      * @param  ids
      * @return Boolean
      */
-    public function delete_all_records(DeleteUserRoleRequest $request)
+    public function delete_all_records(DeleteBulkRequest $request)
     {   // default response formate initialize
         $resp = config('response_format.RES_RESULT');
         $role_obj = new role_master();
@@ -232,7 +232,7 @@ class UserRolesController extends Controller
      * @param  ids
      * @return Boolean
      */
-    public function status_change(StatusUserRoleRequest $request)
+    public function status_change(StatusUpdateRequest $request)
     {   // default response formate initialize
         $resp = config('response_format.RES_RESULT');
         $role_obj = new role_master();
