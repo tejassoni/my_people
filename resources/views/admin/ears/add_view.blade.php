@@ -47,11 +47,11 @@
             <div class="card-body">
               <div class="form-group">
                 <label for="ear_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="ear_name" id="ear_name" placeholder="Enter Ear Name" value="{{ old('ear_name') }}">
+                <input type="text" class="form-control" name="ear_name" id="ear_name" placeholder="Enter Ear Name" value="{{ old('ear_name') }}" required />
               </div>
               <div class="form-group">
                 <label for="ear_color"><?= ('Color') ?></label>
-                <input type="text" class="form-control" name="ear_color" id="ear_color" placeholder="Select Ear Color" value="{{ old('ear_color') }}" />
+                <input type="text" class="form-control" name="ear_color" id="ear_color" placeholder="Select Ear Color" value="{{ old('ear_color') }}" required />
               </div>
 
               <div class="form-group">

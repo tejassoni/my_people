@@ -70,7 +70,7 @@ $(document).ready(function() {
                 sheetName: "Sheet1",
                 autoFilter: false,
                 exportOptions: {
-                    columns: [0, 1, 2, 3]
+                    columns: [1, 2, 3, 4]
                 }
             },
             {
@@ -81,7 +81,7 @@ $(document).ready(function() {
                 width: 'auto',
                 filename: 'CSVReport',
                 exportOptions: {
-                    columns: ':visible:not(:last-child)'
+                    columns: [1, 2, 3, 4]
                 }
             },
             {
@@ -92,7 +92,7 @@ $(document).ready(function() {
                 filename: 'PrintReport',
                 autoPrint: true,
                 exportOptions: {
-                    columns: ':visible:not(:last-child)'
+                    columns: [1, 2, 3, 4]
                 }
             },
             {
@@ -114,7 +114,7 @@ $(document).ready(function() {
                 text: '<i class="fa fa-copy"></i>',
                 titleAttr: 'Copy',
                 exportOptions: {
-                    columns: ':visible:not(:last-child)'
+                    columns: [1, 2, 3, 4]
                 }
             },
             {

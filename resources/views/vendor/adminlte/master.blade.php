@@ -33,7 +33,24 @@
     strpos(Request::url(), 'ear_edit') !== false ||
     strpos(Request::url(), 'eyebrow_add') !== false ||
     strpos(Request::url(), 'eyebrow_list') !== false ||
-    strpos(Request::url(), 'eyebrow_edit') !== false)
+    strpos(Request::url(), 'eyebrow_edit') !== false ||
+    strpos(Request::url(), 'eye_add') !== false ||
+    strpos(Request::url(), 'eye_list') !== false ||
+    strpos(Request::url(), 'eye_edit') !== false ||
+    strpos(Request::url(), 'hair_add') !== false ||
+    strpos(Request::url(), 'hair_list') !== false ||
+    strpos(Request::url(), 'hair_edit') !== false ||
+    strpos(Request::url(), 'jaw_add') !== false ||
+    strpos(Request::url(), 'jaw_list') !== false ||
+    strpos(Request::url(), 'jaw_edit') !== false ||
+    strpos(Request::url(), 'lip_add') !== false ||
+    strpos(Request::url(), 'lip_list') !== false ||
+    strpos(Request::url(), 'nose_add') !== false ||
+    strpos(Request::url(), 'nose_list') !== false ||
+    strpos(Request::url(), 'nose_edit') !== false ||
+    strpos(Request::url(), 'skin_add') !== false ||
+    strpos(Request::url(), 'skin_list') !== false ||
+    strpos(Request::url(), 'skin_edit') !== false )
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
     @endif
 
@@ -87,7 +104,25 @@
     strpos(Request::url(), 'ear_edit') !== false ||
     strpos(Request::url(), 'eyebrow_add') !== false ||
     strpos(Request::url(), 'eyebrow_list') !== false ||
-    strpos(Request::url(), 'eyebrow_edit') !== false)
+    strpos(Request::url(), 'eyebrow_edit') !== false ||
+    strpos(Request::url(), 'eye_add') !== false ||
+    strpos(Request::url(), 'eye_list') !== false ||
+    strpos(Request::url(), 'eye_edit') !== false ||
+    strpos(Request::url(), 'hair_add') !== false ||
+    strpos(Request::url(), 'hair_list') !== false ||
+    strpos(Request::url(), 'hair_edit') !== false ||
+    strpos(Request::url(), 'jaw_add') !== false ||
+    strpos(Request::url(), 'jaw_list') !== false ||
+    strpos(Request::url(), 'jaw_edit') !== false ||
+    strpos(Request::url(), 'lip_add') !== false ||
+    strpos(Request::url(), 'lip_list') !== false ||
+    strpos(Request::url(), 'lip_edit') !== false ||
+    strpos(Request::url(), 'nose_add') !== false ||
+    strpos(Request::url(), 'nose_list') !== false ||
+    strpos(Request::url(), 'nose_edit') !== false ||
+    strpos(Request::url(), 'skin_add') !== false ||
+    strpos(Request::url(), 'skin_list') !== false ||
+    strpos(Request::url(), 'skin_edit') !== false)
     <script src="{{ asset('vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
     @endif
 
@@ -104,10 +139,52 @@
     @endif
 
     <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'eye_add') !== false ||
+    strpos(Request::url(), 'eye_list') !== false ||
+    strpos(Request::url(), 'eye_edit') !== false)
+    <script src="{{ asset('js/admin/eye_master.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
     @if(strpos(Request::url(), 'ear_add') !== false ||
     strpos(Request::url(), 'ear_list') !== false ||
     strpos(Request::url(), 'ear_edit') !== false )
     <script src="{{ asset('js/admin/ear_master.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'hair_add') !== false ||
+    strpos(Request::url(), 'hair_list') !== false ||
+    strpos(Request::url(), 'hair_edit') !== false )
+    <script src="{{ asset('js/admin/hair_master.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'jaw_add') !== false ||
+    strpos(Request::url(), 'jaw_list') !== false ||
+    strpos(Request::url(), 'jaw_edit') !== false )
+    <script src="{{ asset('js/admin/jaw_master.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'lip_add') !== false ||
+    strpos(Request::url(), 'lip_list') !== false ||
+    strpos(Request::url(), 'lip_edit') !== false )
+    <script src="{{ asset('js/admin/lip_master.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'nose_add') !== false ||
+    strpos(Request::url(), 'nose_list') !== false ||
+    strpos(Request::url(), 'nose_edit') !== false )
+    <script src="{{ asset('js/admin/nose_master.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'skin_add') !== false ||
+    strpos(Request::url(), 'skin_list') !== false ||
+    strpos(Request::url(), 'skin_edit') !== false )
+    <script src="{{ asset('js/admin/skin_master.js') }}"></script>
     @endif
 
 </body>

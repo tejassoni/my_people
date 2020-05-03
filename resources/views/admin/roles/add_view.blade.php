@@ -47,11 +47,11 @@
             <div class="card-body">
               <div class="form-group">
                 <label for="role_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="role_name" id="role_name" placeholder="Enter Role Name" value="{{ old('role_name') }}" required>
+                <input type="text" class="form-control" name="role_name" id="role_name" placeholder="Enter Role Name" value="{{ old('role_name') }}" required />
               </div>
               <div class="form-group">
                 <label for="role_alias"><?= ('Alias') ?></label>
-                <input type="text" class="form-control" name="role_alias" id="role_alias" placeholder="Enter Role Alias" value="{{ old('role_alias') }}" maxlength="10" required>
+                <input type="text" class="form-control" name="role_alias" id="role_alias" placeholder="Enter Role Alias" value="{{ old('role_alias') }}" maxlength="10" required />
               </div>
               <div class="form-group">
                 <label for="role_description"><?= ('Description') ?></label>

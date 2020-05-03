@@ -198,10 +198,10 @@ class EyeBrowMasterController extends Controller
             $update_data['eye_brow_img'] = $filehandle['data']['filename'];
             // Remove Old Uploaded Files From Folder
             if ($filehandle['status']) {
-                $ear_data = eyebrow_master::find($update_id);
-                if (isset($ear_data) && !empty($ear_data) && !empty($ear_data->eye_brow_img)) {
-                    unlink(\public_path("uploads/eyebrows/$ear_data->eye_brow_img"));
-                    unlink(\public_path("uploads/eyebrows/thumbnail/thumb_$ear_data->eye_brow_img"));
+                $eyebrow_data = eyebrow_master::find($update_id);
+                if (isset($eyebrow_data) && !empty($eyebrow_data) && !empty($eyebrow_data->eye_brow_img)) {
+                    unlink(\public_path("uploads/eyebrows/$eyebrow_data->eye_brow_img"));
+                    unlink(\public_path("uploads/eyebrows/thumbnail/thumb_$eyebrow_data->eye_brow_img"));
                 }
             }
         }

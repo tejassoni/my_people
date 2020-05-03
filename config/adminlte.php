@@ -253,7 +253,7 @@ return [
                     'icon'    => 'fas fa-fw fa-th-list',
                 ],
                 [
-                    'text' => 'Eye Add',
+                    'text' => 'Eye Brow Add',
                     'url'  => '/admin/eyebrow_add',
                     'icon'    => 'fas fa-fw fa-plus-circle',
                 ],
@@ -297,12 +297,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Lips List',
-                    'url'  => '/admin/lips_list',
+                    'url'  => '/admin/lip_list',
                     'icon'    => 'fas fa-fw fa-th-list',
                 ],
                 [
                     'text' => 'Lips Add',
-                    'url'  => '/admin/lips_add',
+                    'url'  => '/admin/lip_add',
                     'icon'    => 'fas fa-fw fa-plus-circle',
                 ],
             ],
@@ -319,6 +319,22 @@ return [
                 [
                     'text' => 'Nose Add',
                     'url'  => '/admin/nose_add',
+                    'icon'    => 'fas fa-fw fa-plus-circle',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Skin Master',
+            'icon'    => 'fas fa-fw fa-fire',
+            'submenu' => [
+                [
+                    'text' => 'Skin List',
+                    'url'  => '/admin/skin_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ],
+                [
+                    'text' => 'Skin Add',
+                    'url'  => '/admin/skin_add',
                     'icon'    => 'fas fa-fw fa-plus-circle',
                 ],
             ],

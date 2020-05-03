@@ -104,7 +104,7 @@ $(document).ready(function() {
                 sheetName: "Sheet1",
                 autoFilter: false,
                 exportOptions: {
-                    columns: [0, 1, 2, 3]
+                    columns: [1, 3]
                 }
             },
             {
@@ -115,7 +115,7 @@ $(document).ready(function() {
                 width: 'auto',
                 filename: 'CSVReport',
                 exportOptions: {
-                    columns: ':visible:not(:last-child)'
+                    columns: [1, 3]
                 }
             },
             {
@@ -126,7 +126,7 @@ $(document).ready(function() {
                 filename: 'PrintReport',
                 autoPrint: true,
                 exportOptions: {
-                    columns: ':visible:not(:last-child)'
+                    columns: [1, 3]
                 }
             },
             {
@@ -139,7 +139,7 @@ $(document).ready(function() {
                 orientation: 'portrait', // portrait OR landscape
                 pageSize: 'LEGAL', // LETTER OR TABLOID OR A3 OR A4 OR A5 OR 
                 exportOptions: {
-                    columns: [0, 1, 2, 3]
+                    columns: [1, 3]
                 }
             },
             {
@@ -148,7 +148,7 @@ $(document).ready(function() {
                 text: '<i class="fa fa-copy"></i>',
                 titleAttr: 'Copy',
                 exportOptions: {
-                    columns: ':visible:not(:last-child)'
+                    columns: [1, 3]
                 }
             },
             {
@@ -365,7 +365,7 @@ $(document).ready(function() {
                     var warning_head = "";
                     var warning_body = "";
                     warning_head += '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
-                    warning_body += 'User Role is In Activated... Please try after sometime. ';
+                    warning_body += 'Eyebrow is In Activated... Please try after sometime. ';
                     $(".modal-header h4").html(warning_head);
                     $(".modal-body p").html(warning_body);
                     $('.error_modal').trigger('click');
