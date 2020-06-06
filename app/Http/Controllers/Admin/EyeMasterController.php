@@ -150,6 +150,8 @@ class EyeMasterController extends Controller
 
         if (isset($eye_result->eye_img) && !empty($eye_result->eye_img)) {
             $mime_type = $this->_base64_mime_type($eye_result->eye_img);
+            // "data:image/gif;base64,ENCODED STRING"
+            // "E:\xampp\htdocs\my_people\public\uploads/eyes/thumbnail/thumb_01_preview_27042020_1587969231.jpg"
             $eye_result->eye_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/eyes/thumbnail/thumb_' . $eye_result->eye_img)));
         }
         return view('admin.eyes.edit_view', compact(['eye_result']));

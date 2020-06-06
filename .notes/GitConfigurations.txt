@@ -1,0 +1,68 @@
+
+Quick Tutorial on Git for command line processes - Author: Tejas Soni
+
+- Purpose: To provide other developers information on how to use Git Commands
+
+Required Software : https://gitforwindows.org/
+
+1. Initialize Git Repository
+Description : The below command will create an empty .git repository into your project folder. 
+Command     : git init
+
+
+2. Important Commands
+   a. Git Status 
+   Description : Show the working tree status of project folder. Check untracked files or modified files with red color.
+                 tracked or added files will display with green color.
+   Command     : git status
+
+   b. Git Add
+   Description : It adds files to the staging area.
+   Command  All Files : git add .
+   Command  All Files : git add -A
+   Command  Specific Files : git add <Filename with path>
+
+   c. Git Commit 
+   Description : The commit command will commit the changes and generate a commit-id. 
+   Command     : git commit -m "Commit message"	
+   
+   
+3. cPanel Git Repository
+	3.1 Create New / Existing Repository on Github and cPanel -> Git™ Version Control -> Create
+		add created repository https path into Clone URL 
+		E.g Clone URL : https://github.com/tejassinelogix/sample.git
+	
+	3.2 Repository Path automatic create with name and path you can change it as per your requirement.
+	    E.g /home/trackszdevsinelo/repositories/sample
+		
+    3.3 Repository Name : automatic added repository name but you can change it as per your requirement.
+	    E.g sample
+		
+	3.4 Submit Repository: Click to Create button to create repository folder with git initilization
+	
+	3.5 Active Autopublish into cPanel Repository by below command Goto this path below path
+	     cPanel -> Git™ Version Control -> sample (Select Your created Repository) -> Clone URL -> Copy this url	
+	    E.g  git remote add cpanel ssh://trackszdevsinelo@tracksz.dev.sinelogix.co.in:2233/home/trackszdevsinelo/repositories/sample
+		
+	3.6 Create .cpanel.yml file Ref : https://docs.cpanel.net/knowledge-base/web-services/guide-to-git-deployment/
+	   E.g  
+	   ---
+	   deployment:
+			tasks:
+			  - export DEPLOYPATH=/home/user/public_html/
+              - /bin/cp index.html $DEPLOYPATH
+              - /bin/cp style.css $DEPLOYPATH
+		
+	3.7 After pushing your code into git repository using git push command you can push your command into cPanel's git repository also
+	   E.g  git push cpanel
+	Note. If you need to remove this created remote than use below command
+	Dont Use : git remote remove cpanel
+	
+	
+	 
+	   
+	  
+
+
+
+

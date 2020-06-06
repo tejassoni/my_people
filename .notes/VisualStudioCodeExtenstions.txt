@@ -2,8 +2,8 @@ Quick Tutorial on Visual Studio Code Extentions References - Author: Tejas Soni
 
 - Purpose: To provide other developers information on how to develop code easly and use full way
 - Settings : File -> Preferences -> Settings + Extenstion Tab
-- Theme : Material Theme 
-- Folder Icon : Material Theme Icons
+- Theme : Monokai 
+- Folder Icon : Material Theme Icons Light
 
 Reference  : *
 
@@ -33,63 +33,59 @@ ShortCut Keys :  None
 Short Description : CSS class name completion for the HTML class attribute based on the definitions found in your workspace.
 ShortCut Keys : None
 
-7. Prettier - Code formatter By Esben Petersen
+7. PHP Namespace Resolver By Mehedi Hassan
+Short Description : Import and expand php namespaces
+ShortCut Keys : None
+
+8. Prettier - Code formatter By Esben Petersen
 Short Description : Code formatter using prettier
 ShortCut Keys : Alt + Shift + F
 
-8. vscode-php-cs-fixer By Frank Terragna
+9. vscode-php-cs-fixer By Frank Terragna
 Short Description : Support for php-cs-fixer in Visual Studio Code
 ShortCut Keys :  None
 
-9. HTML CSS Support By ecmel
+10. HTML CSS Support By ecmel
 Short Description : CSS support for HTML documents
 ShortCut Keys : Type CSS class name it will automatic create Div with that CSS class
 
-10. Auto Rename Tag By Jun Han
-Short Description : Automatically rename paired HTML/XML tag, same as Visual Studio IDE does.
-ShortCut Keys : None
-
-11. Auto Close Tag By Jun Han
-Short Description : Automatically add HTML/XML close tag, same as Visual Studio IDE or Sublime Text
+11. Auto Complete Tag By Jun Han
+Short Description : Extension Packs to add close tag and rename paired tag automatically for HTML/XML
 ShortCut Keys : None
 
 12. Bracket Pair Colorizer 2 By CoenraadS
 Short Description : A customizable extension for colorizing matching brackets
 ShortCut Keys : None
 
-13. Color Highlight By Sergii Naumov ( Optional )
-Short Description : Highlight web colors in your editor
-ShortCut Keys : Ctrl + Shift + P 
-
-14. indent-rainbow By oderwat
+13. indent-rainbow By oderwat
 Short Description : Makes indentation easier to read
 ShortCut Keys :  Alt + C P
 
-15. Highlight Matching Tag By vincaslt
+14. Highlight Matching Tag By vincaslt
 Short Description : Highlights matching closing and opening tags
 ShortCut Keys :  None
 
-16. CSS Peek By Pranay Prakash
+15. CSS Peek By Pranay Prakash
 Short Description : Allow peeking to css ID and class strings as definitions from html files to respective CSS. Allows peek and goto definition.
 ShortCut Keys : Hold Cntrl + Hover on Class / ID
 
-17. Color Picker By anseki
+16. Color Picker By anseki
 Short Description : Helper with GUI to generate color codes such as CSS color notations.
 ShortCut Keys :  Alt + C P
 
-18. SQLTools - Database tools By Matheus Teixeira
+17. SQLTools - Database tools By Matheus Teixeira
 Short Description : Database management done right. Connection explorer, query runner, intellisense, bookmarks, query history.
 ShortCut Keys : Alt + Shift + F
 
-19. JSON Tools - By Erik Lynd
+18. JSON Tools - By Erik Lynd
 Short Description : Tools for manipulate JSON. You can pretty/minify JSON with this extension.
 ShortCut Keys :Ctrl + Alt + M for JSON pretty and Alt + M for JSON minify.
 
-20. Code Spell Checker By Street Side Software
+19. Code Spell Checker By Street Side Software
 Short Description : Spelling checker for source code
 ShortCut Keys :  None
 
-21. Better Comments By Aaron Bond
+20. Better Comments By Aaron Bond
 Short Description : Improve your code commenting by annotating with alert, informational, TODOs, and more!
 ShortCut Keys :  
 		Alerts  : * *
@@ -99,24 +95,11 @@ ShortCut Keys :
 		Commented out code can also be styled to make it clear the code shouldn't be there
 		Any other comment styles you'd like can be specified in the settings
 
-22. Auto Comment Blocks By kky
-Short Description : Provides block comment completion for Javadoc-style multi-line comments and single-line comment blocks for most officially supported languages.
-ShortCut Keys :  None
-
-23. Turbo Console Log By ChakrounAnas
-Short Description : Automating the process of writing meaningful log messages.
-ShortCut Keys :  ctrl + alt + L , Selecting the variable which is the subject of the debugging
-
-24. Bookmarks By Alessandro Fragnani
-Short Description : Mark lines and jump to them
-ShortCut Keys :  Add / Remove Bookmark : Cntrl + Alt + K
-	         Jump to Next Bookmark : Alt + Cntrl + Alt + L
-	         Jump to Next Bookmark : Alt + Cntrl + Alt + J
 			 
-25. EditorConfig for VS Code By EditorConfig
-Short Description : EditorConfig Support for Visual Studio Code
-ShortCut Keys :  None
-
-26. Laravel goto view By codingyu
+21. Laravel goto view By codingyu
 Short Description : Quick jump to view
 ShortCut Keys :  Hover on view + Press Cntrl
+
+22. Active File In StatusBar By RoscoP
+Short Description : Add statusbar entry to show path for currently active file.
+ShortCut Keys :  None

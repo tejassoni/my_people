@@ -304,6 +304,9 @@ $('#datatable_table').DataTable({
          $('#role_list_table').DataTable({
         "processing": true,
         "serverSide": true,
+	"responsive":false, // Responsive width Enable or Disable
+        "autoWidth": false, // Adjust auto width false / true
+        "scrollX": true, // Scroll enable when columns are overflow
         "type": 'get',
         "ajax": "role_list",
         "order": [
