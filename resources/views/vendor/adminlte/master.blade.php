@@ -127,7 +127,9 @@
     @endif
 
     <!-- Admin Backend Page wise JS Load -->
-    @if(strpos(Request::url(), 'role_list') !== false)
+    @if(strpos(Request::url(), 'role_add') !== false ||
+    strpos(Request::url(), 'role_list') !== false ||
+    strpos(Request::url(), 'role_edit') !== false)
     <script src="{{ asset('js/admin/role_master.js') }}"></script>
     @endif
 
@@ -185,6 +187,20 @@
     strpos(Request::url(), 'skin_list') !== false ||
     strpos(Request::url(), 'skin_edit') !== false )
     <script src="{{ asset('js/admin/skin_master.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'plan_add') !== false ||
+    strpos(Request::url(), 'plan_list') !== false ||
+    strpos(Request::url(), 'plan_edit') !== false)
+    <script src="{{ asset('js/admin/plan_master.js') }}"></script>
+    @endif
+
+    <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'subscription_add') !== false ||
+    strpos(Request::url(), 'subscription_list') !== false ||
+    strpos(Request::url(), 'subscription_edit') !== false)
+    <script src="{{ asset('js/admin/subscription_master.js') }}"></script>
     @endif
 
 </body>

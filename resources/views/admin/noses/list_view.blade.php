@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="row">
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-    <h1 class="m-0 text-dark"><?= ('Nose List') ?></h1>
+    <h1 class="m-0 text-dark"><a href='{{ url("/admin/nose_add") }}' class="btn-success btn-sm"><?= ('Add New') ?></a></h1>
   </div>
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 ">
     <nav aria-label="breadcrumb">
@@ -33,7 +33,7 @@
             </div> -->
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="nose_list_table" class="display datatables table table-striped table-bordered w-100" sty>
+          <table id="nose_list_table" class="display datatables table table-striped table-bordered w-100">
             <thead>
               <tr>
                 <!-- Enable If First Column is Checkbox  -->

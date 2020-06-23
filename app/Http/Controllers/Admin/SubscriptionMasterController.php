@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use DataTables;
-use App\Models\role_master;
+use App\Models\subscription_master;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteBulkRequest;
 use App\Http\Requests\StatusUpdateRequest;
-use App\Http\Requests\UpdateUserRoleRequest;
-use App\Http\Requests\CreateUserRolesRequest;
+use App\Http\Requests\UpdateSubscriptionRequest;
+use App\Http\Requests\CreateSubscriptionRequest;
 
-class UserRolesController extends Controller
+class SubscriptionMasterController extends Controller
 {
 
     /**
@@ -32,7 +32,7 @@ class UserRolesController extends Controller
      */
     public function add_view()
     {
-        return view('admin.roles.add_view');
+        return view('admin.subscriptions.add_view');
     }
 
     /**
@@ -41,7 +41,7 @@ class UserRolesController extends Controller
      * @param  Name, Alias, Description, Status
      * @return success or fail flash message in view
      */
-    public function insert_records(CreateUserRolesRequest $request)
+    public function insert_records(CreateSubscriptionRequest $request)
     {
         // default response formate initialize
         $resp = config('response_format.RES_RESULT');
@@ -50,19 +50,20 @@ class UserRolesController extends Controller
         if ($request->has('status')) {
             $status = 1;
         }
+
         // Set Insert data array for pass into insert query
         $insert_data = $this->_prepareInsertData($request, [$status]);
-        $role_obj = new role_master();
-        $role_result = $role_obj->insert_data($insert_data);
+        $sub_obj = new subscription_master();
+        $subscription_result = $sub_obj->insert_data($insert_data);
 
-        if ($role_result->exists) {
+        if ($subscription_result->exists) {
             $resp['status'] = true;
             $resp['data'] = array();
-            $resp['message'] = 'User role inserted successfully...!';
+            $resp['message'] = 'Subscription inserted successfully...!';
             $request->session()->put('success', $resp['message']);
             return redirect()->back()->with('success', $resp['message']);
         } else {
-            $resp['message'] = 'User role not inserted, Please try again...!';
+            $resp['message'] = 'Subscription not inserted, Please try again...!';
             $request->session()->put('error', $resp['message']);
             return redirect()->back()->withInput()->with('error', $resp['message']);
         }
@@ -76,9 +77,9 @@ class UserRolesController extends Controller
      */
     private function _prepareInsertData($request = "", $additional = array())
     {
-        $preArr['role_name'] = $request->input('role_name');
-        $preArr['role_alias'] = $request->input('role_alias');
-        $preArr['role_description'] = $request->input('role_description');
+        $preArr['sub_name'] = $request->input('sub_name');
+        $preArr['sub_alias'] = $request->input('sub_alias');
+        $preArr['sub_description'] = $request->input('sub_description');
         $preArr['status'] = $additional[0];
         return $preArr;
     }
@@ -92,14 +93,15 @@ class UserRolesController extends Controller
     public function list_view(Request $request)
     {
         if ($request->ajax()) {
-            $role_obj = new role_master;
-            $list = $role_obj->list_all();
+            $sub_obj = new subscription_master;
+            $list = $sub_obj->list_all();
+
             return DataTables::of($list)
                 ->addIndexColumn()
                 ->addColumn('action', function ($list) {
                     $button = '';
-                    $edit_button = '<a href="' . url("/admin/role_edit/{$list['role_id']}") . '" class="btn btn-xs btn-warning btn_edit" title="Edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
-                    $delete_button = '<a href="#delete-' . $list['role_id'] . '" delete_id="' . $list['role_id'] . '" class="btn btn-xs btn-danger btn_delete" title="Delete"><i class="far fa-trash-alt"></i> Delete</a>';
+                    $edit_button = '<a href="' . url("/admin/subscription_edit/{$list['sub_id']}") . '" class="btn btn-xs btn-warning btn_edit" title="Edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
+                    $delete_button = '<a href="#delete-' . $list['sub_id'] . '" delete_id="' . $list['sub_id'] . '" class="btn btn-xs btn-danger btn_delete" title="Delete"><i class="far fa-trash-alt"></i> Delete</a>';
                     $button .= $edit_button;
                     $button .= $delete_button;
                     return $button;
@@ -107,38 +109,38 @@ class UserRolesController extends Controller
                 ->addColumn('status', function ($list) {
                     $button = '';
                     if ($list['status'])
-                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-success btn_status" title="Status Change" user_id=' . $list['role_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-on" aria-hidden="true"></i> Active</a> &nbsp;';
+                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-success btn_status" title="Status Change" sub_id=' . $list['sub_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-on" aria-hidden="true"></i> Active</a> &nbsp;';
                     else
-                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-warning btn_status" title="Status Change" user_id=' . $list['role_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-off" aria-hidden="true"></i> In-Active</a>';
+                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-warning btn_status" title="Status Change" sub_id=' . $list['sub_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-off" aria-hidden="true"></i> In-Active</a>';
                     $button .= $status_button;
                     return $button;
                 })
                 ->rawColumns(['action', 'status'])
                 ->make(true);
         }
-        return view('admin.roles.list_view');
+        return view('admin.subscriptions.list_view');
     }
 
     /**
      * Handle routs Controller Load Edit functionality
      * @author Tejas
      * @param  Role ID
-     * @return role_master id wise records into edit view
+     * @return subscription_master id wise records into edit view
      */
-    public function get_edit_records($role_id = null)
+    public function get_edit_records($sub_id = null)
     {
-        $role_obj = new role_master();
-        $role_result = role_master::find($role_id);
-        return view('admin.roles.edit_view', compact(['role_result']));
+        $sub_obj = new subscription_master();
+        $subscription_result = subscription_master::find($sub_id);
+        return view('admin.subscriptions.edit_view', compact(['subscription_result']));
     }
 
     /**
      * Handle routs Controller update functionality
      * @author Tejas
      * @param  Update_id, Name, Alias, Description, Status
-     * @return role_master id update records accordingly
+     * @return subscription_master id update records accordingly
      */
-    public function update_records(UpdateUserRoleRequest $request, $update_id = null)
+    public function update_records(UpdateSubscriptionRequest $request, $update_id = null)
     {
         // default response formate initialize
         $resp = config('response_format.RES_RESULT');
@@ -150,17 +152,17 @@ class UserRolesController extends Controller
 
         // Set Update data array for pass into update query
         $update_data = $this->_prepareUpdateData($request, [$status]);
-        $role_obj = new role_master();
-        $role_result = $role_obj->update_records($update_data, $update_id);
+        $sub_obj = new subscription_master();
+        $subscription_result = $sub_obj->update_records($update_data, $update_id);
 
-        if (isset($role_result) && $role_result) {
+        if (isset($subscription_result) && $subscription_result) {
             $resp['status'] = true;
             $resp['data'] = array();
-            $resp['message'] = 'User role Updated successfully...!';
+            $resp['message'] = 'Subscription Updated successfully...!';
             $request->session()->put('success', $resp['message']);
             return redirect()->back()->with('success', $resp['message']);
         } else {
-            $resp['message'] = 'User role not Updated, Please try again...!';
+            $resp['message'] = 'Subscription not Updated, Please try again...!';
             $request->session()->put('error', $resp['message']);
             return redirect()->back()->withInput()->with('error', $resp['message']);
         }
@@ -174,9 +176,9 @@ class UserRolesController extends Controller
      */
     private function _prepareUpdateData($request = "", $additional = array())
     {
-        $preArr['role_name'] = $request->input('role_name');
-        $preArr['role_alias'] = $request->input('role_alias');
-        $preArr['role_description'] = $request->input('role_description');
+        $preArr['sub_name'] = $request->input('sub_name');
+        $preArr['sub_alias'] = $request->input('sub_alias');
+        $preArr['sub_description'] = $request->input('sub_description');
         $preArr['status'] = $additional[0];
         return $preArr;
     }
@@ -190,15 +192,16 @@ class UserRolesController extends Controller
     public function delete_all_records(DeleteBulkRequest $request)
     {   // default response formate initialize
         $resp = config('response_format.RES_RESULT');
-        $role_obj = new role_master();
-        $role_result = $role_obj->delete_bulk_records($request->input('ids'));
-        if (isset($role_result) && $role_result) {
+        $sub_obj = new subscription_master();
+
+        $subscription_result = $sub_obj->delete_bulk_records($request->input('ids'));
+        if (isset($subscription_result) && $subscription_result) {
             $resp['status'] = true;
             $resp['data'] = array();
-            $resp['message'] = 'User Roles Deleted successfully...!';
+            $resp['message'] = 'Subscriptions Deleted successfully...!';
             $request->session()->put('success', $resp['message']);
         } else {
-            $resp['message'] = 'User Roles are not Deleted, Please try again...!';
+            $resp['message'] = 'Subscriptions are not Deleted, Please try again...!';
             $request->session()->put('error', $resp['message']);
         }
         die(json_encode($resp));
@@ -213,14 +216,14 @@ class UserRolesController extends Controller
     public function delete_records($delete_id)
     {   // default response formate initialize
         $resp = config('response_format.RES_RESULT');
-        $role_obj = new role_master();
-        $role_result = $role_obj->deleteRecords($delete_id);
-        if (isset($role_result) && $role_result) {
+        $sub_obj = new subscription_master();
+        $subscription_result = $sub_obj->deleteRecords($delete_id);
+        if (isset($subscription_result) && $subscription_result) {
             $resp['status'] = true;
             $resp['data'] = array();
-            $resp['message'] = 'User Role is Deleted successfully...!';
+            $resp['message'] = 'Subscription is Deleted successfully...!';
         } else {
-            $resp['message'] = 'User Role is not Deleted, Please try again...!';
+            $resp['message'] = 'Subscription is not Deleted, Please try again...!';
         }
         die(json_encode($resp));
     }
@@ -235,15 +238,15 @@ class UserRolesController extends Controller
     public function status_change(StatusUpdateRequest $request)
     {   // default response formate initialize
         $resp = config('response_format.RES_RESULT');
-        $role_obj = new role_master();
-        $role_result = $role_obj->update_records(['status' => ($request->input('status') == 1) ? 0 : 1], $request->input('id'));
-        if (isset($role_result) && $role_result) {
+        $sub_obj = new subscription_master();
+        $subscription_result = $sub_obj->update_records(['status' => ($request->input('status') == 1) ? 0 : 1], $request->input('id'));
+        if (isset($subscription_result) && $subscription_result) {
             $resp['status'] = true;
             $resp['data'] = array();
             $dynamic_message = ($request->input('status') == 1) ? 'In-Activated' : 'Activated';
-            $resp['message'] = "User Role $dynamic_message successfully...!";
+            $resp['message'] = "Subscription $dynamic_message successfully...!";
         } else {
-            $resp['message'] = 'User Role is not Active/In-Active, Please try again...!';
+            $resp['message'] = 'Subscription is not Active/In-Active, Please try again...!';
         }
         die(json_encode($resp));
     }

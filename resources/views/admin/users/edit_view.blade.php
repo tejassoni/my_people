@@ -6,18 +6,18 @@
 @include('vendor.adminlte.partials.header_messages')
 <div class="row">
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-    <h1 class="m-0 text-dark"><?= ('Role Edit') ?></h1>
+    <h1 class="m-0 text-dark">Role Edit</h1>
   </div>
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 ">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb float-right">
         <li class="breadcrumb-item">
-          <a href="/home" title="MyPeople Dashboard"><?= ('Dashboard') ?></a>
+          <a href="/home" title="MyPeople Dashboard">Dashboard</a>
         </li>
         <li class="breadcrumb-item">
-          <a href="/admin/role_list" title="User Roles"><?= ('Roles') ?></a>
+          <a href="/admin/role_list" title="User Roles">Roles</a>
         </li>
-        <li class="breadcrumb-item active"><?= ('Edit') ?></li>
+        <li class="breadcrumb-item active">Edit</li>
       </ol>
     </nav>
   </div>
@@ -33,7 +33,7 @@
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title"><?= ('Edit User Roles') ?></h3>
+            <h3 class="card-title">Edit User Roles</h3>
           </div>
           <!-- /.card-header -->
           @if(!empty($role_result))

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRoleRequest extends FormRequest
+class UpdatePlanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,11 +27,11 @@ class UpdateUserRoleRequest extends FormRequest
     public function rules()
     {
         // get role id from URL routes dynamic passes id
-        $role_id = self::segment(3);
+        $plan_id = self::segment(3);
         return [
-            'role_name' => 'required', // unique ignore for current table role id, define role name & value       
-            'role_alias' => "required|unique:role_master,role_alias,$role_id,role_id|max:10",
-            'role_description' => 'required'
+            'plan_name' => 'required', // unique ignore for current table role id, define role name & value       
+            'plan_alias' => "required|unique:plan_master,plan_alias,$plan_id,plan_id|max:10",
+            'plan_description' => 'required'
         ];
     }
 
@@ -43,11 +43,11 @@ class UpdateUserRoleRequest extends FormRequest
     public function messages()
     {
         return [
-            'role_name.required' => 'Role Name field is required..!',
-            'role_alias.required' => 'Role Alias field is required..!',
-            'role_alias.unique' => 'Role Alias field should be Unique..!',
-            'role_alias.max' => 'Role Alias field max charcter 10 allowed..!',
-            'role_description' => 'required'
+            'plan_name.required' => 'Plan Name field is required..!',
+            'plan_alias.required' => 'Plan Alias field is required..!',
+            'plan_alias.unique' => 'Plan Alias field should be Unique..!',
+            'plan_alias.max' => 'Plan Alias field max charcter 10 allowed..!',
+            'plan_description' => 'required'
         ];
     }
 }

@@ -184,14 +184,9 @@ return [
             'submenu' => [
                 [
                     'text' => 'User List',
-                    'url'  => '#',
+                    'url'  => '/admin/user_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],
-                [
-                    'text' => 'User Add',
-                    'url'  => '#',
-                    'icon'    => 'fas fa-fw fa-plus-circle',
-                ],
+                ]
             ],
         ],
         [
@@ -202,12 +197,7 @@ return [
                     'text' => 'Role List',
                     'url'  => '/admin/role_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],
-                [
-                    'text' => 'Role Add',
-                    'url'  => '/admin/role_add',
-                    'icon'    => 'fas fa-fw fa-plus-circle',
-                ],
+                ]
             ],
         ],
         ['header' => 'Masters'],
@@ -219,12 +209,7 @@ return [
                     'text' => 'Ear List',
                     'url'  => '/admin/ear_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],
-                [
-                    'text' => 'Ear Add',
-                    'url'  => '/admin/ear_add',
-                    'icon'    => 'fas fa-fw fa-plus-circle',
-                ],
+                ]
             ],
         ],
         [
@@ -235,12 +220,7 @@ return [
                     'text' => 'Eye List',
                     'url'  => '/admin/eye_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],
-                [
-                    'text' => 'Eye Add',
-                    'url'  => '/admin/eye_add',
-                    'icon'    => 'fas fa-fw fa-plus-circle',
-                ],
+                ]
             ],
         ],
         [
@@ -251,12 +231,7 @@ return [
                     'text' => 'Eye Brow List',
                     'url'  => '/admin/eyebrow_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],
-                [
-                    'text' => 'Eye Brow Add',
-                    'url'  => '/admin/eyebrow_add',
-                    'icon'    => 'fas fa-fw fa-plus-circle',
-                ],
+                ]
             ],
         ],
         [
@@ -267,12 +242,7 @@ return [
                     'text' => 'Hair List',
                     'url'  => '/admin/hair_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],
-                [
-                    'text' => 'Hair Add',
-                    'url'  => '/admin/hair_add',
-                    'icon'    => 'fas fa-fw fa-plus-circle',
-                ],
+                ]
             ],
         ],
         [
@@ -283,12 +253,7 @@ return [
                     'text' => 'Jaw List',
                     'url'  => '/admin/jaw_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],
-                [
-                    'text' => 'Jaw Add',
-                    'url'  => '/admin/jaw_add',
-                    'icon'    => 'fas fa-fw fa-plus-circle',
-                ],
+                ]
             ],
         ],
         [
@@ -299,12 +264,7 @@ return [
                     'text' => 'Lips List',
                     'url'  => '/admin/lip_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],
-                [
-                    'text' => 'Lips Add',
-                    'url'  => '/admin/lip_add',
-                    'icon'    => 'fas fa-fw fa-plus-circle',
-                ],
+                ]
             ],
         ],
         [
@@ -315,12 +275,7 @@ return [
                     'text' => 'Nose List',
                     'url'  => '/admin/nose_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],
-                [
-                    'text' => 'Nose Add',
-                    'url'  => '/admin/nose_add',
-                    'icon'    => 'fas fa-fw fa-plus-circle',
-                ],
+                ]
             ],
         ],
         [
@@ -331,12 +286,30 @@ return [
                     'text' => 'Skin List',
                     'url'  => '/admin/skin_list',
                     'icon'    => 'fas fa-fw fa-th-list',
-                ],
+                ]
+            ],
+        ],
+        ['header' => 'SubScription And Plans'],
+        [
+            'text'    => 'Plan Master',
+            'icon'    => 'fas fa-fw fa-expand',
+            'submenu' => [
                 [
-                    'text' => 'Skin Add',
-                    'url'  => '/admin/skin_add',
-                    'icon'    => 'fas fa-fw fa-plus-circle',
-                ],
+                    'text' => 'Plan List',
+                    'url'  => '/admin/plan_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ]
+            ],
+        ],
+        [
+            'text'    => 'Subscription Master',
+            'icon'    => 'fas fa-fw fa-credit-card',
+            'submenu' => [
+                [
+                    'text' => 'Subscription List',
+                    'url'  => '/admin/subscription_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ]
             ],
         ],
         ['header' => 'labels'],

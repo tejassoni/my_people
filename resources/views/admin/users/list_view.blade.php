@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="row">
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-    <h1 class="m-0 text-dark"><a href='{{ url("/admin/eye_add") }}' class="btn-success btn-sm"><?= ('Add New') ?></a></h1>
+    <h1 class="m-0 text-dark"><a href='{{ url("/admin/user_add") }}' class="btn-success btn-sm"><?= ('Add New') ?></a></h1>
   </div>
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 ">
     <nav aria-label="breadcrumb">
@@ -14,7 +14,7 @@
           <a href="/home" title="MyPeople Dashboard"><?= ('Dashboard') ?></a>
         </li>
         <li class="breadcrumb-item">
-          <a href="/admin/eye_list" title="Eyes List"><?= ('Eyes') ?></a>
+          <a href="/admin/user_list" title="User List"><?= ('Users') ?></a>
         </li>
         <li class="breadcrumb-item active"><?= ('List') ?></li>
       </ol>
@@ -33,7 +33,7 @@
             </div> -->
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="eye_list_table" class="display datatables table table-striped table-bordered w-100">
+          <table id="role_list_table" class="display datatables table table-striped table-bordered w-100" sty>
             <thead>
               <tr>
                 <!-- Enable If First Column is Checkbox  -->
@@ -41,9 +41,8 @@
                   <input type="checkbox" name="select_all_chkbox" class="select_all_chkbox" value="0" id="select_all_chkbox">
                 </th>
                 <th><?= ('Name') ?></th>
-                <th><?= ('Color') ?></th>
+                <th><?= ('Alias') ?></th>
                 <th><?= ('Description') ?></th>
-                <th><?= ('Image') ?></th>
                 <th><?= ('Status') ?></th>
                 <th><?= ('Action') ?></th>
               </tr>

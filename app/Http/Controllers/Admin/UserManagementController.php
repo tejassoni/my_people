@@ -11,7 +11,7 @@ use App\Http\Requests\StatusUpdateRequest;
 use App\Http\Requests\UpdateUserRoleRequest;
 use App\Http\Requests\CreateUserRolesRequest;
 
-class UserRolesController extends Controller
+class UserManagementController extends Controller
 {
 
     /**
@@ -32,7 +32,9 @@ class UserRolesController extends Controller
      */
     public function add_view()
     {
-        return view('admin.roles.add_view');
+        $role_obj = new role_master();
+        $role_result = $role_obj->list_all();
+        return view('admin.users.add_view', compact(['role_result']));
     }
 
     /**
@@ -116,7 +118,7 @@ class UserRolesController extends Controller
                 ->rawColumns(['action', 'status'])
                 ->make(true);
         }
-        return view('admin.roles.list_view');
+        return view('admin.users.list_view');
     }
 
     /**

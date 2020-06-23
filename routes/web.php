@@ -25,6 +25,18 @@ Route::get('/home', function () {
 
 // Admin Panel all routs from website backend
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function () {
+
+    /* User Management Module Starts here...! */
+    Route::get('/user_list', 'Admin\UserManagementController@list_view');
+    Route::get('/user_add', 'Admin\UserManagementController@add_view');
+    Route::post('/user_insert', 'Admin\UserManagementController@insert_records');
+    Route::get('/user_edit/{id?}', 'Admin\UserManagementController@get_edit_records');
+    Route::put('/user_update/{id?}', 'Admin\UserManagementController@update_records');
+    Route::get('/user_delete/{id?}', 'Admin\UserManagementController@delete_records');
+    Route::post('/delete_users', 'Admin\UserManagementController@delete_all_records');
+    Route::post('/user_status', 'Admin\UserManagementController@status_change');
+    /* User Management Module Ends here...! */
+
     /* Role Master Module Starts here...! */
     Route::get('/role_list', 'Admin\UserRolesController@list_view');
     Route::get('/role_add', 'Admin\UserRolesController@add_view');
@@ -123,6 +135,28 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function ()
     Route::get('/skin_edit/{id?}', 'Admin\SkinMasterController@get_edit_records');
     Route::put('/skin_update/{id?}', 'Admin\SkinMasterController@update_records');
     /* Skin Master Module Ends here...! */
+
+    /* Plan Module Starts here...! */
+    Route::get('/plan_list', 'Admin\PlanMasterController@list_view');
+    Route::get('/plan_add', 'Admin\PlanMasterController@add_view');
+    Route::post('/plan_insert', 'Admin\PlanMasterController@insert_records');
+    Route::get('/plan_edit/{id?}', 'Admin\PlanMasterController@get_edit_records');
+    Route::put('/plan_update/{id?}', 'Admin\PlanMasterController@update_records');
+    Route::get('/plan_delete/{id?}', 'Admin\PlanMasterController@delete_records');
+    Route::post('/delete_plans', 'Admin\PlanMasterController@delete_all_records');
+    Route::post('/plan_status', 'Admin\PlanMasterController@status_change');
+    /* Plan Module Ends here...! */
+
+    /* Plan Module Starts here...! */
+    Route::get('/subscription_list', 'Admin\SubscriptionMasterController@list_view');
+    Route::get('/subscription_add', 'Admin\SubscriptionMasterController@add_view');
+    Route::post('/subscription_insert', 'Admin\SubscriptionMasterController@insert_records');
+    Route::get('/subscription_edit/{id?}', 'Admin\SubscriptionMasterController@get_edit_records');
+    Route::put('/subscription_update/{id?}', 'Admin\SubscriptionMasterController@update_records');
+    Route::get('/subscription_delete/{id?}', 'Admin\SubscriptionMasterController@delete_records');
+    Route::post('/delete_subscriptions', 'Admin\SubscriptionMasterController@delete_all_records');
+    Route::post('/subscription_status', 'Admin\SubscriptionMasterController@status_change');
+    /* Plan Module Ends here...! */
 }); // Email Verified enables
 
 
