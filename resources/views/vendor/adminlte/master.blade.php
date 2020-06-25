@@ -203,6 +203,13 @@
     <script src="{{ asset('js/admin/subscription_master.js') }}"></script>
     @endif
 
+    <!-- Admin Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'user_add') !== false ||
+    strpos(Request::url(), 'user_list') !== false ||
+    strpos(Request::url(), 'user_edit') !== false)
+    <script src="{{ asset('js/admin/user_master.js') }}"></script>
+    @endif
+
 </body>
 @include('vendor.adminlte.partials.modal_messages')
 @extends('adminlte::admin-footer')

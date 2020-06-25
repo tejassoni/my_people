@@ -30,6 +30,7 @@ class CreateSubscriptionRequest extends FormRequest
         return [
             'sub_name' => 'required',
             'sub_alias' => 'required|unique:subscription_master,sub_alias|max:10',
+            'plan_id_select' => 'required',
             'sub_description' => 'required'
         ];
     }
@@ -43,6 +44,7 @@ class CreateSubscriptionRequest extends FormRequest
     {
         return [
             'sub_name.required' => 'Subscription Name field is required..!',
+            'plan_id_select.required' => 'Subscription Plan field is required..!',
             'sub_alias.required' => 'Subscription Alias field is required..!',
             'sub_alias.unique' => 'Subscription Alias field should be Unique..!',
             'sub_alias.max' => 'Subscription Alias field max charcter 10 allowed..!',

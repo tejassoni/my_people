@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use DataTables;
 use App\Models\subscription_master;
+use App\Models\plan_master;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteBulkRequest;
@@ -32,7 +33,9 @@ class SubscriptionMasterController extends Controller
      */
     public function add_view()
     {
-        return view('admin.subscriptions.add_view');
+        $plan_obj = new plan_master();
+        $plan_result = $plan_obj->list_all();
+        return view('admin.subscriptions.add_view', compact(['plan_result']));
     }
 
     /**
@@ -79,6 +82,7 @@ class SubscriptionMasterController extends Controller
     {
         $preArr['sub_name'] = $request->input('sub_name');
         $preArr['sub_alias'] = $request->input('sub_alias');
+        $preArr['plan_id'] = $request->input('plan_id_select');
         $preArr['sub_description'] = $request->input('sub_description');
         $preArr['status'] = $additional[0];
         return $preArr;
@@ -131,7 +135,9 @@ class SubscriptionMasterController extends Controller
     {
         $sub_obj = new subscription_master();
         $subscription_result = subscription_master::find($sub_id);
-        return view('admin.subscriptions.edit_view', compact(['subscription_result']));
+        $plan_obj = new plan_master();
+        $plan_result = $plan_obj->list_all();
+        return view('admin.subscriptions.edit_view', compact(['subscription_result', 'plan_result']));
     }
 
     /**
@@ -178,6 +184,7 @@ class SubscriptionMasterController extends Controller
     {
         $preArr['sub_name'] = $request->input('sub_name');
         $preArr['sub_alias'] = $request->input('sub_alias');
+        $preArr['plan_id'] = $request->input('plan_id_select');
         $preArr['sub_description'] = $request->input('sub_description');
         $preArr['status'] = $additional[0];
         return $preArr;

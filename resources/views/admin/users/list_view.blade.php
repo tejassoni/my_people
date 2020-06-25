@@ -33,7 +33,7 @@
             </div> -->
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="role_list_table" class="display datatables table table-striped table-bordered w-100" sty>
+          <table id="user_list_table" class="display datatables table table-striped table-bordered w-100" sty>
             <thead>
               <tr>
                 <!-- Enable If First Column is Checkbox  -->
@@ -41,8 +41,10 @@
                   <input type="checkbox" name="select_all_chkbox" class="select_all_chkbox" value="0" id="select_all_chkbox">
                 </th>
                 <th><?= ('Name') ?></th>
-                <th><?= ('Alias') ?></th>
-                <th><?= ('Description') ?></th>
+                <th><?= ('Mobile') ?></th>
+                <th><?= ('Email') ?></th>
+                <th><?= ('Role') ?></th>
+                <th><?= ('Subscription') ?></th>
                 <th><?= ('Status') ?></th>
                 <th><?= ('Action') ?></th>
               </tr>

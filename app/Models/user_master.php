@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB; // DB::enableQueryLog(); dd(DB::getQueryLog());
 
-class subscription_master extends Model
+class user_master extends Model
 {
   /**
    * The table associated with the model.
    *
    * @var string
    */
-  protected $table = 'subscription_master';
+  protected $table = 'user_master';
 
   /**
    * The primary key associated with the table.
    *
    * @var string
    */
-  protected $primaryKey = 'sub_id';
+  protected $primaryKey = 'id';
 
   /**
    * Indicates if the model should be timestamped.
@@ -33,7 +33,7 @@ class subscription_master extends Model
    *
    * @var array
    */
-  protected $fillable = ['sub_name', 'sub_alias', 'plan_id', 'sub_description', 'status'];
+  protected $fillable = ['f_name', 'm_name', 'l_name', 'address', 'mobile', 'email', 'role_id', 'subscription_id', 'password', 'status'];
 
   /**
    * The attributes that aren't mass assignable.
@@ -44,7 +44,7 @@ class subscription_master extends Model
 
   /*
     * author : Tejas Soni
-    * insert_data - insert records into table : subscription_master
+    * insert_data - insert records into table : user_master
     * @param  - array of input records // Fields will be same as table column name        
     * @return : boolean
     */
@@ -55,7 +55,7 @@ class subscription_master extends Model
 
   /*
     * author : Tejas Soni
-    * list_all - get all table : subscription_master records    
+    * list_all - get all table : user_master records    
     * @param  - None        
     * @return : array of all list records
     */
@@ -70,7 +70,27 @@ class subscription_master extends Model
 
   /*
     * author : Tejas Soni
-    * list_by_params - check dynamic where condition from controller table : subscription_master 
+    * list_all - get all table : user_master, role_master, subscription records    
+    * @param  - None        
+    * @return : array of all list records
+    */
+  public function list_all_join()
+  {
+    $data = self::selectRaw('`user_master`.`id` as `user_id`, CONCAT(`user_master`.`f_name`, " ", `user_master`.`l_name`) AS `full_name`, `user_master`.`address` AS `address`, `user_master`.`email` AS `email`, `user_master`.`mobile` AS `mobile`,`user_master`.`status` AS `status`')
+      ->selectRaw('`role_master`.`role_id` as `role_id`,`role_master`.`role_name` as `role_name`')
+      ->selectRaw('`subscription_master`.`sub_id` as `sub_id`,`subscription_master`.`sub_name` as `sub_name`')
+      ->leftJoin('role_master', 'user_master.role_id', '=', 'role_master.role_id')
+      ->leftJoin('subscription_master', 'user_master.subscription_id', '=', 'subscription_master.sub_id')
+      ->get();
+    if (!empty($data)) {
+      $data = $data->toArray();
+    }
+    return $data;
+  }
+
+  /*
+    * author : Tejas Soni
+    * list_by_params - check dynamic where condition from controller table : user_master 
     * @param  - dynamic where conditions
     * @return : array of all list records
     */
@@ -92,36 +112,36 @@ class subscription_master extends Model
 
   /*
     * author : Tejas Soni
-    * update_records - update records into table : subscription_master 
+    * update_records - update records into table : user_master 
     * @param  - Update Array, ID to update
     * @return : boolean
     */
   public function update_records($udpate_data = array(), $where_check)
   {
-    return self::where('sub_id', $where_check)->update($udpate_data);
+    return self::where('id', $where_check)->update($udpate_data);
   }
 
   /*
     * author : Tejas Soni
-    * delete_bulk_records - Delete multiple : subscription_master 
+    * delete_bulk_records - Delete multiple : user_master 
     * @param  - IDs Array [1,34,5]
     * @return : boolean
     */
   public function delete_bulk_records($delete_ids = array())
   {
-    return self::whereIn('sub_id', $delete_ids)->delete();
+    return self::whereIn('id', $delete_ids)->delete();
   }
 
 
 
   /*
     * author : Tejas Soni
-    * deleteRecords - Delete ID : subscription_master 
+    * deleteRecords - Delete ID : user_master 
     * @param  - ID
     * @return : boolean
     */
   public function deleteRecords($delete_id = "")
   {
-    return self::where('sub_id', $delete_id)->delete();
+    return self::where('id', $delete_id)->delete();
   }
 }

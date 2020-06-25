@@ -57,6 +57,19 @@
                 <label for="sub_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="sub_description" id="sub_description" rows="3" placeholder="Enter Subscription Description" required>{{ old('sub_description') }}</textarea>
               </div>
+              <div class="form-group w-120">
+                <label><?= ('Select Plan') ?></label>
+                <select class="form-control" name="plan_id_select" id="plan_id_select">
+                  @if(isset($plan_result) && is_array($plan_result) && !empty($plan_result))
+                  <option value="" disabled selected><?= ('Select Plan') ?></option>
+                  @foreach ($plan_result as $plan_key => $plan_val)
+                  <option value="{{ $plan_val['plan_id'] }}" {{ (is_array(old()) && !empty(old('plan_id_select')) && old('plan_id_select') == $plan_val['plan_id'])? 'selected' : '' }}>{{ ucwords($plan_val['plan_name']) }}</option>
+                  @endforeach
+                  @else
+                  <option value="" disabled selected><?= ('No Records found..') ?></>
+                    @endif
+                </select>
+              </div>
 
               <div class="form-group">
                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">

@@ -59,7 +59,7 @@
               </div>
               <div class="form-group">
                 <label for="user_address"><?= ('Address') ?></label>
-                <textarea class="form-control" name="user_address" id="user_address" rows="3" placeholder="Enter User Address" required>{{ old('user_address') }}</textarea>
+                <textarea class="form-control" name="user_address" id="user_address" rows="3" placeholder="Enter User Address" required />{{ old('user_address') }}</textarea>
               </div>
               <div class="form-group">
                 <label for="mobile"><?= ('Mobile') ?></label>
@@ -67,7 +67,7 @@
               </div>
               <div class="form-group">
                 <label for="email"><?= ('Email') ?></label>
-                <input type="text" class="form-control" name="email" id="email" placeholder="Enter Email" value="{{ old('email') }}" required />
+                <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email" value="{{ old('email') }}" required />
               </div>
               <div class="form-group">
                 <label for="password"><?= ('Password') ?></label>
@@ -76,14 +76,30 @@
 
               <div class="form-group w-120">
                 <label><?= ('Select Role') ?></label>
-                <select class="form-control">
-                  @if(is_array($role_result) && !empty($role_result))
+                <select class="form-control" name="role_id_select" id="role_id_select">
+                  @if(isset($role_result) && is_array($role_result) && !empty($role_result))
                   <option value="" disabled selected><?= ('Select Role') ?></option>
                   @foreach ($role_result as $role_key => $role_val)
-                  <option value="{{ $role_val['role_id'] }}">{{ $role_val['role_name'] }}</option>
+                  <option value="{{ $role_val['role_id'] }}" {{ (is_array(old()) && !empty(old('role_id_select')) && old('role_id_select') == $role_val['role_id'])? 'selected' : '' }}>{{ ucwords($role_val['role_name']) }}</option>
                   @endforeach
                   @else
-                  <option value="" disabled selected><?= ('No Role Records..') ?></>
+                  <option value="" disabled selected><?= ('No Records found..') ?>
+                    <required />
+                    @endif
+                </select>
+              </div>
+
+              <div class="form-group w-120">
+                <label><?= ('Select Subscription') ?></label>
+                <select class="form-control" name="subscription_id_select" id="subscription_id_select">
+                  @if(isset($subscription_result) && is_array($subscription_result) && !empty($subscription_result))
+                  <option value="" disabled selected><?= ('Select Subscription') ?></option>
+                  @foreach ($subscription_result as $sub_key => $sub_val)
+                  <option value="{{ $sub_val['sub_id'] }}" {{ (is_array(old()) && !empty(old('subscription_id_select')) && old('subscription_id_select') == $sub_val['sub_id'])? 'selected' : '' }}>{{ ucwords($sub_val['sub_name']) }}</option>
+                  @endforeach
+                  @else
+                  <option value="" disabled selected><?= ('No Records found..') ?>
+                    <required />
                     @endif
                 </select>
               </div>

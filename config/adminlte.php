@@ -247,7 +247,7 @@ return [
         ],
         [
             'text'    => 'Jaw Master',
-            'icon'    => 'fas fa-fw fa-smile',
+            'icon'    => 'fas fa-fw fa-laugh-beam',
             'submenu' => [
                 [
                     'text' => 'Jaw List',
@@ -258,7 +258,7 @@ return [
         ],
         [
             'text'    => 'Lips Master',
-            'icon'    => 'fas fa-fw fa-anchor',
+            'icon'    => 'fas fa-fw fa-smile',
             'submenu' => [
                 [
                     'text' => 'Lips List',
@@ -269,7 +269,7 @@ return [
         ],
         [
             'text'    => 'Nose Master',
-            'icon'    => 'fas fa-fw fa-fire',
+            'icon'    => 'fas fa-fw fa-chevron-left',
             'submenu' => [
                 [
                     'text' => 'Nose List',
@@ -280,7 +280,7 @@ return [
         ],
         [
             'text'    => 'Skin Master',
-            'icon'    => 'fas fa-fw fa-fire',
+            'icon'    => 'fas fa-fw fa-male',
             'submenu' => [
                 [
                     'text' => 'Skin List',
@@ -292,7 +292,7 @@ return [
         ['header' => 'SubScription And Plans'],
         [
             'text'    => 'Plan Master',
-            'icon'    => 'fas fa-fw fa-expand',
+            'icon'    => 'fas fa-fw fa-lightbulb',
             'submenu' => [
                 [
                     'text' => 'Plan List',

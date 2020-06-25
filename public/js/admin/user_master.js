@@ -1,11 +1,11 @@
 $(document).ready(function() {
 
     // Datatables Operation Starts
-    $('#subscription_list_table').DataTable({
+    $('#user_list_table').DataTable({
         processing: true,
         serverSide: true,
         type: 'get',
-        ajax: "subscription_list",
+        ajax: "user_list",
         order: [
             [1, "asc"] // asc OR desc
         ],
@@ -21,29 +21,41 @@ $(document).ready(function() {
             orderable: false,
             className: "dt-body-center",
             render: function(data, type, full, meta, row) { // function to modify dynamic data
-                return '<input type="checkbox" class="child_chkbox" name="child_chkbox[]" value="' + $('<div/>').text(full.sub_id).html() + '">';
+                return '<input type="checkbox" class="child_chkbox" name="child_chkbox[]" value="' + $('<div/>').text(full.user_id).html() + '">';
             }
         }, {
             width: "10%",
             visible: true, // Hide Which Column Do not need to show in Datatable list
-            data: 'sub_name',
-            name: 'sub_name',
+            data: 'full_name',
+            name: 'full_name',
             title: "Name",
             orderable: true,
             searchable: true
         }, {
-            data: 'sub_alias',
-            name: 'sub_alias',
-            title: "Alias",
+            data: 'mobile',
+            name: 'mobile',
+            title: "Mobile",
             orderable: true,
             searchable: true
         }, {
-            data: 'sub_description',
-            name: 'sub_description',
-            title: "Description",
+            data: 'email',
+            name: 'email',
+            title: "Email",
             orderable: true,
             searchable: true
         }, {
+            data: 'role_name',
+            name: 'role_name',
+            title: "Role",
+            orderable: true,
+            searchable: true
+        },{
+            data: 'sub_name',
+            name: 'sub_name',
+            title: "Subscription",
+            orderable: true,
+            searchable: true
+        },{
             width: "11%",
             data: 'status',
             name: 'status',
@@ -167,7 +179,7 @@ $(document).ready(function() {
     /* Bulk Delete ajax Starts */
     function ajaxDelete(ids = []) {
         $.ajax({
-            url: APPURL + "/admin/delete_subscriptions",
+            url: APPURL + "/admin/delete_users",
             type: "POST",
             data: { 'ids': ids },
             dataType: 'JSON',
@@ -180,7 +192,7 @@ $(document).ready(function() {
                     var success_head = "";
                     var success_body = "";
                     success_head += '<i class="fa fa-check-circle" aria-hidden="true"></i> Success..!';
-                    success_body += 'Subscriptions are Deleted successfully.';
+                    success_body += 'Users are Deleted successfully.';
                     $(".modal-header h4").html(success_head);
                     $(".modal-body p").html(success_body);
                     $('.error_modal').trigger('click');
@@ -189,7 +201,7 @@ $(document).ready(function() {
                     var warning_head = "";
                     var warning_body = "";
                     warning_head += '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
-                    warning_body += 'Subscriptions are not deleted... Please try after sometime. ';
+                    warning_body += 'Users are not deleted... Please try after sometime. ';
                     $(".modal-header h4").html(warning_head);
                     $(".modal-body p").html(warning_body);
                     $('.error_modal').trigger('click');
@@ -264,7 +276,7 @@ $(document).ready(function() {
     /* Bulk Delete ajax Starts */
     function ajaxDeleteSpecific(ids) {
         $.ajax({
-            url: APPURL + "/admin/subscription_delete/" + ids,
+            url: APPURL + "/admin/user_delete/" + ids,
             type: "get",
             dataType: 'JSON',
             beforeSend: function() {
@@ -276,7 +288,7 @@ $(document).ready(function() {
                     var success_head = "";
                     var success_body = "";
                     success_head += '<i class="fa fa-check-circle" aria-hidden="true"></i> Success..!';
-                    success_body += 'Subscription is Deleted successfully.';
+                    success_body += 'User is Deleted successfully.';
                     $(".modal-header h4").html(success_head);
                     $(".modal-body p").html(success_body);
                     $('.error_modal').trigger('click');
@@ -285,7 +297,7 @@ $(document).ready(function() {
                     var warning_head = "";
                     var warning_body = "";
                     warning_head += '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
-                    warning_body += 'Subscription is not deleted... Please try after sometime. ';
+                    warning_body += 'User is not deleted... Please try after sometime. ';
                     $(".modal-header h4").html(warning_head);
                     $(".modal-body p").html(warning_body);
                     $('.error_modal').trigger('click');
@@ -309,9 +321,9 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: APPURL + "/admin/subscription_status",
+            url: APPURL + "/admin/user_status",
             type: "POST",
-            data: { 'id': $(this).attr('plan_id'), 'status': $(this).attr('status') },
+            data: { 'id': $(this).attr('user_id'), 'status': $(this).attr('status') },
             dataType: 'JSON',
             beforeSend: function() {
                 $(".modal-header h4").html("");
@@ -331,7 +343,7 @@ $(document).ready(function() {
                     var warning_head = "";
                     var warning_body = "";
                     warning_head += '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
-                    warning_body += 'Subscription is In Activated... Please try after sometime. ';
+                    warning_body += 'User is In Activated... Please try after sometime. ';
                     $(".modal-header h4").html(warning_head);
                     $(".modal-body p").html(warning_body);
                     $('.error_modal').trigger('click');
@@ -346,8 +358,14 @@ $(document).ready(function() {
     // Status Change Dynamically Ends
 
     //Select Option Change Selected Status
-    $(document).on('change', '#plan_id_select', function() {
-        $('#plan_id_select').removeAttr('selected','selected');
+    $(document).on('change', '#role_name_select', function() {
+        $('#role_name_select').removeAttr('selected','selected');
+        $("option:selected",this).attr('selected','selected');    
+    });
+
+    //Select Option Change Selected Status
+    $(document).on('change', '#sub_name_select', function() {
+        $('#sub_name_select').removeAttr('selected','selected');
         $("option:selected",this).attr('selected','selected');    
     });
 
