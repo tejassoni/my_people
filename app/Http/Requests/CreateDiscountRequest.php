@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class CreatePlanRequest extends FormRequest
+class CreateDiscountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,10 +28,9 @@ class CreatePlanRequest extends FormRequest
     public function rules()
     {
         return [
-            'plan_name' => 'required',
-            'plan_alias' => 'required|unique:plan_master,plan_alias|max:10',
-            'plan_description' => 'required',
-            'plan_amount' => 'required'
+            'discount_name' => 'required',
+            'discount_description' => 'required',
+            'discount_type_select' => 'required'
         ];
     }
 
@@ -43,12 +42,9 @@ class CreatePlanRequest extends FormRequest
     public function messages()
     {
         return [
-            'plan_name.required' => 'Plan Name field is required..!',
-            'plan_alias.required' => 'Plan Alias field is required..!',
-            'plan_alias.unique' => 'Plan Alias field should be Unique..!',
-            'plan_alias.max' => 'Plan Alias field max charcter 10 allowed..!',
-            'plan_description.required' => 'Plan Description field is required..!',
-            'plan_amount.required' => 'Plan Amount field is required..!'
+            'discount_name.required' => 'Discount Name field is required..!',
+            'discount_description.required' => 'Discount Alias field is required..!',
+            'discount_type_select' => 'Discount Type field is required..!'
         ];
     }
 }

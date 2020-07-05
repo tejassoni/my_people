@@ -1,0 +1,28 @@
+
+Quick Tutorial on DateRange for configuration processes - Author: Tejas Soni
+
+- Purpose: To provide other developers information on how to integrate and use DateRangePicker js
+
+
+
+Reference  : #
+
+/* Date Range Picker reqruired */
+1. Import following datatables CSS files into your Header  
+   a) <link rel="stylesheet" type="text/css" href="{{ asset('vendor/daterangepicker/daterangepicker.css') }}">
+   cdn version :  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+
+2) Import following datatables JS files into your Footer
+	a) <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+	cdn version : <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	b)  <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
+	cdn version : <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	c)  <script src="{{ asset('vendor/daterangepicker/daterangepicker.js') }}"></script>
+	cdn version : <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+3) Initialize Colorpicker
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.colorpicker').colorpicker();
+        });
+    </script>

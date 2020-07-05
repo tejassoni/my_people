@@ -18,6 +18,8 @@ class CreatePlanTable extends Migration
             $table->string('plan_name', 100)->nullable();
             $table->string('plan_alias', 50)->nullable();
             $table->text('plan_description')->nullable();
+            $table->double('plan_amount', 16, 2)->default(0);
+            $table->integer('discount_id')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

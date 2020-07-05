@@ -31,7 +31,8 @@ class UpdatePlanRequest extends FormRequest
         return [
             'plan_name' => 'required', // unique ignore for current table role id, define role name & value       
             'plan_alias' => "required|unique:plan_master,plan_alias,$plan_id,plan_id|max:10",
-            'plan_description' => 'required'
+            'plan_description' => 'required',
+            'plan_amount' => 'required'
         ];
     }
 
@@ -47,7 +48,8 @@ class UpdatePlanRequest extends FormRequest
             'plan_alias.required' => 'Plan Alias field is required..!',
             'plan_alias.unique' => 'Plan Alias field should be Unique..!',
             'plan_alias.max' => 'Plan Alias field max charcter 10 allowed..!',
-            'plan_description' => 'required'
+            'plan_description.required' => 'Plan Description field is required..!',
+            'plan_amount.required' => 'Plan Amount field is required..!'
         ];
     }
 }

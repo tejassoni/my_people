@@ -59,6 +59,26 @@
               </div>
 
               <div class="form-group">
+                <label for="plan_amount"><?= ('Amount') ?></label>
+                <input type="number" class="form-control" min="0" name="plan_amount" id="plan_amount" placeholder="Enter Plan Amount" value="{{ (is_array(old()) && !empty(old('plan_amount')))? old('plan_amount') : 0 }}" required />
+              </div>
+
+              <div class="form-group w-120">
+                <label><?= ('Select Discount') ?></label>
+                <select class="form-control" name="discount_id_select" id="discount_id_select">
+                  @if(isset($discount_result) && is_array($discount_result) && !empty($discount_result))
+                  <option value="" disabled selected><?= ('Select Discount') ?></option>
+                  @foreach ($discount_result as $discount_key => $discount_val)
+                  <option value="{{ $discount_val['discount_id'] }}" {{ (is_array(old()) && !empty(old('discount_id_select')) && old('discount_id_select') == $discount_val['discount_id'])? 'selected' : '' }}>{{ ucwords($discount_val['discount_name']) .' - '.ucwords($discount_val['discount_type']).' - '.$discount_val['amount'] }}</option>
+                  @endforeach
+                  @else
+                  <option value="" disabled selected><?= ('No Records found..') ?>
+                    <required />
+                    @endif
+                </select>
+              </div>
+
+              <div class="form-group">
                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                   <input type="checkbox" class="custom-control-input" name="status" id="status" @if(is_array(old()) && old('status')=='on' ) checked @endif>
                   <label class="custom-control-label" for="status"><?= ('Status') ?></label>

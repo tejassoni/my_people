@@ -157,6 +157,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function ()
     Route::post('/delete_subscriptions', 'Admin\SubscriptionMasterController@delete_all_records');
     Route::post('/subscription_status', 'Admin\SubscriptionMasterController@status_change');
     /* Plan Module Ends here...! */
+
+    /* Discount Module Starts here...! */
+    Route::get('/discount_list', 'Admin\DiscountMasterController@list_view');
+    Route::get('/discount_add', 'Admin\DiscountMasterController@add_view');
+    Route::post('/discount_insert', 'Admin\DiscountMasterController@insert_records');
+    Route::get('/discount_edit/{id?}', 'Admin\DiscountMasterController@get_edit_records');
+    Route::put('/discount_update/{id?}', 'Admin\DiscountMasterController@update_records');
+    Route::get('/discount_delete/{id?}', 'Admin\DiscountMasterController@delete_records');
+    Route::post('/delete_discounts', 'Admin\DiscountMasterController@delete_all_records');
+    Route::post('/discount_status', 'Admin\DiscountMasterController@status_change');
+    /* Discount Module Ends here...! */
 }); // Email Verified enables
 
 

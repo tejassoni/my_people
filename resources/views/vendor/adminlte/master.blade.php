@@ -19,6 +19,7 @@
         var APPURL = '{{ url("") }}';
     </script>
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
@@ -71,7 +72,8 @@
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-
+    <script src="{{ asset('vendor/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('vendor/daterangepicker/daterangepicker.js') }}"></script>
     @include('adminlte::plugins', ['type' => 'js'])
 
     @yield('adminlte_js')
@@ -208,6 +210,13 @@
     strpos(Request::url(), 'user_list') !== false ||
     strpos(Request::url(), 'user_edit') !== false)
     <script src="{{ asset('js/admin/user_master.js') }}"></script>
+    @endif
+
+    <!-- Discount Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'discount_add') !== false ||
+    strpos(Request::url(), 'discount_list') !== false ||
+    strpos(Request::url(), 'discount_edit') !== false)
+    <script src="{{ asset('js/admin/discount_master.js') }}"></script>
     @endif
 
 </body>

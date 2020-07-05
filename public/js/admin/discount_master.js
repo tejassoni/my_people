@@ -1,10 +1,17 @@
 $(document).ready(function() {
+    // Date Range
+    $('input[name="discount_validity"]').daterangepicker({
+        locale: {
+            format: "DD/MM/YYYY"
+        }
+    });
+
     // Datatables Operation Starts
-    $("#user_list_table").DataTable({
+    $("#discount_list_table").DataTable({
         processing: true,
         serverSide: true,
         type: "get",
-        ajax: "user_list",
+        ajax: "discount_list",
         order: [
             [1, "asc"] // asc OR desc
         ],
@@ -27,7 +34,7 @@ $(document).ready(function() {
                     return (
                         '<input type="checkbox" class="child_chkbox" name="child_chkbox[]" value="' +
                         $("<div/>")
-                            .text(full.user_id)
+                            .text(full.discount_id)
                             .html() +
                         '">'
                     );
@@ -36,37 +43,37 @@ $(document).ready(function() {
             {
                 width: "10%",
                 visible: true, // Hide Which Column Do not need to show in Datatable list
-                data: "full_name",
-                name: "full_name",
+                data: "discount_name",
+                name: "discount_name",
                 title: "Name",
                 orderable: true,
                 searchable: true
             },
             {
-                data: "mobile",
-                name: "mobile",
-                title: "Mobile",
+                data: "discount_type",
+                name: "discount_type",
+                title: "Type",
                 orderable: true,
                 searchable: true
             },
             {
-                data: "email",
-                name: "email",
-                title: "Email",
+                data: "amount",
+                name: "amount",
+                title: "Amount",
                 orderable: true,
                 searchable: true
             },
             {
-                data: "role_name",
-                name: "role_name",
-                title: "Role",
+                data: "start_date",
+                name: "start_date",
+                title: "StartDate",
                 orderable: true,
                 searchable: true
             },
             {
-                data: "sub_name",
-                name: "sub_name",
-                title: "Subscription",
+                data: "end_date",
+                name: "end_date",
+                title: "EndDate",
                 orderable: true,
                 searchable: true
             },
@@ -136,7 +143,7 @@ $(document).ready(function() {
                 orientation: "portrait", // portrait OR landscape
                 pageSize: "LEGAL", // LETTER OR TABLOID OR A3 OR A4 OR A5 OR
                 exportOptions: {
-                    columns: [1, 2, 3, 4, 5]
+                    columns: [0, 1, 2, 3, 4, 5]
                 }
             },
             {
@@ -209,7 +216,7 @@ $(document).ready(function() {
     /* Bulk Delete ajax Starts */
     function ajaxDelete(ids = []) {
         $.ajax({
-            url: APPURL + "/admin/delete_users",
+            url: APPURL + "/admin/delete_discounts",
             type: "POST",
             data: { ids: ids },
             dataType: "JSON",
@@ -223,7 +230,7 @@ $(document).ready(function() {
                     var success_body = "";
                     success_head +=
                         '<i class="fa fa-check-circle" aria-hidden="true"></i> Success..!';
-                    success_body += "Users are Deleted successfully.";
+                    success_body += "Discounts are Deleted successfully.";
                     $(".modal-header h4").html(success_head);
                     $(".modal-body p").html(success_body);
                     $(".error_modal").trigger("click");
@@ -236,7 +243,7 @@ $(document).ready(function() {
                     warning_head +=
                         '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
                     warning_body +=
-                        "Users are not deleted... Please try after sometime. ";
+                        "Discounts are not deleted... Please try after sometime. ";
                     $(".modal-header h4").html(warning_head);
                     $(".modal-body p").html(warning_body);
                     $(".error_modal").trigger("click");
@@ -318,7 +325,7 @@ $(document).ready(function() {
     /* Bulk Delete ajax Starts */
     function ajaxDeleteSpecific(ids) {
         $.ajax({
-            url: APPURL + "/admin/user_delete/" + ids,
+            url: APPURL + "/admin/discount_delete/" + ids,
             type: "get",
             dataType: "JSON",
             beforeSend: function() {
@@ -331,7 +338,7 @@ $(document).ready(function() {
                     var success_body = "";
                     success_head +=
                         '<i class="fa fa-check-circle" aria-hidden="true"></i> Success..!';
-                    success_body += "User is Deleted successfully.";
+                    success_body += "Discount is Deleted successfully.";
                     $(".modal-header h4").html(success_head);
                     $(".modal-body p").html(success_body);
                     $(".error_modal").trigger("click");
@@ -344,7 +351,7 @@ $(document).ready(function() {
                     warning_head +=
                         '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
                     warning_body +=
-                        "User is not deleted... Please try after sometime. ";
+                        "Discount is not deleted... Please try after sometime. ";
                     $(".modal-header h4").html(warning_head);
                     $(".modal-body p").html(warning_body);
                     $(".error_modal").trigger("click");
@@ -368,10 +375,10 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: APPURL + "/admin/user_status",
+            url: APPURL + "/admin/discount_status",
             type: "POST",
             data: {
-                id: $(this).attr("user_id"),
+                id: $(this).attr("discount_id"),
                 status: $(this).attr("status")
             },
             dataType: "JSON",
@@ -398,7 +405,7 @@ $(document).ready(function() {
                     warning_head +=
                         '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
                     warning_body +=
-                        "User is In Activated... Please try after sometime. ";
+                        "Discount is In Activated... Please try after sometime. ";
                     $(".modal-header h4").html(warning_head);
                     $(".modal-body p").html(warning_body);
                     $(".error_modal").trigger("click");
@@ -413,14 +420,42 @@ $(document).ready(function() {
     // Status Change Dynamically Ends
 
     //Select Option Change Selected Status
-    $(document).on("change", "#role_name_select", function() {
-        $("#role_name_select").removeAttr("selected", "selected");
+    $(document).on("change", "#plan_id_select", function() {
+        $("#plan_id_select").removeAttr("selected", "selected");
         $("option:selected", this).attr("selected", "selected");
     });
 
-    //Select Option Change Selected Status
-    $(document).on("change", "#sub_name_select", function() {
-        $("#sub_name_select").removeAttr("selected", "selected");
-        $("option:selected", this).attr("selected", "selected");
+    // Checkbox checked popup Starts
+    $(document).on("click", ".discount_validity_chkbx", function() {
+        var attr = $(this).attr("checked");
+        if (typeof attr !== typeof undefined && attr !== false) {
+            $(this).prop("checked", false);
+            $(this).removeAttr("checked");
+            $(this).val(0);
+            $("#discount_validity").attr("disabled", "disabled");
+        } else {
+            $(this).prop("checked", true);
+            $(this).attr("checked", "checked");
+            $(this).val(1);
+            $("#discount_validity").removeAttr("disabled");
+        }
     });
+    // Checkbox checked popup Ends
+
+    // Checkbox checked popup Starts
+    $(document).on("change", "#discount_type_select", function() {
+        var get_selected_val = $(this)
+            .find(":selected")
+            .val();
+        if (
+            $(this)
+                .find(":selected")
+                .val() !== "none"
+        ) {
+            $("#discount_amount").removeAttr("disabled");
+        } else {
+            $("#discount_amount").attr("disabled", "disabled");
+        }
+    });
+    // Checkbox checked popup Ends
 });

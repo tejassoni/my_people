@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB; // DB::enableQueryLog(); dd(DB::getQueryLog());
 
-class plan_master extends Model
+class discount_master extends Model
 {
   /**
    * The table associated with the model.
    *
    * @var string
    */
-  protected $table = 'plan_master';
+  protected $table = 'discount_master';
 
   /**
    * The primary key associated with the table.
    *
    * @var string
    */
-  protected $primaryKey = 'plan_id';
+  protected $primaryKey = 'discount_id';
 
   /**
    * Indicates if the model should be timestamped.
@@ -33,7 +33,7 @@ class plan_master extends Model
    *
    * @var array
    */
-  protected $fillable = ['plan_name', 'plan_alias', 'plan_description', 'plan_amount', 'discount_id', 'status'];
+  protected $fillable = ['discount_name', 'discount_description', 'discount_type', 'amount', 'is_discount_validity', 'start_date', 'end_date', 'status'];
 
   /**
    * The attributes that aren't mass assignable.
@@ -44,7 +44,7 @@ class plan_master extends Model
 
   /*
     * author : Tejas Soni
-    * insert_data - insert records into table : plan_master
+    * insert_data - insert records into table : discount_master
     * @param  - array of input records // Fields will be same as table column name        
     * @return : boolean
     */
@@ -55,7 +55,7 @@ class plan_master extends Model
 
   /*
     * author : Tejas Soni
-    * list_all - get all table : plan_master records    
+    * list_all - get all table : discount_master records    
     * @param  - None        
     * @return : array of all list records
     */
@@ -70,26 +70,7 @@ class plan_master extends Model
 
   /*
     * author : Tejas Soni
-    * list_all - get all table : plan_master and discount master records    
-    * @param  - None        
-    * @return : array of all list records
-    */
-  public function list_belongsTo()
-  {
-    $data = self::selectRaw('`plan_master`.`plan_id` as `plan_id`, `plan_master`.`plan_name` AS `plan_name`, `plan_master`.`plan_amount` AS `plan_amount`, `plan_master`.`status` AS `status`')
-      ->selectRaw('`discount_master`.`discount_id` as `discount_id`,`discount_master`.`discount_type` AS `discount_type`,`discount_master`.`amount` AS `discount_amount`')
-      ->selectRaw('(CASE WHEN discount_master.discount_type = "fixed" THEN "fixed" WHEN discount_master.discount_type = "percentage" THEN "percentage" ELSE "" END) AS `final_amount`')
-      ->leftJoin('discount_master', 'plan_master.discount_id', '=', 'discount_master.discount_id')
-      ->get();
-    if (!empty($data)) {
-      $data = $data->toArray();
-    }
-    return $data;
-  }
-
-  /*
-    * author : Tejas Soni
-    * list_by_params - check dynamic where condition from controller table : plan_master 
+    * list_by_params - check dynamic where condition from controller table : discount_master 
     * @param  - dynamic where conditions
     * @return : array of all list records
     */
@@ -111,36 +92,53 @@ class plan_master extends Model
 
   /*
     * author : Tejas Soni
-    * update_records - update records into table : plan_master 
+    * update_records - update records into table : discount_master 
     * @param  - Update Array, ID to update
     * @return : boolean
     */
   public function update_records($udpate_data = array(), $where_check)
   {
-    return self::where('plan_id', $where_check)->update($udpate_data);
+    return self::where('discount_id', $where_check)->update($udpate_data);
   }
 
   /*
     * author : Tejas Soni
-    * delete_bulk_records - Delete multiple : plan_master 
+    * delete_bulk_records - Delete multiple : discount_master 
     * @param  - IDs Array [1,34,5]
     * @return : boolean
     */
   public function delete_bulk_records($delete_ids = array())
   {
-    return self::whereIn('plan_id', $delete_ids)->delete();
+    return self::whereIn('discount_id', $delete_ids)->delete();
   }
 
 
 
   /*
     * author : Tejas Soni
-    * deleteRecords - Delete ID : plan_master 
+    * deleteRecords - Delete ID : discount_master 
     * @param  - ID
     * @return : boolean
     */
   public function deleteRecords($delete_id = "")
   {
-    return self::where('plan_id', $delete_id)->delete();
+    return self::where('discount_id', $delete_id)->delete();
+  }
+
+  /*
+    * author : Tejas Soni
+    * getRecordById - Discount ID : discount_master 
+    * @param  - ID
+    * @return : get one row list object
+    */
+  public function getRecordById($id = "")
+  {
+    $data = self::selectRaw('*');
+    $data->selectRaw("DATE_FORMAT(start_date, '%d/%m/%Y') as startDate, DATE_FORMAT(end_date, '%d/%m/%Y') as endDate");
+    $data->where('discount_id', $id);
+    if (!empty($data)) {
+      $data = $data->first();
+    }
+    return $data;
   }
 }

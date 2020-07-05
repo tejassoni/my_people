@@ -1,11 +1,12 @@
 
 Quick Tutorial on Console.php for command line processes - Author: Tejas Soni
 
-- Purpose: To provide other developers information on how to develop and run command line processes
+- Purpose: To provide other developers information on how to develop and run Migration command line processes
 
 - Creating a command line process class.
 
 1. Run Commands on at root of my_people folder
+
 
 
 

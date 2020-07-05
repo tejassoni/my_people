@@ -291,6 +291,17 @@ return [
         ],
         ['header' => 'SubScription And Plans'],
         [
+            'text'    => 'Discount Master',
+            'icon'    => 'fas fa-fw fa-tags',
+            'submenu' => [
+                [
+                    'text' => 'Discount List',
+                    'url'  => '/admin/discount_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ]
+            ],
+        ],
+        [
             'text'    => 'Plan Master',
             'icon'    => 'fas fa-fw fa-lightbulb',
             'submenu' => [

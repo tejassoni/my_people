@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use DataTables;
-use App\Models\plan_master;
 use App\Models\discount_master;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteBulkRequest;
 use App\Http\Requests\StatusUpdateRequest;
-use App\Http\Requests\UpdatePlanRequest;
-use App\Http\Requests\CreatePlanRequest;
+use App\Http\Requests\UpdateDiscountRequest;
+use App\Http\Requests\CreateDiscountRequest;
 
-class PlanMasterController extends Controller
+class DiscountMasterController extends Controller
 {
 
     /**
@@ -33,9 +32,7 @@ class PlanMasterController extends Controller
      */
     public function add_view()
     {
-        $discount_obj = new discount_master();
-        $discount_result = $discount_obj->list_all();
-        return view('admin.plans.add_view', compact('discount_result'));
+        return view('admin.discounts.add_view');
     }
 
     /**
@@ -44,7 +41,7 @@ class PlanMasterController extends Controller
      * @param  Name, Alias, Description, Status
      * @return success or fail flash message in view
      */
-    public function insert_records(CreatePlanRequest $request)
+    public function insert_records(CreateDiscountRequest $request)
     {
         // default response formate initialize
         $resp = config('response_format.RES_RESULT');
@@ -55,17 +52,18 @@ class PlanMasterController extends Controller
         }
         // Set Insert data array for pass into insert query
         $insert_data = $this->_prepareInsertData($request, [$status]);
-        $plan_obj = new plan_master();
-        $plan_result = $plan_obj->insert_data($insert_data);
 
-        if ($plan_result->exists) {
+        $discount_obj = new discount_master();
+        $discount_result = $discount_obj->insert_data($insert_data);
+
+        if ($discount_result->exists) {
             $resp['status'] = true;
             $resp['data'] = array();
-            $resp['message'] = 'Plan inserted successfully...!';
+            $resp['message'] = 'Discount inserted successfully...!';
             $request->session()->put('success', $resp['message']);
             return redirect()->back()->with('success', $resp['message']);
         } else {
-            $resp['message'] = 'Plan not inserted, Please try again...!';
+            $resp['message'] = 'Discount not inserted, Please try again...!';
             $request->session()->put('error', $resp['message']);
             return redirect()->back()->withInput()->with('error', $resp['message']);
         }
@@ -79,11 +77,20 @@ class PlanMasterController extends Controller
      */
     private function _prepareInsertData($request = "", $additional = array())
     {
-        $preArr['plan_name'] = $request->input('plan_name');
-        $preArr['plan_alias'] = $request->input('plan_alias');
-        $preArr['plan_description'] = $request->input('plan_description');
-        $preArr['plan_amount'] = $request->input('plan_amount');
-        $preArr['discount_id'] = ($request->has('discount_id_select')) ? $request->input('discount_id_select') : 0;
+        $start_date = null;
+        $end_date = null;
+        if ($request->has('discount_validity')) {
+            $explodeDates = explode(" - ", $request->input('discount_validity'));
+            $start_date = date("Y-m-d", strtotime(str_replace("/", "-", $explodeDates[0])));
+            $end_date = date("Y-m-d", strtotime(str_replace("/", "-", $explodeDates[1])));
+        }
+        $preArr['discount_name'] = $request->input('discount_name');
+        $preArr['discount_description'] = $request->input('discount_description');
+        $preArr['discount_type'] = $request->input('discount_type_select');
+        $preArr['amount'] = ($request->has('discount_amount')) ? $request->input('discount_amount') : 0;
+        $preArr['is_discount_validity'] = ($request->has('discount_validity_chkbx')) ? $request->input('discount_validity_chkbx') : 0;
+        $preArr['start_date'] = $start_date;
+        $preArr['end_date'] = $end_date;
         $preArr['status'] = $additional[0];
         return $preArr;
     }
@@ -97,14 +104,14 @@ class PlanMasterController extends Controller
     public function list_view(Request $request)
     {
         if ($request->ajax()) {
-            $plan_obj = new plan_master;
-            $list = $plan_obj->list_belongsTo();
+            $discount_obj = new discount_master;
+            $list = $discount_obj->list_all();
             return DataTables::of($list)
                 ->addIndexColumn()
                 ->addColumn('action', function ($list) {
                     $button = '';
-                    $edit_button = '<a href="' . url("/admin/plan_edit/{$list['plan_id']}") . '" class="btn btn-xs btn-warning btn_edit" title="Edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
-                    $delete_button = '<a href="#delete-' . $list['plan_id'] . '" delete_id="' . $list['plan_id'] . '" class="btn btn-xs btn-danger btn_delete" title="Delete"><i class="far fa-trash-alt"></i> Delete</a>';
+                    $edit_button = '<a href="' . url("/admin/discount_edit/{$list['discount_id']}") . '" class="btn btn-xs btn-warning btn_edit" title="Edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
+                    $delete_button = '<a href="#delete-' . $list['discount_id'] . '" delete_id="' . $list['discount_id'] . '" class="btn btn-xs btn-danger btn_delete" title="Delete"><i class="far fa-trash-alt"></i> Delete</a>';
                     $button .= $edit_button;
                     $button .= $delete_button;
                     return $button;
@@ -112,38 +119,38 @@ class PlanMasterController extends Controller
                 ->addColumn('status', function ($list) {
                     $button = '';
                     if ($list['status'])
-                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-success btn_status" title="Status Change" plan_id=' . $list['plan_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-on" aria-hidden="true"></i> Active</a> &nbsp;';
+                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-success btn_status" title="Status Change" discount_id=' . $list['discount_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-on" aria-hidden="true"></i> Active</a> &nbsp;';
                     else
-                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-warning btn_status" title="Status Change" plan_id=' . $list['plan_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-off" aria-hidden="true"></i> In-Active</a>';
+                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-warning btn_status" title="Status Change" discount_id=' . $list['discount_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-off" aria-hidden="true"></i> In-Active</a>';
                     $button .= $status_button;
                     return $button;
                 })
                 ->rawColumns(['action', 'status'])
                 ->make(true);
         }
-        return view('admin.plans.list_view');
+        return view('admin.discounts.list_view');
     }
 
     /**
      * Handle routs Controller Load Edit functionality
      * @author Tejas
      * @param  Role ID
-     * @return plan_master id wise records into edit view
+     * @return discount_master id wise records into edit view
      */
-    public function get_edit_records($plan_id = null)
+    public function get_edit_records($discount_id = null)
     {
-        $plan_obj = new plan_master();
-        $plan_result = plan_master::find($plan_id);
-        return view('admin.plans.edit_view', compact(['plan_result']));
+        $discount_obj = new discount_master();
+        $discount_result = $discount_obj->getRecordById($discount_id);
+        return view('admin.discounts.edit_view', compact(['discount_result']));
     }
 
     /**
      * Handle routs Controller update functionality
      * @author Tejas
      * @param  Update_id, Name, Alias, Description, Status
-     * @return plan_master id update records accordingly
+     * @return discount_master id update records accordingly
      */
-    public function update_records(UpdatePlanRequest $request, $update_id = null)
+    public function update_records(UpdateDiscountRequest $request, $update_id = null)
     {
         // default response formate initialize
         $resp = config('response_format.RES_RESULT');
@@ -155,17 +162,17 @@ class PlanMasterController extends Controller
 
         // Set Update data array for pass into update query
         $update_data = $this->_prepareUpdateData($request, [$status]);
-        $plan_obj = new plan_master();
-        $plan_result = $plan_obj->update_records($update_data, $update_id);
+        $discount_obj = new discount_master();
+        $discount_result = $discount_obj->update_records($update_data, $update_id);
 
-        if (isset($plan_result) && $plan_result) {
+        if (isset($discount_result) && $discount_result) {
             $resp['status'] = true;
             $resp['data'] = array();
-            $resp['message'] = 'Plan Updated successfully...!';
+            $resp['message'] = 'Discount Updated successfully...!';
             $request->session()->put('success', $resp['message']);
             return redirect()->back()->with('success', $resp['message']);
         } else {
-            $resp['message'] = 'Plan not Updated, Please try again...!';
+            $resp['message'] = 'Discount not Updated, Please try again...!';
             $request->session()->put('error', $resp['message']);
             return redirect()->back()->withInput()->with('error', $resp['message']);
         }
@@ -179,11 +186,20 @@ class PlanMasterController extends Controller
      */
     private function _prepareUpdateData($request = "", $additional = array())
     {
-        $preArr['plan_name'] = $request->input('plan_name');
-        $preArr['plan_alias'] = $request->input('plan_alias');
-        $preArr['plan_description'] = $request->input('plan_description');
-        $preArr['plan_amount'] = $request->input('plan_amount');
-        $preArr['discount_id'] = ($request->has('discount_id_select')) ? $request->input('discount_id_select') : 0;
+        $start_date = null;
+        $end_date = null;
+        if ($request->has('discount_validity')) {
+            $explodeDates = explode(" - ", $request->input('discount_validity'));
+            $start_date = date("Y-m-d", strtotime(str_replace("/", "-", $explodeDates[0])));
+            $end_date = date("Y-m-d", strtotime(str_replace("/", "-", $explodeDates[1])));
+        }
+        $preArr['discount_name'] = $request->input('discount_name');
+        $preArr['discount_description'] = $request->input('discount_description');
+        $preArr['discount_type'] = $request->input('discount_type_select');
+        $preArr['amount'] = ($request->has('discount_amount')) ? $request->input('discount_amount') : 0;
+        $preArr['is_discount_validity'] = ($request->has('discount_validity_chkbx')) ? $request->input('discount_validity_chkbx') : 0;
+        $preArr['start_date'] = $start_date;
+        $preArr['end_date'] = $end_date;
         $preArr['status'] = $additional[0];
         return $preArr;
     }
@@ -197,15 +213,15 @@ class PlanMasterController extends Controller
     public function delete_all_records(DeleteBulkRequest $request)
     {   // default response formate initialize
         $resp = config('response_format.RES_RESULT');
-        $plan_obj = new plan_master();
-        $plan_result = $plan_obj->delete_bulk_records($request->input('ids'));
-        if (isset($plan_result) && $plan_result) {
+        $discount_obj = new discount_master();
+        $discount_result = $discount_obj->delete_bulk_records($request->input('ids'));
+        if (isset($discount_result) && $discount_result) {
             $resp['status'] = true;
             $resp['data'] = array();
-            $resp['message'] = 'Plans Deleted successfully...!';
+            $resp['message'] = 'Discounts Deleted successfully...!';
             $request->session()->put('success', $resp['message']);
         } else {
-            $resp['message'] = 'Plans are not Deleted, Please try again...!';
+            $resp['message'] = 'Discounts are not Deleted, Please try again...!';
             $request->session()->put('error', $resp['message']);
         }
         die(json_encode($resp));
@@ -220,14 +236,14 @@ class PlanMasterController extends Controller
     public function delete_records($delete_id)
     {   // default response formate initialize
         $resp = config('response_format.RES_RESULT');
-        $plan_obj = new plan_master();
-        $plan_result = $plan_obj->deleteRecords($delete_id);
-        if (isset($plan_result) && $plan_result) {
+        $discount_obj = new discount_master();
+        $discount_result = $discount_obj->deleteRecords($delete_id);
+        if (isset($discount_result) && $discount_result) {
             $resp['status'] = true;
             $resp['data'] = array();
-            $resp['message'] = 'Plan is Deleted successfully...!';
+            $resp['message'] = 'Discount is Deleted successfully...!';
         } else {
-            $resp['message'] = 'Plan is not Deleted, Please try again...!';
+            $resp['message'] = 'Discount is not Deleted, Please try again...!';
         }
         die(json_encode($resp));
     }
@@ -242,15 +258,15 @@ class PlanMasterController extends Controller
     public function status_change(StatusUpdateRequest $request)
     {   // default response formate initialize
         $resp = config('response_format.RES_RESULT');
-        $plan_obj = new plan_master();
-        $plan_result = $plan_obj->update_records(['status' => ($request->input('status') == 1) ? 0 : 1], $request->input('id'));
-        if (isset($plan_result) && $plan_result) {
+        $discount_obj = new discount_master();
+        $discount_result = $discount_obj->update_records(['status' => ($request->input('status') == 1) ? 0 : 1], $request->input('id'));
+        if (isset($discount_result) && $discount_result) {
             $resp['status'] = true;
             $resp['data'] = array();
             $dynamic_message = ($request->input('status') == 1) ? 'In-Activated' : 'Activated';
-            $resp['message'] = "Plan $dynamic_message successfully...!";
+            $resp['message'] = "Discount $dynamic_message successfully...!";
         } else {
-            $resp['message'] = 'Plan is not Active/In-Active, Please try again...!';
+            $resp['message'] = 'Discount is not Active/In-Active, Please try again...!';
         }
         die(json_encode($resp));
     }

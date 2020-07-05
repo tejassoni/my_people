@@ -32,15 +32,27 @@ $(document).ready(function() {
             orderable: true,
             searchable: true
         }, {
-            data: 'plan_alias',
-            name: 'plan_alias',
-            title: "Alias",
+            data: 'plan_amount',
+            name: 'plan_amount',
+            title: "Amount",
             orderable: true,
             searchable: true
         }, {
-            data: 'plan_description',
-            name: 'plan_description',
-            title: "Description",
+            data: 'discount_type',
+            name: 'discount_type',
+            title: "DiscountType",
+            orderable: true,
+            searchable: true
+        },{
+            data: 'discount_amount',
+            name: 'discount_amount',
+            title: "DiscountAmount",
+            orderable: true,
+            searchable: true
+        },{
+            data: 'final_amount',
+            name: 'final_amount',
+            title: "FinalAmount",
             orderable: true,
             searchable: true
         }, {
