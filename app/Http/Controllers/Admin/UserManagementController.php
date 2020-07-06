@@ -132,6 +132,7 @@ class UserManagementController extends Controller
             $resp['ex_file'] = $ex->getFile();
             $resp['ex_line'] = $ex->getLine();
             $resp['message'] = 'User Image not inserted, Please try again...!';
+            dd($resp);
             $request->session()->put('error', $resp['message']);
             return redirect()->back()->withInput()->with('error', $resp['message']);
         }
@@ -185,6 +186,10 @@ class UserManagementController extends Controller
         $role_result = $role_obj->list_all();
         $subscription_result = (new subscription_master())->list_all();
         $user_result = (new user_master())->find($id);
+        if (isset($user_result->user_img) && !empty($user_result->user_img)) {
+            $mime_type = $this->_base64_mime_type($user_result->user_img);
+            $user_result->user_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/users/thumbnail/thumb_' . $user_result->user_img)));
+        }
         return view('admin.users.edit_view', compact(['user_result', 'role_result', 'subscription_result']));
     }
 
@@ -206,6 +211,22 @@ class UserManagementController extends Controller
 
         // Set Update data array for pass into update query
         $update_data = $this->_prepareUpdateData($request, [$status]);
+
+        // File Upload Starts Folder Path : // root\public\uploads         
+        if ($request->hasFile('filename')) {
+            $filehandle = $this->_fileUploads($request);
+            $update_data['user_img'] = $filehandle['data']['filename'];
+            // Remove Old Uploaded Files From Folder
+            if ($filehandle['status']) {
+                $user_data = user_master::find($update_id);
+                if (isset($user_data) && !empty($user_data) && !empty($user_data->user_img)) {
+                    unlink(\public_path("uploads/users/$user_data->user_img"));
+                    unlink(\public_path("uploads/users/thumbnail/thumb_$user_data->user_img"));
+                }
+            }
+        }
+        // File Upload Ends
+
         $user_obj = new user_master();
         $user_result = $user_obj->update_records($update_data, $update_id);
 
@@ -240,6 +261,26 @@ class UserManagementController extends Controller
         $preArr['subscription_id'] = $request->input('subscription_id_select');
         $preArr['status'] = $additional[0];
         return $preArr;
+    }
+
+    /**
+     * Handle routs Controller update functionality
+     * @author Tejas
+     * @param  filename with extention OR ONLY file extention and secound param true
+     * @return mime type
+     */
+    private function _base64_mime_type($filename = "", $extention_only = false)
+    {
+        if (!$extention_only) {
+            $mime_types = config('mime_types');
+            if (in_array(strstr($filename, "."), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strstr($filename, ".")] . ";base64,";
+            }
+        } else {
+            if (in_array($filename, array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][$filename] . ";base64,";
+            }
+        }
     }
 
     /**

@@ -38,12 +38,23 @@
           <!-- /.card-header -->
           @if(!empty($user_result))
           <!-- form start -->
-          <form role="form" name="user_edit" id="user_edit" method="post" action="{{ url('admin/user_update',[$user_result->id]) }}">
+          <form role="form" name="user_edit" id="user_edit" method="post" action="{{ url('admin/user_update',[$user_result->id]) }}" enctype="multipart/form-data">
             <!-- csrf security starts -->
             @csrf
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
+              <div class="form-group custom-file mb-3">
+                <input type="file" class="custom-file-input" id="user_img" name="filename">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+                <input type="hidden" class="form-control" id="user_img_hidden" name="filename_hidden" value="{{ (is_array(old()) && !empty(old('user_img')))? old('user_img') : $user_result->user_img }}">
+                <!-- File preview Starts -->
+                <img class="file_preview mb-5 {{ (!empty($user_result->user_img))? '' : 'd-none' }}" id="img_view" src="{{ (is_array(old()) && !empty(old('user_img')))? old('user_img') : $user_result->user_img }}" height="70" width="70">
+                <button type="button" class="file_preview close float-left {{ (!empty($user_result->user_img))? '' : 'd-none' }}" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                <!-- File preview Ends -->
+              </div>
               <div class="form-group">
                 <label for="first_name"><?= ('First Name') ?></label>
                 <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter User Name" value="{{ (is_array(old()) && !empty(old('first_name')))? old('first_name') : $user_result->f_name }}" required />
