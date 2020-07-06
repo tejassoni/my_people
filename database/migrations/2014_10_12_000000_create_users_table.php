@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->integer('role_id')->nullable();
             $table->integer('subscription_id')->nullable();
+            $table->string('user_img', 255)->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

@@ -70,6 +70,24 @@ class subscription_master extends Model
 
   /*
     * author : Tejas Soni
+    * list_belongsTo - get all table : plan_master and discount master records    
+    * @param  - None        
+    * @return : array of all list records
+    */
+  public function list_belongsTo()
+  {
+    $data = self::selectRaw('`subscription_master`.`sub_id` as `sub_id`, `subscription_master`.`sub_name` AS `sub_name`, `subscription_master`.`sub_alias` AS `sub_alias`,`subscription_master`.`sub_description` AS `sub_description`, `subscription_master`.`status` AS `status`')
+      ->selectRaw('`plan_master`.`plan_id` as `plan_id`,`plan_master`.`plan_name` AS `plan_name`')
+      ->leftJoin('plan_master', 'subscription_master.plan_id', '=', 'plan_master.plan_id')
+      ->get();
+    if (!empty($data)) {
+      $data = $data->toArray();
+    }
+    return $data;
+  }
+
+  /*
+    * author : Tejas Soni
     * list_by_params - check dynamic where condition from controller table : subscription_master 
     * @param  - dynamic where conditions
     * @return : array of all list records

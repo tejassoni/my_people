@@ -52,15 +52,17 @@ class EyeBrowMasterController extends Controller
         if ($request->has('status')) {
             $status = 1;
         }
-        // File Upload Starts Folder Path : // root\public\uploads        
-        if ($request->hasFile('filename')) {
-            $filehandle = $this->_fileUploads($request);
-        }
-        // File Upload Ends
 
         // Set Insert data array for pass into insert query
         $insert_data = $this->_prepareInsertData($request, [$status]);
-        $insert_data['eye_brow_img'] = $filehandle['data']['filename'];
+
+        // File Upload Starts Folder Path : // root\public\uploads        
+        if ($request->hasFile('filename')) {
+            $filehandle = $this->_fileUploads($request);
+            $insert_data['eye_brow_img'] = $filehandle['data']['filename'];
+        }
+        // File Upload Ends
+
         $eyebrow_obj = new eyebrow_master();
         $eyebrow_result = $eyebrow_obj->insert_data($insert_data);
 

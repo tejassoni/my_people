@@ -73,8 +73,8 @@
                   @endforeach
                   @else
                   <option value="" disabled selected><?= ('No Records found..') ?>
-                    <required />
-                    @endif
+                  </option>
+                  @endif
                 </select>
               </div>
 

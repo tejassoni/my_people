@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use DataTables;
+use Image;
+use Exception;
 use App\Models\role_master;
 use App\Models\user_master;
 use Illuminate\Http\Request;
@@ -59,6 +61,13 @@ class UserManagementController extends Controller
         // Set Insert data array for pass into insert query
         $insert_data = $this->_prepareInsertData($request, [$status]);
 
+        // File Upload Starts Folder Path : // root\public\uploads        
+        if ($request->hasFile('filename')) {
+            $filehandle = $this->_fileUploads($request);
+            $insert_data['user_img'] = $filehandle['data']['filename'];
+        }
+        // File Upload Ends
+
         $user_obj = new user_master();
         $user_result = $user_obj->insert_data($insert_data);
 
@@ -94,6 +103,38 @@ class UserManagementController extends Controller
         $preArr['subscription_id'] = $request->input('subscription_id_select');
         $preArr['status'] = $additional[0];
         return $preArr;
+    }
+
+    /**
+     * _fileUploads : Complete Fileupload Handling
+     * @author Tejas
+     * @param  Request $request
+     * @return File save
+     */
+    private function _fileUploads($request = "")
+    {
+        try {
+            $fileNameOnly = basename($request->file('filename')->getClientOriginalName(), '.' . $request->file('filename')->getClientOriginalExtension());
+            $fileFullName = $fileNameOnly . "_" . date('dmY') . "_" . time() . "." . $request->file('filename')->getClientOriginalExtension();
+            $request->file('filename')->move(public_path('uploads/users'), $fileFullName);
+            // Thumbnail Image
+            Image::make(public_path("uploads/users/$fileFullName"))->resize(300, 200)->save(public_path("uploads/users/thumbnail/thumb_$fileFullName"));
+            $resp['status'] = true;
+            $resp['data'] = array('filename' => $fileFullName, 'thumbnail' => "thumb_$fileFullName");
+            $resp['message'] = "File uploaded successfully..!";
+            return $resp;
+        } catch (Exception $ex) {
+            $resp['status'] = false;
+            $resp['data'] = array('filename' => "", 'thumbnail' => "");
+            $resp['message'] = $ex->getMessage();
+            $resp['ex_message'] = $ex->getMessage();
+            $resp['ex_code'] = $ex->getCode();
+            $resp['ex_file'] = $ex->getFile();
+            $resp['ex_line'] = $ex->getLine();
+            $resp['message'] = 'User Image not inserted, Please try again...!';
+            $request->session()->put('error', $resp['message']);
+            return redirect()->back()->withInput()->with('error', $resp['message']);
+        }
     }
 
     /**

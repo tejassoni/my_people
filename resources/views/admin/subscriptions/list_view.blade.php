@@ -43,6 +43,7 @@
                 <th><?= ('Name') ?></th>
                 <th><?= ('Alias') ?></th>
                 <th><?= ('Description') ?></th>
+                <th><?= ('Plan') ?></th>
                 <th><?= ('Status') ?></th>
                 <th><?= ('Action') ?></th>
               </tr>

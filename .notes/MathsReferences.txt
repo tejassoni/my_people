@@ -1,0 +1,11 @@
+
+Quick Tutorial on jQuery sample code References - Author: Tejas Soni
+
+- Purpose: To provide other developers information on how to develop and run jQuery functions processes
+
+- Creating a command line process class.
+
+Reference  : *
+
+1. https://www.omnicalculator.com/
+

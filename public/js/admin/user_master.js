@@ -1,4 +1,30 @@
 $(document).ready(function() {
+
+    /* File Upload Starts  */
+    $("#user_img").on("change", function() {
+        // Add the following code if you want the name of the file appear on select
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        // File Reader Convert into Base64 and Preview file 
+        if (this.files && this.files[0]) {
+            var FR = new FileReader();
+            FR.addEventListener("load", function(e) {
+                document.getElementById("img_view").src = e.target.result;
+                // document.getElementById("b64").innerHTML = e.target.result;
+            });
+            FR.readAsDataURL(this.files[0]);
+            $(".file_preview").removeClass('d-none');
+        }
+    });
+
+    // Remove file from upload text
+    $(".close").on("click", function() {
+        $(".custom-file-label").html("Choose file");
+        document.getElementById("img_view").src = "#";
+        $(".file_preview").addClass('d-none');
+    });
+    /* File Upload Ends  */
+
     // Datatables Operation Starts
     $("#user_list_table").DataTable({
         processing: true,

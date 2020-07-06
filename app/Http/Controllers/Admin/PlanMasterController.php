@@ -134,7 +134,9 @@ class PlanMasterController extends Controller
     {
         $plan_obj = new plan_master();
         $plan_result = plan_master::find($plan_id);
-        return view('admin.plans.edit_view', compact(['plan_result']));
+        $discount_obj = new discount_master();
+        $discount_result = $discount_obj->list_all();
+        return view('admin.plans.edit_view', compact(['plan_result', 'discount_result']));
     }
 
     /**

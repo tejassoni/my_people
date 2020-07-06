@@ -52,15 +52,16 @@ class EarMasterController extends Controller
         if ($request->has('status')) {
             $status = 1;
         }
+        // Set Insert data array for pass into insert query
+        $insert_data = $this->_prepareInsertData($request, [$status]);
+
         // File Upload Starts Folder Path : // root\public\uploads        
         if ($request->hasFile('filename')) {
             $filehandle = $this->_fileUploads($request);
+            $insert_data['ear_img'] = $filehandle['data']['filename'];
         }
         // File Upload Ends
 
-        // Set Insert data array for pass into insert query
-        $insert_data = $this->_prepareInsertData($request, [$status]);
-        $insert_data['ear_img'] = $filehandle['data']['filename'];
         $ear_obj = new ear_master();
         $ear_result = $ear_obj->insert_data($insert_data);
 

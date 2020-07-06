@@ -56,6 +56,26 @@
                 <label for="plan_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="plan_description" id="plan_description" rows="3" placeholder="Enter Plan Description" required>{{ (is_array(old()) && !empty(old('plan_description')))? old('plan_description') : $plan_result->plan_description }}</textarea>
               </div>
+
+              <div class="form-group">
+                <label for="plan_amount"><?= ('Amount') ?></label>
+                <input type="number" class="form-control" min="0" name="plan_amount" id="plan_amount" placeholder="Enter Plan Amount" value="{{ (is_array(old()) && !empty(old('plan_amount')))? old('plan_amount') : $plan_result->plan_amount }}" required />
+              </div>
+
+              <div class="form-group w-120">
+                <label><?= ('Select Discount') ?></label>
+                <select class="form-control" name="discount_id_select" id="discount_id_select">
+                  @if(isset($discount_result) && is_array($discount_result) && !empty($discount_result))
+                  <option value="" disabled><?= ('Select Discount') ?></option>
+                  @foreach ($discount_result as $discount_key => $discount_val)
+                  <option value="{{ $discount_val['discount_id'] }}" {{ (is_array(old()) && !empty(old('discount_id_select')) && old('discount_id_select') == $discount_val['discount_id'])? 'selected' : (isset($plan_result->discount_id) && !empty($plan_result->discount_id) && $plan_result->discount_id == $discount_val['discount_id']) ? 'selected' : '' }}>{{ ucwords($discount_val['discount_name']) .' - '.ucwords($discount_val['discount_type']).' - '.$discount_val['amount'] }}</option>
+                  @endforeach
+                  @else
+                  <option value="" disabled selected><?= ('No Records found..') ?>
+                  </option>
+                  @endif
+                </select>
+              </div>
               <div class="form-group">
                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                   <input type="checkbox" class="custom-control-input" name="status" id="status" @if(is_array(old()) && old('status')=='on' ) checked @elseif((is_array(old()) && empty(old())) && $plan_result->status)

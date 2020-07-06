@@ -70,7 +70,7 @@ class plan_master extends Model
 
   /*
     * author : Tejas Soni
-    * list_all - get all table : plan_master and discount master records    
+    * list_belongsTo - get all table : plan_master and discount master records    
     * @param  - None        
     * @return : array of all list records
     */
@@ -78,7 +78,7 @@ class plan_master extends Model
   {
     $data = self::selectRaw('`plan_master`.`plan_id` as `plan_id`, `plan_master`.`plan_name` AS `plan_name`, `plan_master`.`plan_amount` AS `plan_amount`, `plan_master`.`status` AS `status`')
       ->selectRaw('`discount_master`.`discount_id` as `discount_id`,`discount_master`.`discount_type` AS `discount_type`,`discount_master`.`amount` AS `discount_amount`')
-      ->selectRaw('(CASE WHEN discount_master.discount_type = "fixed" THEN "fixed" WHEN discount_master.discount_type = "percentage" THEN "percentage" ELSE "" END) AS `final_amount`')
+      ->selectRaw('(CASE WHEN discount_master.discount_type = "fixed" THEN (`plan_master`.`plan_amount` - `discount_master`.`amount`) WHEN discount_master.discount_type = "percentage" THEN `plan_master`.`plan_amount` - CONCAT(ROUND((`plan_master`.`plan_amount`  * `discount_master`.`amount`  / 100),2)," % ") ELSE "" END) AS `final_amount`')
       ->leftJoin('discount_master', 'plan_master.discount_id', '=', 'discount_master.discount_id')
       ->get();
     if (!empty($data)) {

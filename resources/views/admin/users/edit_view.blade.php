@@ -78,8 +78,8 @@
                   @endforeach
                   @else
                   <option value="" disabled selected><?= ('No Records found..') ?>
-                    <required />
-                    @endif
+                  </option>
+                  @endif
                 </select>
               </div>
               <div class="form-group w-120">
@@ -92,8 +92,8 @@
                   @endforeach
                   @else
                   <option value="" disabled selected><?= ('No Records found..') ?>
-                    <required />
-                    @endif
+                  </option>
+                  @endif
                 </select>
               </div>
 

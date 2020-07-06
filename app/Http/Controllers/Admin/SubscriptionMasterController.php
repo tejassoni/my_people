@@ -98,7 +98,7 @@ class SubscriptionMasterController extends Controller
     {
         if ($request->ajax()) {
             $sub_obj = new subscription_master;
-            $list = $sub_obj->list_all();
+            $list = $sub_obj->list_belongsTo();
 
             return DataTables::of($list)
                 ->addIndexColumn()
