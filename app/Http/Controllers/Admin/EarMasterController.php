@@ -234,7 +234,7 @@ class EarMasterController extends Controller
     private function _fileUploads($request = "")
     {
         try {
-            $fileNameOnly = basename($request->file('filename')->getClientOriginalName(), '.' . $request->file('filename')->getClientOriginalExtension());
+            $fileNameOnly = preg_replace("/[^a-z0-9\_\-]/i", '', basename($request->file('filename')->getClientOriginalName(), '.' . $request->file('filename')->getClientOriginalExtension()));
             $fileFullName = $fileNameOnly . "_" . date('dmY') . "_" . time() . "." . $request->file('filename')->getClientOriginalExtension();
             $request->file('filename')->move(public_path('uploads/ears'), $fileFullName);
             // Thumbnail Image

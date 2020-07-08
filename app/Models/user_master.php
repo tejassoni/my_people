@@ -76,7 +76,7 @@ class user_master extends Model
     */
   public function list_all_join()
   {
-    $data = self::selectRaw('`user_master`.`id` as `user_id`, CONCAT(`user_master`.`f_name`, " ", `user_master`.`l_name`) AS `full_name`, `user_master`.`address` AS `address`, `user_master`.`email` AS `email`, `user_master`.`mobile` AS `mobile`,`user_master`.`status` AS `status`')
+    $data = self::selectRaw('`user_master`.`id` as `user_id`, CONCAT(`user_master`.`f_name`, " ", `user_master`.`l_name`) AS `full_name`, `user_master`.`address` AS `address`, `user_master`.`email` AS `email`, `user_master`.`mobile` AS `mobile`,`user_master`.`user_img` AS `user_img`,`user_master`.`status` AS `status`')
       ->selectRaw('`role_master`.`role_id` as `role_id`,`role_master`.`role_name` as `role_name`')
       ->selectRaw('`subscription_master`.`sub_id` as `sub_id`,`subscription_master`.`sub_name` as `sub_name`')
       ->leftJoin('role_master', 'user_master.role_id', '=', 'role_master.role_id')

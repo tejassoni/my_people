@@ -41,6 +41,7 @@
                   <input type="checkbox" name="select_all_chkbox" class="select_all_chkbox" value="0" id="select_all_chkbox">
                 </th>
                 <th><?= ('Name') ?></th>
+                <th><?= ('Image') ?></th>
                 <th><?= ('Mobile') ?></th>
                 <th><?= ('Email') ?></th>
                 <th><?= ('Role') ?></th>

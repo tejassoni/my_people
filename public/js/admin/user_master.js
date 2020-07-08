@@ -69,6 +69,13 @@ $(document).ready(function() {
                 searchable: true
             },
             {
+                data: "user_img",
+                name: "user_img",
+                title: "Image",
+                orderable: false,
+                searchable: false
+            },
+            {
                 data: "mobile",
                 name: "mobile",
                 title: "Mobile",

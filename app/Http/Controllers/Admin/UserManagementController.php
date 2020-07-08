@@ -114,7 +114,8 @@ class UserManagementController extends Controller
     private function _fileUploads($request = "")
     {
         try {
-            $fileNameOnly = basename($request->file('filename')->getClientOriginalName(), '.' . $request->file('filename')->getClientOriginalExtension());
+
+            $fileNameOnly = preg_replace("/[^a-z0-9\_\-]/i", '', basename($request->file('filename')->getClientOriginalName(), '.' . $request->file('filename')->getClientOriginalExtension()));
             $fileFullName = $fileNameOnly . "_" . date('dmY') . "_" . time() . "." . $request->file('filename')->getClientOriginalExtension();
             $request->file('filename')->move(public_path('uploads/users'), $fileFullName);
             // Thumbnail Image
@@ -132,7 +133,6 @@ class UserManagementController extends Controller
             $resp['ex_file'] = $ex->getFile();
             $resp['ex_line'] = $ex->getLine();
             $resp['message'] = 'User Image not inserted, Please try again...!';
-            dd($resp);
             $request->session()->put('error', $resp['message']);
             return redirect()->back()->withInput()->with('error', $resp['message']);
         }
@@ -149,6 +149,7 @@ class UserManagementController extends Controller
         if ($request->ajax()) {
             $user_obj = new user_master;
             $list = $user_obj->list_all_join();
+
             return DataTables::of($list)
                 ->addIndexColumn()
                 ->addColumn('action', function ($list) {
@@ -159,6 +160,10 @@ class UserManagementController extends Controller
                     $button .= $delete_button;
                     return $button;
                 })
+                ->addColumn('user_img', function ($list) {
+                    if (!empty($list['user_img']))
+                        return '<img src="' . url('uploads/users/thumbnail/thumb_' . $list['user_img']) . '" title="Image" height="50" width="50"/>';
+                })
                 ->addColumn('status', function ($list) {
                     $button = '';
                     if ($list['status'])
@@ -168,7 +173,7 @@ class UserManagementController extends Controller
                     $button .= $status_button;
                     return $button;
                 })
-                ->rawColumns(['action', 'status'])
+                ->rawColumns(['action', 'status', 'user_img'])
                 ->make(true);
         }
         return view('admin.users.list_view');
@@ -188,6 +193,7 @@ class UserManagementController extends Controller
         $user_result = (new user_master())->find($id);
         if (isset($user_result->user_img) && !empty($user_result->user_img)) {
             $mime_type = $this->_base64_mime_type($user_result->user_img);
+            // dd($mime_type, $user_result->user_img);
             $user_result->user_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/users/thumbnail/thumb_' . $user_result->user_img)));
         }
         return view('admin.users.edit_view', compact(['user_result', 'role_result', 'subscription_result']));

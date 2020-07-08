@@ -1,0 +1,10 @@
+
+Quick Tutorial on Websites sample References - Author: Tejas Soni
+
+- Purpose: To provide other developers information on useful websites for programming
+
+Reference  : *
+
+1. https://www.omnicalculator.com/   [For Maths Graph , Charts, Mysql formula]
+2) https://regexr.com/    [For Regular expression output hint]
+
