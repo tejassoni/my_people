@@ -44,15 +44,15 @@
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="eye_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="eye_name" id="eye_name" placeholder="Enter Eye Name" value="{{ (is_array(old()) && !empty(old('eye_name')))? old('eye_name') : $eye_result->eye_name }}">
+                <input type="text" class="form-control" name="eye_name" id="eye_name" placeholder="Enter Eye Name" value="{{ (is_array(old()) && !empty(old('eye_name')))? old('eye_name') : $eye_result->eye_name }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="eye_color"><?= ('Color') ?></label>
-                <input type="text" class="form-control" name="eye_color" id="eye_color" placeholder="Select Eye Color" value="{{ (is_array(old()) && !empty(old('eye_color')))? old('eye_color') : $eye_result->eye_color }}" />
+                <input type="text" class="form-control" name="eye_color" id="eye_color" placeholder="Select Eye Color" value="{{ (is_array(old()) && !empty(old('eye_color')))? old('eye_color') : $eye_result->eye_color }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="eye_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="eye_description" id="eye_description" rows="3" placeholder="Enter Eye Description" required>{{ (is_array(old()) && !empty(old('eye_description')))? old('eye_description') : $eye_result->eye_description }}</textarea>
               </div>

@@ -48,18 +48,18 @@
             @method('PUT')
             <div class="card-body">
               <div class="card-body">
-                <div class="form-group">
+                <div class="form-group required">
                   <label for="discount_name"><?= ('Name') ?></label>
                   <input type="text" class="form-control" name="discount_name" id="discount_name" placeholder="Enter Discount Name" value="{{ (is_array(old()) && !empty(old('discount_name')))? old('discount_name') : $discount_result->discount_name }}" required />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group required">
                   <label for="discount_description"><?= ('Description') ?></label>
                   <textarea class="form-control" name="discount_description" id="discount_description" rows="3" placeholder="Enter Discount Description" required>{{ (is_array(old()) && !empty(old('discount_description')))? old('discount_description') : $discount_result->discount_description }}</textarea>
                 </div>
-                <div class="form-group w-120">
+                <div class="form-group w-120 required">
                   <label><?= ('Select Discount Type') ?></label>
-                  <select class="form-control" name="discount_type_select" id="discount_type_select">
+                  <select class="form-control" name="discount_type_select" id="discount_type_select" required>
                     <option value="" disabled><?= ('Select Discount Type') ?></option>
                     <option value="none" {{ (is_array(old()) && old('discount_type_select') == 'none') ? 'selected' : (isset($discount_result->discount_type) && !empty($discount_result->discount_type) && $discount_result->discount_type == "none")? "selected" : "" }}><?= ('None') ?></option>
                     <option value="fixed" {{ (is_array(old()) && old('discount_type_select') == 'fixed') ? 'selected' :(isset($discount_result->discount_type) && !empty($discount_result->discount_type) && $discount_result->discount_type == "fixed")? "selected" : "" }}><?= ('Fixed / Flat') ?></option>

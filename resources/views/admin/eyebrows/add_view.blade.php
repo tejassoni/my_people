@@ -45,16 +45,16 @@
             @csrf
             <!-- csrf security ends -->
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="eye_brow_name"><?= ('Name') ?></label>
                 <input type="text" class="form-control" name="eye_brow_name" id="eye_brow_name" placeholder="Enter Eyebrow Name" value="{{ old('eye_brow_name') }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="eye_brow_color"><?= ('Color') ?></label>
                 <input type="text" class="form-control" name="eye_brow_color" id="eye_brow_color" placeholder="Select Eyebrow Color" value="{{ old('eye_brow_color') }}" required />
               </div>
 
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="eye_brow_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="eye_brow_description" id="eye_brow_description" rows="3" placeholder="Enter Eyebrow Description" required>{{ old('eye_brow_description') }}</textarea>
               </div>

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use DataTables;
 use Image;
 use Exception;
+use DataTables;
 use App\Models\role_master;
 use App\Models\user_master;
 use Illuminate\Http\Request;
@@ -12,8 +12,10 @@ use App\Models\subscription_master;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\DeleteBulkRequest;
-use App\Http\Requests\StatusUpdateRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\StatusUpdateRequest;
+use App\Http\Requests\UpdatePasswordRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UserManagementController extends Controller
 {
@@ -37,8 +39,8 @@ class UserManagementController extends Controller
     public function add_view()
     {
         $role_obj = new role_master();
-        $role_result = $role_obj->list_all();
-        $subscription_result = (new subscription_master())->list_all();
+        $role_result = $role_obj->list_active_all();
+        $subscription_result = (new subscription_master())->list_active_all();
         return view('admin.users.add_view', compact(['role_result', 'subscription_result']));
     }
 
@@ -98,7 +100,7 @@ class UserManagementController extends Controller
         $preArr['address'] = $request->input('user_address');
         $preArr['mobile'] = $request->input('mobile');
         $preArr['email'] = $request->input('email');
-        $preArr['password'] = $request->input('password');
+        $preArr['password'] = Hash::make($request->input('password'));
         $preArr['role_id'] = $request->input('role_id_select');
         $preArr['subscription_id'] = $request->input('subscription_id_select');
         $preArr['status'] = $additional[0];
@@ -188,8 +190,8 @@ class UserManagementController extends Controller
     public function get_edit_records($id = null)
     {
         $role_obj = new role_master();
-        $role_result = $role_obj->list_all();
-        $subscription_result = (new subscription_master())->list_all();
+        $role_result = $role_obj->list_active_all();
+        $subscription_result = (new subscription_master())->list_active_all();
         $user_result = (new user_master())->find($id);
         if (isset($user_result->user_img) && !empty($user_result->user_img)) {
             $mime_type = $this->_base64_mime_type($user_result->user_img);
@@ -354,5 +356,54 @@ class UserManagementController extends Controller
             $resp['message'] = 'User is not Active/In-Active, Please try again...!';
         }
         die(json_encode($resp));
+    }
+
+    /**
+     * Handle routs Controller load view request
+     * @author Tejas
+     * @param  none
+     * @return user/view/password_edit_view.blade.php
+     */
+    public function change_password_view($id = null)
+    {
+        $user_result = [];
+        if (!empty($id))
+            $user_result = (new user_master())->find($id);
+
+        return view('admin.users.password_edit_view', compact(['user_result']));
+    }
+
+    /**
+     * Handle routs Controller update functionality
+     * @author Tejas
+     * @param  Update_id, Current Pwd, New Pwd, Confirm Pwd
+     * @return user_master id update password accordingly
+     */
+    public function update_password(UpdatePasswordRequest $request, $update_id = null)
+    {
+        // default response formate initialize
+        $resp = config('response_format.RES_RESULT');
+        // set ternary status as per database schema
+        $status = 0;
+        if ($request->has('status')) {
+            $status = 1;
+        }
+
+        // Set Update data array for pass into update query
+        $update_data['password'] = Hash::make($request->input('new_password'));
+        $user_obj = new user_master();
+        $user_result = $user_obj->update_records($update_data, $update_id);
+
+        if (isset($user_result) && $user_result) {
+            $resp['status'] = true;
+            $resp['data'] = array();
+            $resp['message'] = 'Password Updated successfully...!';
+            $request->session()->put('success', $resp['message']);
+            return redirect()->back()->with('success', $resp['message']);
+        } else {
+            $resp['message'] = 'Password not Updated, Please try again...!';
+            $request->session()->put('error', $resp['message']);
+            return redirect()->back()->withInput()->with('error', $resp['message']);
+        }
     }
 }

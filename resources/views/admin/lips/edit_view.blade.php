@@ -44,15 +44,15 @@
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="lip_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="lip_name" id="lip_name" placeholder="Enter Lip Name" value="{{ (is_array(old()) && !empty(old('lip_name')))? old('lip_name') : $lip_result->lip_name }}">
+                <input type="text" class="form-control" name="lip_name" id="lip_name" placeholder="Enter Lip Name" value="{{ (is_array(old()) && !empty(old('lip_name')))? old('lip_name') : $lip_result->lip_name }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="lip_color"><?= ('Color') ?></label>
-                <input type="text" class="form-control" name="lip_color" id="lip_color" placeholder="Select Lip Color" value="{{ (is_array(old()) && !empty(old('lip_color')))? old('lip_color') : $lip_result->lip_color }}" />
+                <input type="text" class="form-control" name="lip_color" id="lip_color" placeholder="Select Lip Color" value="{{ (is_array(old()) && !empty(old('lip_color')))? old('lip_color') : $lip_result->lip_color }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="lip_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="lip_description" id="lip_description" rows="3" placeholder="Enter Lip Description" required>{{ (is_array(old()) && !empty(old('lip_description')))? old('lip_description') : $lip_result->lip_description }}</textarea>
               </div>

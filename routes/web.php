@@ -35,6 +35,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function ()
     Route::get('/user_delete/{id?}', 'Admin\UserManagementController@delete_records');
     Route::post('/delete_users', 'Admin\UserManagementController@delete_all_records');
     Route::post('/user_status', 'Admin\UserManagementController@status_change');
+    Route::get('/change_password/{id?}', 'Admin\UserManagementController@change_password_view');
+    Route::put('/password_update/{id?}', 'Admin\UserManagementController@update_password');
     /* User Management Module Ends here...! */
 
     /* Role Master Module Starts here...! */

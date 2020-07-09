@@ -45,16 +45,16 @@
             @csrf
             <!-- csrf security ends -->
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="hair_style_name"><?= ('Name') ?></label>
                 <input type="text" class="form-control" name="hair_style_name" id="hair_style_name" placeholder="Enter Hair Name" value="{{ old('hair_style_name') }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="hair_color"><?= ('Color') ?></label>
                 <input type="text" class="form-control" name="hair_color" id="hair_color" placeholder="Select Hair Color" value="{{ old('hair_color') }}" required />
               </div>
 
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="hair_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="hair_description" id="hair_description" rows="3" placeholder="Enter Hair Description" required>{{ old('hair_description') }}</textarea>
               </div>

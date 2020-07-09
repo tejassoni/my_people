@@ -5,6 +5,8 @@ Quick Tutorial on Websites sample References - Author: Tejas Soni
 
 Reference  : *
 
-1. https://www.omnicalculator.com/   [For Maths Graph , Charts, Mysql formula]
+1) https://www.omnicalculator.com/   [For Maths Graph , Charts, Mysql formula]
 2) https://regexr.com/    [For Regular expression output hint]
+3) https://www.itsolutionstuff.com/post/laravel-change-password-with-current-password-validation-exampleexample.html    [For Password update rules]
+
 

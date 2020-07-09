@@ -44,21 +44,21 @@
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="sub_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="sub_name" id="sub_name" placeholder="Enter Subscription Name" value="{{ (is_array(old()) && !empty(old('sub_name')))? old('sub_name') : $subscription_result->sub_name }}" required>
+                <input type="text" class="form-control" name="sub_name" id="sub_name" placeholder="Enter Subscription Name" value="{{ (is_array(old()) && !empty(old('sub_name')))? old('sub_name') : $subscription_result->sub_name }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="sub_alias"><?= ('Alias') ?></label>
-                <input type="text" class="form-control" name="sub_alias" id="sub_alias" placeholder="Enter Subscription Alias" value="{{ (is_array(old()) && !empty(old('sub_alias')))? old('sub_alias') : $subscription_result->sub_alias }}" maxlength="10" required>
+                <input type="text" class="form-control" name="sub_alias" id="sub_alias" placeholder="Enter Subscription Alias" value="{{ (is_array(old()) && !empty(old('sub_alias')))? old('sub_alias') : $subscription_result->sub_alias }}" maxlength="10" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="sub_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="sub_description" id="sub_description" rows="3" placeholder="Enter Subscription Description" required>{{ (is_array(old()) && !empty(old('sub_description')))? old('sub_description') : $subscription_result->sub_description }}</textarea>
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label><?= ('Select Plan') ?></label>
-                <select class="form-control" name="plan_id_select" id="plan_id_select">
+                <select class="form-control" name="plan_id_select" id="plan_id_select" required>
                   @if(isset($plan_result) && is_array($plan_result) && !empty($plan_result))
                   <option value="" disabled><?= ('Select Plan') ?></option>
                   @foreach ($plan_result as $plan_key => $plan_val)

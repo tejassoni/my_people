@@ -44,15 +44,15 @@
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="ear_name">Name</label>
                 <input type="text" class="form-control" name="ear_name" id="ear_name" placeholder="Enter Ear Name" value="{{ (is_array(old()) && !empty(old('ear_name')))? old('ear_name') : $ear_result->ear_name }}">
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="ear_color"><?= ('Color') ?></label>
                 <input type="text" class="form-control" name="ear_color" id="ear_color" placeholder="Select Ear Color" value="{{ (is_array(old()) && !empty(old('ear_color')))? old('ear_color') : $ear_result->ear_color }}" />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="ear_description">Description</label>
                 <textarea class="form-control" name="ear_description" id="ear_description" rows="3" placeholder="Enter Ear Description" required>{{ (is_array(old()) && !empty(old('ear_description')))? old('ear_description') : $ear_result->ear_description }}</textarea>
               </div>

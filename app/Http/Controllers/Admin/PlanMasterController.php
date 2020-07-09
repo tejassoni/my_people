@@ -34,7 +34,7 @@ class PlanMasterController extends Controller
     public function add_view()
     {
         $discount_obj = new discount_master();
-        $discount_result = $discount_obj->list_all();
+        $discount_result = $discount_obj->list_active_all();
         return view('admin.plans.add_view', compact('discount_result'));
     }
 
@@ -135,7 +135,7 @@ class PlanMasterController extends Controller
         $plan_obj = new plan_master();
         $plan_result = plan_master::find($plan_id);
         $discount_obj = new discount_master();
-        $discount_result = $discount_obj->list_all();
+        $discount_result = $discount_obj->list_active_all();
         return view('admin.plans.edit_view', compact(['plan_result', 'discount_result']));
     }
 

@@ -45,16 +45,16 @@
             @csrf
             <!-- csrf security ends -->
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="lip_name"><?= ('Name') ?></label>
                 <input type="text" class="form-control" name="lip_name" id="lip_name" placeholder="Enter Lip Name" value="{{ old('lip_name') }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="lip_color"><?= ('Color') ?></label>
                 <input type="text" class="form-control" name="lip_color" id="lip_color" placeholder="Select Lip Color" value="{{ old('lip_color') }}" required />
               </div>
 
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="lip_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="lip_description" id="lip_description" rows="3" placeholder="Enter Lip Description" required>{{ old('lip_description') }}</textarea>
               </div>

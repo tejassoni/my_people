@@ -45,15 +45,15 @@
             @csrf
             <!-- csrf security ends -->
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="role_name"><?= ('Name') ?></label>
                 <input type="text" class="form-control" name="role_name" id="role_name" placeholder="Enter Role Name" value="{{ old('role_name') }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="role_alias"><?= ('Alias') ?></label>
                 <input type="text" class="form-control" name="role_alias" id="role_alias" placeholder="Enter Role Alias" value="{{ old('role_alias') }}" maxlength="10" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="role_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="role_description" id="role_description" rows="3" placeholder="Enter Role Description" required>{{ old('role_description') }}</textarea>
               </div>

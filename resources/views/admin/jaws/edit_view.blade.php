@@ -44,15 +44,15 @@
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="jaw_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="jaw_name" id="jaw_name" placeholder="Enter Jaw Name" value="{{ (is_array(old()) && !empty(old('jaw_name')))? old('jaw_name') : $jaw_result->jaw_name }}">
+                <input type="text" class="form-control" name="jaw_name" id="jaw_name" placeholder="Enter Jaw Name" value="{{ (is_array(old()) && !empty(old('jaw_name')))? old('jaw_name') : $jaw_result->jaw_name }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="jaw_color"><?= ('Color') ?></label>
-                <input type="text" class="form-control" name="jaw_color" id="jaw_color" placeholder="Select Jaw Color" value="{{ (is_array(old()) && !empty(old('jaw_color')))? old('jaw_color') : $jaw_result->jaw_color }}" />
+                <input type="text" class="form-control" name="jaw_color" id="jaw_color" placeholder="Select Jaw Color" value="{{ (is_array(old()) && !empty(old('jaw_color')))? old('jaw_color') : $jaw_result->jaw_color }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="jaw_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="jaw_description" id="jaw_description" rows="3" placeholder="Enter Jaw Description" required>{{ (is_array(old()) && !empty(old('jaw_description')))? old('jaw_description') : $jaw_result->jaw_description }}</textarea>
               </div>

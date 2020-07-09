@@ -44,20 +44,20 @@
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="plan_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="plan_name" id="plan_name" placeholder="Enter Plan Name" value="{{ (is_array(old()) && !empty(old('plan_name')))? old('plan_name') : $plan_result->plan_name }}" required>
+                <input type="text" class="form-control" name="plan_name" id="plan_name" placeholder="Enter Plan Name" value="{{ (is_array(old()) && !empty(old('plan_name')))? old('plan_name') : $plan_result->plan_name }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="plan_alias"><?= ('Alias') ?></label>
-                <input type="text" class="form-control" name="plan_alias" id="plan_alias" placeholder="Enter Plan Alias" value="{{ (is_array(old()) && !empty(old('plan_alias')))? old('plan_alias') : $plan_result->plan_alias }}" maxlength="10" required>
+                <input type="text" class="form-control" name="plan_alias" id="plan_alias" placeholder="Enter Plan Alias" value="{{ (is_array(old()) && !empty(old('plan_alias')))? old('plan_alias') : $plan_result->plan_alias }}" maxlength="10" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="plan_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="plan_description" id="plan_description" rows="3" placeholder="Enter Plan Description" required>{{ (is_array(old()) && !empty(old('plan_description')))? old('plan_description') : $plan_result->plan_description }}</textarea>
               </div>
 
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="plan_amount"><?= ('Amount') ?></label>
                 <input type="number" class="form-control" min="0" name="plan_amount" id="plan_amount" placeholder="Enter Plan Amount" value="{{ (is_array(old()) && !empty(old('plan_amount')))? old('plan_amount') : $plan_result->plan_amount }}" required />
               </div>

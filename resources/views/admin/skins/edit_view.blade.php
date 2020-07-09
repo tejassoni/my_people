@@ -44,15 +44,15 @@
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="skin_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="skin_name" id="skin_name" placeholder="Enter Skin Name" value="{{ (is_array(old()) && !empty(old('skin_name')))? old('skin_name') : $skin_result->skin_name }}">
+                <input type="text" class="form-control" name="skin_name" id="skin_name" placeholder="Enter Skin Name" value="{{ (is_array(old()) && !empty(old('skin_name')))? old('skin_name') : $skin_result->skin_name }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="skin_color"><?= ('Color') ?></label>
-                <input type="text" class="form-control" name="skin_color" id="skin_color" placeholder="Select Skin Color" value="{{ (is_array(old()) && !empty(old('skin_color')))? old('skin_color') : $skin_result->skin_color }}" />
+                <input type="text" class="form-control" name="skin_color" id="skin_color" placeholder="Select Skin Color" value="{{ (is_array(old()) && !empty(old('skin_color')))? old('skin_color') : $skin_result->skin_color }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="skin_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="skin_description" id="skin_description" rows="3" placeholder="Enter Skin Description" required>{{ (is_array(old()) && !empty(old('skin_description')))? old('skin_description') : $skin_result->skin_description }}</textarea>
               </div>

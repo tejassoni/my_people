@@ -44,15 +44,15 @@
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="role_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="role_name" id="role_name" placeholder="Enter Role Name" value="{{ (is_array(old()) && !empty(old('role_name')))? old('role_name') : $role_result->role_name }}" required>
+                <input type="text" class="form-control" name="role_name" id="role_name" placeholder="Enter Role Name" value="{{ (is_array(old()) && !empty(old('role_name')))? old('role_name') : $role_result->role_name }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="role_alias"><?= ('Alias') ?></label>
-                <input type="text" class="form-control" name="role_alias" id="role_alias" placeholder="Enter Role Alias" value="{{ (is_array(old()) && !empty(old('role_alias')))? old('role_alias') : $role_result->role_alias }}" maxlength="10" required>
+                <input type="text" class="form-control" name="role_alias" id="role_alias" placeholder="Enter Role Alias" value="{{ (is_array(old()) && !empty(old('role_alias')))? old('role_alias') : $role_result->role_alias }}" maxlength="10" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="role_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="role_description" id="role_description" rows="3" placeholder="Enter Role Description" required>{{ (is_array(old()) && !empty(old('role_description')))? old('role_description') : $role_result->role_description }}</textarea>
               </div>

@@ -44,15 +44,15 @@
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="nose_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="nose_name" id="nose_name" placeholder="Enter Nose Name" value="{{ (is_array(old()) && !empty(old('nose_name')))? old('nose_name') : $nose_result->nose_name }}">
+                <input type="text" class="form-control" name="nose_name" id="nose_name" placeholder="Enter Nose Name" value="{{ (is_array(old()) && !empty(old('nose_name')))? old('nose_name') : $nose_result->nose_name }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="nose_color"><?= ('Color') ?></label>
-                <input type="text" class="form-control" name="nose_color" id="nose_color" placeholder="Select Nose Color" value="{{ (is_array(old()) && !empty(old('nose_color')))? old('nose_color') : $nose_result->nose_color }}" />
+                <input type="text" class="form-control" name="nose_color" id="nose_color" placeholder="Select Nose Color" value="{{ (is_array(old()) && !empty(old('nose_color')))? old('nose_color') : $nose_result->nose_color }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="nose_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="nose_description" id="nose_description" rows="3" placeholder="Enter Nose Description" required>{{ (is_array(old()) && !empty(old('nose_description')))? old('nose_description') : $nose_result->nose_description }}</textarea>
               </div>

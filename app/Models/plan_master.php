@@ -70,6 +70,21 @@ class plan_master extends Model
 
   /*
     * author : Tejas Soni
+    * list_active_all - get all table : plan_master active records    
+    * @param  - None        
+    * @return : array of all active list records
+    */
+    public function list_active_all()
+    {
+      $data = self::select('*')->where('status',1)->get();
+      if (!empty($data)) {
+        $data = $data->toArray();
+      }
+      return $data;
+    }
+
+  /*
+    * author : Tejas Soni
     * list_belongsTo - get all table : plan_master and discount master records    
     * @param  - None        
     * @return : array of all list records

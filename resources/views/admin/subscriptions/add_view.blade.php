@@ -45,21 +45,21 @@
             @csrf
             <!-- csrf security ends -->
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="sub_name"><?= ('Name') ?></label>
                 <input type="text" class="form-control" name="sub_name" id="sub_name" placeholder="Enter Subscription Name" value="{{ old('sub_name') }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="sub_alias"><?= ('Alias') ?></label>
                 <input type="text" class="form-control" name="sub_alias" id="sub_alias" placeholder="Enter Subscription Alias" value="{{ old('sub_alias') }}" maxlength="10" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="sub_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="sub_description" id="sub_description" rows="3" placeholder="Enter Subscription Description" required>{{ old('sub_description') }}</textarea>
               </div>
-              <div class="form-group w-120">
+              <div class="form-group w-120 required">
                 <label><?= ('Select Plan') ?></label>
-                <select class="form-control" name="plan_id_select" id="plan_id_select">
+                <select class="form-control" name="plan_id_select" id="plan_id_select" required>
                   @if(isset($plan_result) && is_array($plan_result) && !empty($plan_result))
                   <option value="" disabled selected><?= ('Select Plan') ?></option>
                   @foreach ($plan_result as $plan_key => $plan_val)

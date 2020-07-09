@@ -45,19 +45,19 @@
             @csrf
             <!-- csrf security ends -->
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="discount_name"><?= ('Name') ?></label>
                 <input type="text" class="form-control" name="discount_name" id="discount_name" placeholder="Enter Discount Name" value="{{ old('discount_name') }}" required />
               </div>
 
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="discount_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="discount_description" id="discount_description" rows="3" placeholder="Enter Discount Description" required>{{ old('discount_description') }}</textarea>
               </div>
 
-              <div class="form-group w-120">
+              <div class="form-group w-120 required">
                 <label><?= ('Select Discount Type') ?></label>
-                <select class="form-control" name="discount_type_select" id="discount_type_select">
+                <select class="form-control" name="discount_type_select" id="discount_type_select" required>
                   <option value="" disabled selected><?= ('Select Discount Type') ?></option>
                   <option value="none"><?= ('None') ?></option>
                   <option value="fixed"><?= ('Fixed / Flat') ?></option>

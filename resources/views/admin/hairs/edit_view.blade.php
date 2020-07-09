@@ -44,15 +44,15 @@
             <!-- csrf security ends -->
             @method('PUT')
             <div class="card-body">
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="hair_style_name"><?= ('Name') ?></label>
-                <input type="text" class="form-control" name="hair_style_name" id="hair_style_name" placeholder="Enter Hair Name" value="{{ (is_array(old()) && !empty(old('hair_style_name')))? old('hair_style_name') : $hair_result->hair_style_name }}">
+                <input type="text" class="form-control" name="hair_style_name" id="hair_style_name" placeholder="Enter Hair Name" value="{{ (is_array(old()) && !empty(old('hair_style_name')))? old('hair_style_name') : $hair_result->hair_style_name }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="hair_color"><?= ('Color') ?></label>
-                <input type="text" class="form-control" name="hair_color" id="hair_color" placeholder="Select Hair Color" value="{{ (is_array(old()) && !empty(old('hair_color')))? old('hair_color') : $hair_result->hair_color }}" />
+                <input type="text" class="form-control" name="hair_color" id="hair_color" placeholder="Select Hair Color" value="{{ (is_array(old()) && !empty(old('hair_color')))? old('hair_color') : $hair_result->hair_color }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="hair_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="hair_description" id="hair_description" rows="3" placeholder="Enter Hair Description" required>{{ (is_array(old()) && !empty(old('hair_description')))? old('hair_description') : $hair_result->hair_description }}</textarea>
               </div>

@@ -56,38 +56,43 @@
                 </button>
                 <!-- File preview Ends -->
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="first_name"><?= ('First Name') ?></label>
                 <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter User Name" value="{{ old('first_name') }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="middle_name"><?= ('Middle Name') ?></label>
                 <input type="text" class="form-control" name="middle_name" id="middle_name" placeholder="Enter Middle Name" value="{{ old('middle_name') }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="last_name"><?= ('Last Name') ?></label>
                 <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter Last Name" value="{{ old('last_name') }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="user_address"><?= ('Address') ?></label>
                 <textarea class="form-control" name="user_address" id="user_address" rows="3" placeholder="Enter User Address" required />{{ old('user_address') }}</textarea>
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="mobile"><?= ('Mobile') ?></label>
                 <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Enter Mobile" value="{{ old('mobile') }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="email"><?= ('Email') ?></label>
                 <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email" value="{{ old('email') }}" required />
               </div>
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="password"><?= ('Password') ?></label>
                 <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" value="{{ old('password') }}" required />
               </div>
 
-              <div class="form-group w-120">
+              <div class="form-group required">
+                <label for="confirm_password"><?= ('Confirm Password') ?></label>
+                <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Enter Confirm Password" value="{{ old('confirm_password') }}" required />
+              </div>
+
+              <div class="form-group w-120 required">
                 <label><?= ('Select Role') ?></label>
-                <select class="form-control" name="role_id_select" id="role_id_select">
+                <select class="form-control" name="role_id_select" id="role_id_select" required>
                   @if(isset($role_result) && is_array($role_result) && !empty($role_result))
                   <option value="" disabled selected><?= ('Select Role') ?></option>
                   @foreach ($role_result as $role_key => $role_val)
@@ -100,9 +105,9 @@
                 </select>
               </div>
 
-              <div class="form-group w-120">
+              <div class="form-group w-120 required">
                 <label><?= ('Select Subscription') ?></label>
-                <select class="form-control" name="subscription_id_select" id="subscription_id_select">
+                <select class="form-control" name="subscription_id_select" id="subscription_id_select" required>
                   @if(isset($subscription_result) && is_array($subscription_result) && !empty($subscription_result))
                   <option value="" disabled selected><?= ('Select Subscription') ?></option>
                   @foreach ($subscription_result as $sub_key => $sub_val)

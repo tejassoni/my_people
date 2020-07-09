@@ -34,7 +34,7 @@ class SubscriptionMasterController extends Controller
     public function add_view()
     {
         $plan_obj = new plan_master();
-        $plan_result = $plan_obj->list_all();
+        $plan_result = $plan_obj->list_active_all();
         return view('admin.subscriptions.add_view', compact(['plan_result']));
     }
 
@@ -136,7 +136,7 @@ class SubscriptionMasterController extends Controller
         $sub_obj = new subscription_master();
         $subscription_result = subscription_master::find($sub_id);
         $plan_obj = new plan_master();
-        $plan_result = $plan_obj->list_all();
+        $plan_result = $plan_obj->list_active_all();
         return view('admin.subscriptions.edit_view', compact(['subscription_result', 'plan_result']));
     }
 
