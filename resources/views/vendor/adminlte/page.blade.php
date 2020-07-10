@@ -100,8 +100,8 @@ config('adminlte.classes_body')
                     <!-- Custom Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-                            <i class="far fa-user-circle"></i>                            
-                        </a>                        
+                            <i class="far fa-user-circle"></i>
+                        </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <a href="{{ url('admin/change_password/'.Auth::user()->id) }}" class="dropdown-item">
                                 <!-- Message Start -->

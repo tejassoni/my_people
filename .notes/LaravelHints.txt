@@ -1,0 +1,17 @@
+
+Quick Tutorial on Console.php for command line processes - Author: Tejas Soni
+
+- Purpose: To provide other developers information on how to develop Laravel Project
+
+- Creating a command line process class.
+
+1. Auth::getUser()   [Use into Blade View for current user details]
+2. Direct Query in Blade View
+<?php
+    $user_role_id = Auth::getUser()->role_id;
+    $role_details = App\Models\role_master::find($user_role_id);
+?>
+
+
+
+

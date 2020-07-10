@@ -172,12 +172,14 @@ return [
     |
     */
 
+    /* Admin Menu */
     'menu' => [
         [
             'text' => 'search',
             'search' => true,
             'topnav' => true,
         ],
+        ['header' => 'User Managements'],
         [
             'text'    => 'User Management',
             'icon'    => 'fas fa-fw fa-user',
@@ -289,7 +291,7 @@ return [
                 ]
             ],
         ],
-        ['header' => 'SubScription And Plans'],
+        ['header' => 'SubScription and Plans'],
         [
             'text'    => 'Discount Master',
             'icon'    => 'fas fa-fw fa-tags',
@@ -322,6 +324,28 @@ return [
                     'icon'    => 'fas fa-fw fa-th-list',
                 ]
             ],
+        ],
+        ['header' => 'labels'],
+        [
+            'text'       => 'important',
+            'icon_color' => 'red',
+        ],
+        [
+            'text'       => 'warning',
+            'icon_color' => 'yellow',
+        ],
+        [
+            'text'       => 'information',
+            'icon_color' => 'aqua',
+        ],
+    ],
+
+    /* Customer Menu */
+    'menu_customer' => [
+        [
+            'text' => 'search',
+            'search' => true,
+            'topnav' => true,
         ],
         ['header' => 'labels'],
         [
