@@ -149,7 +149,7 @@ class JawMasterController extends Controller
         $jaw_obj = new jaw_master();
         $jaw_result = jaw_master::find($jaw_id);
 
-        if (isset($jaw_result->jaw_img) && !empty($jaw_result->jaw_img)) {
+        if (isset($jaw_result->jaw_img) && !empty($jaw_result->jaw_img) && file_exists(\public_path('uploads/jaws/thumbnail/thumb_' . $jaw_result->jaw_img))) {
             $mime_type = $this->_base64_mime_type($jaw_result->jaw_img);
             $jaw_result->jaw_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/jaws/thumbnail/thumb_' . $jaw_result->jaw_img)));
         }
@@ -164,14 +164,14 @@ class JawMasterController extends Controller
      */
     private function _base64_mime_type($filename = "", $extention_only = false)
     {
+        $mime_types = config('mime_types');
         if (!$extention_only) {
-            $mime_types = config('mime_types');
-            if (in_array(strstr($filename, "."), array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][strstr($filename, ".")] . ";base64,";
+            if (in_array(strtolower(strstr($filename, ".")), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower(strstr($filename, "."))] . ";base64,";
             }
         } else {
-            if (in_array($filename, array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][$filename] . ";base64,";
+            if (in_array(strtolower($filename), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
             }
         }
     }
@@ -201,7 +201,7 @@ class JawMasterController extends Controller
             // Remove Old Uploaded Files From Folder
             if ($filehandle['status']) {
                 $jaw_data = jaw_master::find($update_id);
-                if (isset($jaw_data) && !empty($jaw_data) && !empty($jaw_data->jaw_img)) {
+                if (isset($jaw_data) && !empty($jaw_data) && !empty($jaw_data->jaw_img) && file_exists(\public_path("uploads/jaws/$jaw_data->jaw_img")) && file_exists(\public_path("uploads/jaws/thumbnail/thumb_$jaw_data->jaw_img"))) {
                     unlink(\public_path("uploads/jaws/$jaw_data->jaw_img"));
                     unlink(\public_path("uploads/jaws/thumbnail/thumb_$jaw_data->jaw_img"));
                 }

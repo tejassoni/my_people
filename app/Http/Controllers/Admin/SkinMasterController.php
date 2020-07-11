@@ -148,7 +148,7 @@ class SkinMasterController extends Controller
         $skin_obj = new skin_master();
         $skin_result = skin_master::find($skin_id);
 
-        if (isset($skin_result->skin_img) && !empty($skin_result->skin_img)) {
+        if (isset($skin_result->skin_img) && !empty($skin_result->skin_img) && file_exists(\public_path('uploads/skins/thumbnail/thumb_' . $skin_result->skin_img))) {
             $mime_type = $this->_base64_mime_type($skin_result->skin_img);
             $skin_result->skin_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/skins/thumbnail/thumb_' . $skin_result->skin_img)));
         }
@@ -163,14 +163,14 @@ class SkinMasterController extends Controller
      */
     private function _base64_mime_type($filename = "", $extention_only = false)
     {
+        $mime_types = config('mime_types');
         if (!$extention_only) {
-            $mime_types = config('mime_types');
-            if (in_array(strstr($filename, "."), array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][strstr($filename, ".")] . ";base64,";
+            if (in_array(strtolower(strstr($filename, ".")), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower(strstr($filename, "."))] . ";base64,";
             }
         } else {
-            if (in_array($filename, array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][$filename] . ";base64,";
+            if (in_array(strtolower($filename), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
             }
         }
     }
@@ -200,7 +200,7 @@ class SkinMasterController extends Controller
             // Remove Old Uploaded Files From Folder
             if ($filehandle['status']) {
                 $skin_data = skin_master::find($update_id);
-                if (isset($skin_data) && !empty($skin_data) && !empty($skin_data->skin_img)) {
+                if (isset($skin_data) && !empty($skin_data) && !empty($skin_data->skin_img) && file_exists(\public_path("uploads/skins/$skin_data->skin_img")) && file_exists(\public_path("uploads/skins/thumbnail/thumb_$skin_data->skin_img"))) {
                     unlink(\public_path("uploads/skins/$skin_data->skin_img"));
                     unlink(\public_path("uploads/skins/thumbnail/thumb_$skin_data->skin_img"));
                 }

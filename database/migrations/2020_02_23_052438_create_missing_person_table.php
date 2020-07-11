@@ -18,12 +18,14 @@ class CreateMissingPersonTable extends Migration
             $table->string('f_name', 50)->nullable(true);
             $table->string('m_name', 50)->nullable(true);
             $table->string('l_name', 50)->nullable(true);
+            $table->date('birth_date')->nullable(true);
+            $table->integer('age')->nullable(true);
             $table->text('address')->nullable(true);
             $table->integer('country_id')->nullable(true); // Foriegn Key table country_master
             $table->integer('state_id')->nullable(true); // Foriegn Key table state_master
             $table->integer('city_id')->nullable(true); // Foriegn Key table city_master
-            $table->string('pincode')->nullable(true); 
-            $table->date('missed_date')->nullable(true); 
+            $table->string('pincode')->nullable(true);
+            $table->date('missed_date')->nullable(true);
             $table->integer('user_id')->nullable(true); // Foriegn Key table user_master
             $table->integer('hair_id')->nullable(true); // Foriegn Key table hair_master
             $table->integer('eye_id')->nullable(true); // Foriegn Key table eye_master
@@ -34,10 +36,10 @@ class CreateMissingPersonTable extends Migration
             $table->integer('skin_id')->nullable(true); // Foriegn Key table skin_master
             $table->integer('ear_id')->nullable(true); // Foriegn Key table ear_master
             $table->integer('nose_id')->nullable(true); // Foriegn Key table nose_master
-            $table->text('remark')->nullable(true); 
-            $table->text('cloth_description')->nullable(true); 
+            $table->text('remark')->nullable(true);
+            $table->text('cloth_description')->nullable(true);
             $table->integer('currency_id')->nullable(true); // Foriegn Key table currency_master
-            $table->string('amount')->nullable(true);            
+            $table->string('amount')->nullable(true);
             $table->timestamps();
         });
     }

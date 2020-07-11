@@ -148,7 +148,7 @@ class EyeMasterController extends Controller
         $eye_obj = new eye_master();
         $eye_result = eye_master::find($eye_id);
 
-        if (isset($eye_result->eye_img) && !empty($eye_result->eye_img)) {
+        if (isset($eye_result->eye_img) && !empty($eye_result->eye_img) && file_exists(\public_path('uploads/eyes/thumbnail/thumb_' . $eye_result->eye_img))) {
             $mime_type = $this->_base64_mime_type($eye_result->eye_img);
             // "data:image/gif;base64,ENCODED STRING"
             // "E:\xampp\htdocs\my_people\public\uploads/eyes/thumbnail/thumb_01_preview_27042020_1587969231.jpg"
@@ -165,14 +165,14 @@ class EyeMasterController extends Controller
      */
     private function _base64_mime_type($filename = "", $extention_only = false)
     {
+        $mime_types = config('mime_types');
         if (!$extention_only) {
-            $mime_types = config('mime_types');
-            if (in_array(strstr($filename, "."), array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][strstr($filename, ".")] . ";base64,";
+            if (in_array(strtolower(strstr($filename, ".")), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower(strstr($filename, "."))] . ";base64,";
             }
         } else {
-            if (in_array($filename, array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][$filename] . ";base64,";
+            if (in_array(strtolower($filename), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
             }
         }
     }
@@ -202,7 +202,7 @@ class EyeMasterController extends Controller
             // Remove Old Uploaded Files From Folder
             if ($filehandle['status']) {
                 $eye_data = eye_master::find($update_id);
-                if (isset($eye_data) && !empty($eye_data) && !empty($eye_data->eye_img)) {
+                if (isset($eye_data) && !empty($eye_data) && !empty($eye_data->eye_img) && file_exists(\public_path("uploads/eyes/$eye_data->eye_img")) && file_exists(\public_path("uploads/eyes/thumbnail/thumb_$eye_data->eye_img"))) {
                     unlink(\public_path("uploads/eyes/$eye_data->eye_img"));
                     unlink(\public_path("uploads/eyes/thumbnail/thumb_$eye_data->eye_img"));
                 }

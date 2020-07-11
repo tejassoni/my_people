@@ -193,9 +193,8 @@ class UserManagementController extends Controller
         $role_result = $role_obj->list_active_all();
         $subscription_result = (new subscription_master())->list_active_all();
         $user_result = (new user_master())->find($id);
-        if (isset($user_result->user_img) && !empty($user_result->user_img)) {
+        if (isset($user_result->user_img) && !empty($user_result->user_img) && file_exists(\public_path('uploads/users/thumbnail/thumb_' . $user_result->user_img))) {
             $mime_type = $this->_base64_mime_type($user_result->user_img);
-            // dd($mime_type, $user_result->user_img);
             $user_result->user_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/users/thumbnail/thumb_' . $user_result->user_img)));
         }
         return view('admin.users.edit_view', compact(['user_result', 'role_result', 'subscription_result']));
@@ -227,7 +226,7 @@ class UserManagementController extends Controller
             // Remove Old Uploaded Files From Folder
             if ($filehandle['status']) {
                 $user_data = user_master::find($update_id);
-                if (isset($user_data) && !empty($user_data) && !empty($user_data->user_img)) {
+                if (isset($user_data) && !empty($user_data) && !empty($user_data->user_img) && file_exists(\public_path("uploads/users/$user_data->user_img")) && file_exists(\public_path("uploads/users/thumbnail/thumb_$user_data->user_img"))) {
                     unlink(\public_path("uploads/users/$user_data->user_img"));
                     unlink(\public_path("uploads/users/thumbnail/thumb_$user_data->user_img"));
                 }
@@ -279,14 +278,14 @@ class UserManagementController extends Controller
      */
     private function _base64_mime_type($filename = "", $extention_only = false)
     {
+        $mime_types = config('mime_types');
         if (!$extention_only) {
-            $mime_types = config('mime_types');
-            if (in_array(strstr($filename, "."), array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][strstr($filename, ".")] . ";base64,";
+            if (in_array(strtolower(strstr($filename, ".")), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower(strstr($filename, "."))] . ";base64,";
             }
         } else {
-            if (in_array($filename, array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][$filename] . ";base64,";
+            if (in_array(strtolower($filename), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
             }
         }
     }

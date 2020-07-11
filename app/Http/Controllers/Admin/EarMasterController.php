@@ -148,7 +148,7 @@ class EarMasterController extends Controller
         $ear_obj = new ear_master();
         $ear_result = ear_master::find($ear_id);
 
-        if (isset($ear_result->ear_img) && !empty($ear_result->ear_img)) {
+        if (isset($ear_result->ear_img) && !empty($ear_result->ear_img) && file_exists(\public_path('uploads/ears/thumbnail/thumb_' . $ear_result->ear_img))) {
             $mime_type = $this->_base64_mime_type($ear_result->ear_img);
             $ear_result->ear_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/ears/thumbnail/thumb_' . $ear_result->ear_img)));
         }
@@ -163,14 +163,14 @@ class EarMasterController extends Controller
      */
     private function _base64_mime_type($filename = "", $extention_only = false)
     {
+        $mime_types = config('mime_types');
         if (!$extention_only) {
-            $mime_types = config('mime_types');
-            if (in_array(strstr($filename, "."), array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][strstr($filename, ".")] . ";base64,";
+            if (in_array(strtolower(strstr($filename, ".")), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower(strstr($filename, "."))] . ";base64,";
             }
         } else {
-            if (in_array($filename, array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][$filename] . ";base64,";
+            if (in_array(strtolower($filename), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
             }
         }
     }
@@ -200,7 +200,7 @@ class EarMasterController extends Controller
             // Remove Old Uploaded Files From Folder
             if ($filehandle['status']) {
                 $ear_data = ear_master::find($update_id);
-                if (isset($ear_data) && !empty($ear_data) && !empty($ear_data->ear_img)) {
+                if (isset($ear_data) && !empty($ear_data) && !empty($ear_data->ear_img) && file_exists(\public_path("uploads/ears/$ear_data->ear_img")) && file_exists(\public_path("uploads/ears/thumbnail/thumb_$ear_data->ear_img"))) {
                     unlink(\public_path("uploads/ears/$ear_data->ear_img"));
                     unlink(\public_path("uploads/ears/thumbnail/thumb_$ear_data->ear_img"));
                 }

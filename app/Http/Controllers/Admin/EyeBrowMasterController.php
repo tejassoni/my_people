@@ -149,7 +149,7 @@ class EyeBrowMasterController extends Controller
         $eyebrow_obj = new eyebrow_master();
         $eyebrow_result = eyebrow_master::find($eye_brow_id);
 
-        if (isset($eyebrow_result->eye_brow_img) && !empty($eyebrow_result->eye_brow_img)) {
+        if (isset($eyebrow_result->eye_brow_img) && !empty($eyebrow_result->eye_brow_img) && file_exists(\public_path('uploads/eyebrows/thumbnail/thumb_' . $eyebrow_result->eye_brow_img))) {
             $mime_type = $this->_base64_mime_type($eyebrow_result->eye_brow_img);
             $eyebrow_result->eye_brow_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/eyebrows/thumbnail/thumb_' . $eyebrow_result->eye_brow_img)));
         }
@@ -164,14 +164,14 @@ class EyeBrowMasterController extends Controller
      */
     private function _base64_mime_type($filename = "", $extention_only = false)
     {
+        $mime_types = config('mime_types');
         if (!$extention_only) {
-            $mime_types = config('mime_types');
-            if (in_array(strstr($filename, "."), array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][strstr($filename, ".")] . ";base64,";
+            if (in_array(strtolower(strstr($filename, ".")), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower(strstr($filename, "."))] . ";base64,";
             }
         } else {
-            if (in_array($filename, array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][$filename] . ";base64,";
+            if (in_array(strtolower($filename), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
             }
         }
     }
@@ -201,7 +201,7 @@ class EyeBrowMasterController extends Controller
             // Remove Old Uploaded Files From Folder
             if ($filehandle['status']) {
                 $eyebrow_data = eyebrow_master::find($update_id);
-                if (isset($eyebrow_data) && !empty($eyebrow_data) && !empty($eyebrow_data->eye_brow_img)) {
+                if (isset($eyebrow_data) && !empty($eyebrow_data) && !empty($eyebrow_data->eye_brow_img) && file_exists(\public_path("uploads/eyebrows/$eyebrow_data->eye_brow_img")) && file_exists(\public_path("uploads/eyebrows/thumbnail/thumb_$eyebrow_data->eye_brow_img"))) {
                     unlink(\public_path("uploads/eyebrows/$eyebrow_data->eye_brow_img"));
                     unlink(\public_path("uploads/eyebrows/thumbnail/thumb_$eyebrow_data->eye_brow_img"));
                 }

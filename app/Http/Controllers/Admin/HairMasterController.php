@@ -148,7 +148,7 @@ class HairMasterController extends Controller
         $hair_obj = new hair_master();
         $hair_result = hair_master::find($hair_id);
 
-        if (isset($hair_result->hair_img) && !empty($hair_result->hair_img)) {
+        if (isset($hair_result->hair_img) && !empty($hair_result->hair_img) && file_exists(\public_path('uploads/hairs/thumbnail/thumb_' . $hair_result->hair_img))) {
             $mime_type = $this->_base64_mime_type($hair_result->hair_img);
             $hair_result->hair_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/hairs/thumbnail/thumb_' . $hair_result->hair_img)));
         }
@@ -163,14 +163,14 @@ class HairMasterController extends Controller
      */
     private function _base64_mime_type($filename = "", $extention_only = false)
     {
+        $mime_types = config('mime_types');
         if (!$extention_only) {
-            $mime_types = config('mime_types');
-            if (in_array(strstr($filename, "."), array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][strstr($filename, ".")] . ";base64,";
+            if (in_array(strtolower(strstr($filename, ".")), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower(strstr($filename, "."))] . ";base64,";
             }
         } else {
-            if (in_array($filename, array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][$filename] . ";base64,";
+            if (in_array(strtolower($filename), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
             }
         }
     }
@@ -200,7 +200,7 @@ class HairMasterController extends Controller
             // Remove Old Uploaded Files From Folder
             if ($filehandle['status']) {
                 $hair_data = hair_master::find($update_id);
-                if (isset($hair_data) && !empty($hair_data) && !empty($hair_data->hair_img)) {
+                if (isset($hair_data) && !empty($hair_data) && !empty($hair_data->hair_img) && file_exists(\public_path("uploads/hairs/$hair_data->hair_img")) && file_exists(\public_path("uploads/hairs/thumbnail/thumb_$hair_data->hair_img"))) {
                     unlink(\public_path("uploads/hairs/$hair_data->hair_img"));
                     unlink(\public_path("uploads/hairs/thumbnail/thumb_$hair_data->hair_img"));
                 }

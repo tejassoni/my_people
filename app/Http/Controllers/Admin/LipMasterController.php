@@ -148,7 +148,7 @@ class LipMasterController extends Controller
         $lip_obj = new lip_master();
         $lip_result = lip_master::find($lip_id);
 
-        if (isset($lip_result->lip_img) && !empty($lip_result->lip_img)) {
+        if (isset($lip_result->lip_img) && !empty($lip_result->lip_img) && file_exists(\public_path('uploads/lips/thumbnail/thumb_' . $lip_result->lip_img))) {
             $mime_type = $this->_base64_mime_type($lip_result->lip_img);
             $lip_result->lip_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/lips/thumbnail/thumb_' . $lip_result->lip_img)));
         }
@@ -163,14 +163,14 @@ class LipMasterController extends Controller
      */
     private function _base64_mime_type($filename = "", $extention_only = false)
     {
+        $mime_types = config('mime_types');
         if (!$extention_only) {
-            $mime_types = config('mime_types');
-            if (in_array(strstr($filename, "."), array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][strstr($filename, ".")] . ";base64,";
+            if (in_array(strtolower(strstr($filename, ".")), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower(strstr($filename, "."))] . ";base64,";
             }
         } else {
-            if (in_array($filename, array_flip($mime_types['mime_types']))) {
-                return "data:" . $mime_types['mime_types'][$filename] . ";base64,";
+            if (in_array(strtolower($filename), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
             }
         }
     }
@@ -200,7 +200,7 @@ class LipMasterController extends Controller
             // Remove Old Uploaded Files From Folder
             if ($filehandle['status']) {
                 $lip_data = lip_master::find($update_id);
-                if (isset($lip_data) && !empty($lip_data) && !empty($lip_data->lip_img)) {
+                if (isset($lip_data) && !empty($lip_data) && !empty($lip_data->lip_img) && file_exists(\public_path("uploads/lips/$lip_data->lip_img")) && file_exists(\public_path("uploads/lips/thumbnail/thumb_$lip_data->lip_img"))) {
                     unlink(\public_path("uploads/lips/$lip_data->lip_img"));
                     unlink(\public_path("uploads/lips/thumbnail/thumb_$lip_data->lip_img"));
                 }
