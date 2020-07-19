@@ -173,6 +173,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function ()
 }); // Email Verified enables
 
 
+// Admin Panel all routs from website backend
+Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function () {
+
+    /* Missing Person Module Starts here...! */
+    Route::get('/missing_person_list', 'Customer\MissingPersonController@list_view');
+    Route::get('/missing_person_add', 'Customer\MissingPersonController@add_view');
+    Route::post('/missing_person_insert', 'Customer\MissingPersonController@insert_records');
+    Route::post('/delete_missing_person', 'Customer\MissingPersonController@delete_all_records');
+    Route::get('/missing_person_delete/{id?}', 'Customer\MissingPersonController@delete_records');
+    Route::post('/missing_person_status', 'Customer\MissingPersonController@status_change');
+    Route::get('/missing_person_edit/{id?}', 'Customer\MissingPersonController@get_edit_records');
+    Route::put('/missing_person_update/{id?}', 'Customer\MissingPersonController@update_records');
+    /* Missing Person Module Ends here...! */
+});
+
+
 
 // Send Email By Hit URL
 Route::get('send-mail', 'Email\MailSend@mailsend');

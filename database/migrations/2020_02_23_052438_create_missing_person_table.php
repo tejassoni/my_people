@@ -13,7 +13,7 @@ class CreateMissingPersonTable extends Migration
      */
     public function up()
     {
-        Schema::create('missing_person_master', function (Blueprint $table) {
+        Schema::create('missing_person', function (Blueprint $table) {
             $table->bigIncrements('missing_id');
             $table->string('f_name', 50)->nullable(true);
             $table->string('m_name', 50)->nullable(true);
@@ -31,7 +31,6 @@ class CreateMissingPersonTable extends Migration
             $table->integer('eye_id')->nullable(true); // Foriegn Key table eye_master
             $table->integer('eye_brow_id')->nullable(true); // Foriegn Key table eye_brow_master
             $table->integer('lip_id')->nullable(true); // Foriegn Key table lip_master
-            $table->integer('cheek_id')->nullable(true); // Foriegn Key table cheek_master
             $table->integer('jaw_id')->nullable(true); // Foriegn Key table jaw_master
             $table->integer('skin_id')->nullable(true); // Foriegn Key table skin_master
             $table->integer('ear_id')->nullable(true); // Foriegn Key table ear_master
@@ -51,6 +50,6 @@ class CreateMissingPersonTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('missing_person_master');
+        Schema::dropIfExists('missing_person');
     }
 }

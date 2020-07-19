@@ -325,6 +325,18 @@ return [
                 ]
             ],
         ],
+        ['header' => 'Missing Person'],
+        [
+            'text'    => 'Missing Person',
+            'icon'    => 'fas fa-fw fa-user',
+            'submenu' => [
+                [
+                    'text' => 'Missing Person List',
+                    'url'  => '/customer/missing_person_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ]
+            ],
+        ],
         ['header' => 'labels'],
         [
             'text'       => 'important',
