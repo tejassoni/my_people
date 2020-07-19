@@ -11,10 +11,10 @@ class CurrencyTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {        
+    {
         //Add this lines
-        currency_master::query()->truncate(); // truncate user table each time of seeders run
-        $currency_seeds = config('currency_seeds.currencies');     
+        currency_master::query()->truncate(); // truncate currency table each time of seeders run
+        $currency_seeds = config('currency_seeds.currencies');
         if (isset($currency_seeds) && !empty($currency_seeds)) {
             foreach ($currency_seeds as $currency_key => $currency_val) {
                 currency_master::create($currency_val);

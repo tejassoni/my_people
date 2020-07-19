@@ -66,7 +66,7 @@
                 <label><?= ('Select Discount') ?></label>
                 <select class="form-control" name="discount_id_select" id="discount_id_select">
                   @if(isset($discount_result) && is_array($discount_result) && !empty($discount_result))
-                  <option value="" disabled><?= ('Select Discount') ?></option>
+                  <option value="" disabled selected><?= ('Select Discount') ?></option>
                   @foreach ($discount_result as $discount_key => $discount_val)
                   <option value="{{ $discount_val['discount_id'] }}" {{ (is_array(old()) && !empty(old('discount_id_select')) && old('discount_id_select') == $discount_val['discount_id'])? 'selected' : (isset($plan_result->discount_id) && !empty($plan_result->discount_id) && $plan_result->discount_id == $discount_val['discount_id']) ? 'selected' : '' }}>{{ ucwords($discount_val['discount_name']) .' - '.ucwords($discount_val['discount_type']).' - '.$discount_val['amount'] }}</option>
                   @endforeach

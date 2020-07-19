@@ -33,7 +33,7 @@
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title"><?= ('Edit Jaw') ?></h3>
+            <h3 class="card-title"><?= ('Edit Face Jaw') ?></h3>
           </div>
           <!-- /.card-header -->
           @if(!empty($jaw_result))
@@ -61,7 +61,7 @@
                 <label class="custom-file-label" for="customFile"><?= ('Choose file') ?></label>
                 <input type="hidden" class="form-control" id="jaw_img_hidden" name="filename_hidden" value="{{ (is_array(old()) && !empty(old('jaw_img')))? old('jaw_img') : $jaw_result->jaw_img }}">
                 <!-- File preview Starts -->
-                <img class="file_preview mb-5 {{ (!empty($jaw_result->jaw_img))? '' : 'd-none' }}" id="img_view" src="{{ (is_array(old()) && !empty(old('jaw_img')))? old('jaw_img') : $jaw_result->jaw_img }}" height="70" width="70">
+                <img class="file_preview mb-5 {{ (!empty($jaw_result->jaw_img))? '' : 'd-none' }}" id="img_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('jaw_img')))? old('jaw_img') : $jaw_result->jaw_img }}" height="70" width="70">
                 <button type="button" class="file_preview close float-left {{ (!empty($jaw_result->jaw_img))? '' : 'd-none' }}" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>

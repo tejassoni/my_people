@@ -36,7 +36,6 @@
         <div class="card card-primary">
           <div class="card-header">
             <h3 class="card-title"><?= ('Add Plans') ?></h3>
-
           </div>
           <!-- /.card-header -->
           <!-- form start -->

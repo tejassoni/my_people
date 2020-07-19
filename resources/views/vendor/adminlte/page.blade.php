@@ -106,7 +106,7 @@ config('adminlte.classes_body')
                             <a href="{{ url('admin/change_password/'.Auth::user()->id) }}" class="dropdown-item">
                                 <!-- Message Start -->
                                 <div class="media">
-                                    <img src="{{ asset('assets/password.png') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                    <img src="{{ asset('assets/password1.png') }}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                     <div class="media-body">
                                         <h3 class="dropdown-item-title">
                                             <?= ('Change Password') ?>

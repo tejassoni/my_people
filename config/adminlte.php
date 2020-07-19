@@ -248,11 +248,11 @@ return [
             ],
         ],
         [
-            'text'    => 'Jaw Master',
+            'text'    => 'Face Jaw Master',
             'icon'    => 'fas fa-fw fa-laugh-beam',
             'submenu' => [
                 [
-                    'text' => 'Jaw List',
+                    'text' => 'Face Jaw List',
                     'url'  => '/admin/jaw_list',
                     'icon'    => 'fas fa-fw fa-th-list',
                 ]
@@ -378,7 +378,7 @@ return [
         JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\SearchFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
+        // JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\LangFilter::class,

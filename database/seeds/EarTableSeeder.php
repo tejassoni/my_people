@@ -13,7 +13,7 @@ class EarTableSeeder extends Seeder
     public function run()
     {
         //Add this lines
-        ear_master::query()->truncate(); // truncate user table each time of seeders run
+        ear_master::query()->truncate(); // truncate ear table each time of seeders run
         $ear_seeds = config('ear_seeds.ears');
         if (isset($ear_seeds) && !empty($ear_seeds)) {
             foreach ($ear_seeds as $ear_key => $ear_val) {

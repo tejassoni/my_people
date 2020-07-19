@@ -6,7 +6,7 @@
 @include('vendor.adminlte.partials.header_messages')
 <div class="row">
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-    <h1 class="m-0 text-dark"><?= ('Jaw Add') ?></h1>
+    <h1 class="m-0 text-dark"><?= ('Face Jaw Add') ?></h1>
   </div>
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 ">
     <nav aria-label="breadcrumb">
@@ -15,7 +15,7 @@
           <a href="/home" title="MyPeople Dashboard"><?= ('Dashboard') ?></a>
         </li>
         <li class="breadcrumb-item">
-          <a href="/admin/jaw_list" title="Jaws"><?= ('Jaws') ?></a>
+          <a href="/admin/jaw_list" title="Face Jaws"><?= ('Face Jaws') ?></a>
         </li>
         <li class="breadcrumb-item active"><?= ('Add') ?></li>
       </ol>
@@ -35,7 +35,7 @@
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title"><?= ('Add Jaw') ?></h3>
+            <h3 class="card-title"><?= ('Add Face Jaw') ?></h3>
 
           </div>
           <!-- /.card-header -->
@@ -64,7 +64,7 @@
                 <input type="file" class="custom-file-input" id="jaw_img" name="filename">
                 <label class="custom-file-label" for="customFile"><?= ('Choose file') ?></label>
                 <!-- File preview Starts -->
-                <img class="file_preview mb-5 d-none" id="img_view" src="#" height="70" width="70">
+                <img class="file_preview mb-5 d-none" id="img_view" alt="Image Preview" src="#" height="70" width="70">
                 <button type="button" class="file_preview close float-left d-none" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>

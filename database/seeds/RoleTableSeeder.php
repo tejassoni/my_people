@@ -13,7 +13,7 @@ class RoleTableSeeder extends Seeder
     public function run()
     {
         //Add this lines
-        role_master::query()->truncate(); // truncate user table each time of seeders run
+        role_master::query()->truncate(); // truncate role table each time of seeders run
         $role_seeds = config('role_seeds.roles');
         if (isset($role_seeds) && !empty($role_seeds)) {
             foreach ($role_seeds as $role_key => $role_val) {

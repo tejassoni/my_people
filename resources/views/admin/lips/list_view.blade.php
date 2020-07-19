@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="row">
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-    <h1 class="m-0 text-dark"><a href='{{ url("/admin/lip_add") }}' class="btn-success btn-sm"><?= ('Add New') ?></a></h1>
+    <h1 class="m-0 text-dark"><a href='{{ url("/admin/lip_add") }}' class="btn-success btn-sm" title="Add New Button"><i class="fa fa-plus-circle" aria-hidden="true"></i> <?= ('Add New') ?></a></h1>
   </div>
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 ">
     <nav aria-label="breadcrumb">

@@ -64,7 +64,7 @@
                 <input type="file" class="custom-file-input" id="hair_img" name="filename">
                 <label class="custom-file-label" for="customFile"><?= ('Choose file') ?></label>
                 <!-- File preview Starts -->
-                <img class="file_preview mb-5 d-none" id="img_view" src="#" height="70" width="70">
+                <img class="file_preview mb-5 d-none" id="img_view" alt="Image Preview"src="#" height="70" width="70">
                 <button type="button" class="file_preview close float-left d-none" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>

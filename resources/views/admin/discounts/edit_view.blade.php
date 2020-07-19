@@ -60,7 +60,7 @@
                 <div class="form-group w-120 required">
                   <label><?= ('Select Discount Type') ?></label>
                   <select class="form-control" name="discount_type_select" id="discount_type_select" required>
-                    <option value="" disabled><?= ('Select Discount Type') ?></option>
+                    <option value="" disabled selected><?= ('Select Discount Type') ?></option>
                     <option value="none" {{ (is_array(old()) && old('discount_type_select') == 'none') ? 'selected' : (isset($discount_result->discount_type) && !empty($discount_result->discount_type) && $discount_result->discount_type == "none")? "selected" : "" }}><?= ('None') ?></option>
                     <option value="fixed" {{ (is_array(old()) && old('discount_type_select') == 'fixed') ? 'selected' :(isset($discount_result->discount_type) && !empty($discount_result->discount_type) && $discount_result->discount_type == "fixed")? "selected" : "" }}><?= ('Fixed / Flat') ?></option>
                     <option value="percentage" {{ (is_array(old()) && old('discount_type_select') == 'percentage') ? 'selected' :(isset($discount_result->discount_type) && !empty($discount_result->discount_type) && $discount_result->discount_type == "percentage")? "selected" : "" }}><?= ('Percentage') ?></option>

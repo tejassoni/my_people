@@ -30,7 +30,7 @@ class CreateJawMasterRequest extends FormRequest
         return [
             'jaw_name' => 'required',
             'jaw_color' => 'required',
-            'filename' => 'required|mimes:jpeg,jpg,bmp,png|min:24|max:5120', // file type : jpeg,jpg,bmp,png, min size : 24kb , max size : 5 mb 1024*5 = 5120
+            'filename' => 'required|mimes:jpeg,jpg,bmp,png,gif,ico,apng,bmp,svg,tiff,webp|min:24|max:5120', // file type : jpeg,jpg,bmp,png, min size : 24kb , max size : 5 mb 1024*5 = 5120
         ];
     }
 

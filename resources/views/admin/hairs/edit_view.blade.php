@@ -61,7 +61,7 @@
                 <label class="custom-file-label" for="customFile"><?= ('Choose file') ?></label>
                 <input type="hidden" class="form-control" id="hair_img_hidden" name="filename_hidden" value="{{ (is_array(old()) && !empty(old('hair_img')))? old('hair_img') : $hair_result->hair_img }}">
                 <!-- File preview Starts -->
-                <img class="file_preview mb-5 {{ (!empty($hair_result->hair_img))? '' : 'd-none' }}" id="img_view" src="{{ (is_array(old()) && !empty(old('hair_img')))? old('hair_img') : $hair_result->hair_img }}" height="70" width="70">
+                <img class="file_preview mb-5 {{ (!empty($hair_result->hair_img))? '' : 'd-none' }}" id="img_view" alt="Image Preview"src="{{ (is_array(old()) && !empty(old('hair_img')))? old('hair_img') : $hair_result->hair_img }}" height="70" width="70">
                 <button type="button" class="file_preview close float-left {{ (!empty($hair_result->hair_img))? '' : 'd-none' }}" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>
