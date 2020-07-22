@@ -475,6 +475,7 @@ $(document).ready(function() {
                     if (data_resp.status) {
                         $("#state_select").empty();
                         $("#city_select").empty();
+                        $("#city_select").append("<option>Select City</option>");
                         $("#state_select").append("<option>Select State</option>");
                         $.each(data_resp.data, function(key, value) {
                             $("#state_select").append(
@@ -507,7 +508,7 @@ $(document).ready(function() {
                 success: function(data_resp, textStatus, jqXHR) {
                     if (data_resp.status) {
                         $("#city_select").empty();
-                        $("#city_select").append("<option>Select city</option>");
+                        $("#city_select").append("<option>Select City</option>");
                         $.each(data_resp.data, function(key, value) {
                             $("#city_select").append(
                                 '<option value="' +
