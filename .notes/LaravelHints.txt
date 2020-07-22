@@ -11,6 +11,8 @@ Quick Tutorial on Console.php for command line processes - Author: Tejas Soni
     $user_role_id = Auth::getUser()->role_id;
     $role_details = App\Models\role_master::find($user_role_id);
 ?>
+3. Specific Request Validation File
+php artisan make:request StoreDrinksPostRequest
 
 
 

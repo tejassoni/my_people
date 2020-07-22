@@ -41,5 +41,18 @@ class city_master extends Model
      */
     protected $guarded = ['created_at', 'updated_at'];
 
-
+    /*
+    * author : Tejas Soni
+    * list_all - get record by id table : city_master records    
+    * @param  - None        
+    * @return : array of all list records
+    */
+    public function get_recordby_Id($id = "")
+    {
+        $data = self::select('*')->where('state_id', $id)->get();
+        if (!empty($data)) {
+            $data = $data->toArray();
+        }
+        return $data;
+    }
 }

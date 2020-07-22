@@ -221,6 +221,14 @@
     <script src="{{ asset('js/admin/discount_master.js') }}"></script>
     @endif
 
+
+    <!-- Discount Backend Page wise JS Load -->
+    @if(strpos(Request::url(), 'missing_person_add') !== false ||
+    strpos(Request::url(), 'discount_list') !== false ||
+    strpos(Request::url(), 'discount_edit') !== false)
+    <script src="{{ asset('js/customer/missing_people.js') }}"></script>
+    @endif
+
 </body>
 @include('vendor.adminlte.partials.modal_messages')
 @extends('adminlte::admin-footer')
