@@ -174,28 +174,25 @@ class MissingPersonController extends Controller
     public function list_view(Request $request)
     {
         if ($request->ajax()) {
-            $discount_obj = new missing_person;
-            $list = $discount_obj->list_all();
+            $missing_person_obj = new missing_person;
+            // $list = $missing_person_obj->list_all();
+            $list = $missing_person_obj->list_belongsTo();
+
             return DataTables::of($list)
                 ->addIndexColumn()
                 ->addColumn('action', function ($list) {
                     $button = '';
-                    $edit_button = '<a href="' . url("/admin/discount_edit/{$list['discount_id']}") . '" class="btn btn-xs btn-warning btn_edit" title="Edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
-                    $delete_button = '<a href="#delete-' . $list['discount_id'] . '" delete_id="' . $list['discount_id'] . '" class="btn btn-xs btn-danger btn_delete" title="Delete"><i class="far fa-trash-alt"></i> Delete</a>';
+                    $edit_button = '<a href="' . url("/customer/missing_person_edit/{$list['missing_id']}") . '" class="btn btn-xs btn-warning btn_edit" title="Edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
+                    $delete_button = '<a href="#delete-' . $list['missing_id'] . '" delete_id="' . $list['missing_id'] . '" class="btn btn-xs btn-danger btn_delete" title="Delete"><i class="far fa-trash-alt"></i> Delete</a>';
                     $button .= $edit_button;
                     $button .= $delete_button;
                     return $button;
                 })
-                ->addColumn('status', function ($list) {
-                    $button = '';
-                    if ($list['status'])
-                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-success btn_status" title="Status Change" discount_id=' . $list['discount_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-on" aria-hidden="true"></i> Active</a> &nbsp;';
-                    else
-                        $status_button = '<a href="#status-' . $list['status'] . '" class="btn btn-xs btn-warning btn_status" title="Status Change" discount_id=' . $list['discount_id'] . ' status=' . $list['status'] . '><i class="fa fa-toggle-off" aria-hidden="true"></i> In-Active</a>';
-                    $button .= $status_button;
-                    return $button;
+                ->addColumn('missing_person_img', function ($list) {
+                    if (!empty($list['missing_person_img']))
+                        return '<img src="' . url('uploads/missing_persons/thumbnail/thumb_' . $list['missing_person_img']) . '" title="Image" height="50" width="50"/>';
                 })
-                ->rawColumns(['action', 'status'])
+                ->rawColumns(['action', 'missing_person_img'])
                 ->make(true);
         }
         return view('customer.missing_persons.list_view');

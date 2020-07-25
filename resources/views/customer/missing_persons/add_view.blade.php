@@ -66,7 +66,7 @@
 
               <div class="form-group required">
                 <label for="first_name"><?= ('First Name') ?></label>
-                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name" value="{{ old('first_name') }}" />
+                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name" value="{{ old('first_name') }}" required />
               </div>
               <div class="form-group required">
                 <label for="middle_name"><?= ('Middle Name') ?></label>

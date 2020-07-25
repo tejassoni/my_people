@@ -49,11 +49,11 @@ $(document).ready(function() {
     /* File Upload Ends  */
 
     // Datatables Operation Starts
-    $("#discount_list_table1").DataTable({
+    $("#missing_person_list_table").DataTable({
         processing: true,
         serverSide: true,
         type: "get",
-        ajax: "discount_list",
+        ajax: "missing_person_list",
         order: [
             [1, "asc"] // asc OR desc
         ],
@@ -76,7 +76,7 @@ $(document).ready(function() {
                     return (
                         '<input type="checkbox" class="child_chkbox" name="child_chkbox[]" value="' +
                         $("<div/>")
-                            .text(full.discount_id)
+                            .text(full.missing_id)
                             .html() +
                         '">'
                     );
@@ -85,45 +85,44 @@ $(document).ready(function() {
             {
                 width: "10%",
                 visible: true, // Hide Which Column Do not need to show in Datatable list
-                data: "discount_name",
-                name: "discount_name",
+                data: "missing_full_name",
+                name: "missing_full_name",
                 title: "Name",
                 orderable: true,
                 searchable: true
             },
             {
-                data: "discount_type",
-                name: "discount_type",
-                title: "Type",
+                data: "missing_person_img",
+                name: "missing_person_img",
+                title: "Image",
                 orderable: true,
                 searchable: true
             },
             {
-                data: "amount",
-                name: "amount",
-                title: "Amount",
+                data: "country_name",
+                name: "country_name",
+                title: "Location",
                 orderable: true,
                 searchable: true
             },
             {
-                data: "start_date",
-                name: "start_date",
-                title: "StartDate",
+                data: "age",
+                name: "age",
+                title: "Age",
                 orderable: true,
                 searchable: true
             },
             {
-                data: "end_date",
-                name: "end_date",
-                title: "EndDate",
+                data: "missing_date",
+                name: "missing_date",
+                title: "Missing Date",
                 orderable: true,
                 searchable: true
             },
             {
-                width: "11%",
-                data: "status",
-                name: "status",
-                title: "Status",
+                data: "parent_mobile",
+                name: "parent_mobile",
+                title: "Emergency Contact",
                 orderable: true,
                 searchable: true
             },

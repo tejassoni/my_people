@@ -41,11 +41,11 @@
                   <input type="checkbox" name="select_all_chkbox" class="select_all_chkbox" value="0" id="select_all_chkbox">
                 </th>
                 <th><?= ('Name') ?></th>
-                <th><?= ('Type') ?></th>
-                <th><?= ('Amount') ?></th>
-                <th><?= ('StartDate') ?></th>
-                <th><?= ('EndDate') ?></th>
-                <th><?= ('Status') ?></th>
+                <th><?= ('Image') ?></th>
+                <th><?= ('Location') ?></th>
+                <th><?= ('Age') ?></th>
+                <th><?= ('Missing Date') ?></th>
+                <th><?= ('Emergency Contact') ?></th>
                 <th><?= ('Action') ?></th>
               </tr>
             </thead>

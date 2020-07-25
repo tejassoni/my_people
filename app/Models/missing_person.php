@@ -107,6 +107,28 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
+    * list_belongsTo - get all table : missing_master and user_master records    
+    * @param  - None        
+    * @return : array of all list records
+    */
+  public function list_belongsTo()
+  {
+    $data = self::selectRaw('`missing_person`.`missing_id` as `missing_id`, CONCAT(missing_person.f_name," ",missing_person.l_name) AS `missing_full_name`, `missing_person`.`age` AS `age`, `missing_person`.`missing_person_img` as `missing_person_img`, DATE_FORMAT(missed_date, "%d/%m/%Y") as missing_date')
+      ->selectRaw('`user_master`.`id` as `user_id`,CONCAT(user_master.f_name," ",user_master.l_name) AS `parent_full_name`,`user_master`.`mobile` as `parent_mobile`,`user_master`.`email` as `parent_email`')
+      ->selectRaw('`country_master`.`country_id` as `country_id`,`country_master`.`name` as `country_name`')
+      ->leftJoin('user_master', 'missing_person.user_id', '=', 'user_master.id')
+      ->leftJoin('country_master', 'missing_person.country_id', '=', 'country_master.country_id')
+      ->where('missing_person.status', 1)
+      ->where('missing_person.is_found', 0)
+      ->get();
+    if (!empty($data)) {
+      $data = $data->toArray();
+    }
+    return $data;
+  }
+
+  /*
+    * author : Tejas Soni
     * update_records - update records into table : discount_master 
     * @param  - Update Array, ID to update
     * @return : boolean
