@@ -339,4 +339,37 @@ class EyeBrowMasterController extends Controller
         }
         die(json_encode($resp));
     }
+
+    /**
+     * Get Eye Brow List by Eye Brow ID Data Array
+     * @author Tejas
+     * @param  Request Eye Brow Id
+     * @return Array
+     */
+    public function get_eyebrow_id($eyebrow_id = "")
+    {
+        $resp = config('response_format.RES_RESULT');
+        try {
+            if (!isset($eyebrow_id) || empty($eyebrow_id))
+                throw new Exception('Eye Id not found..!', 1);
+
+            $eyebrow_obj = new eyebrow_master();
+            $eyebrow_result = $eyebrow_obj->get_recordby_Id($eyebrow_id);
+
+            if (isset($eyebrow_result[0]['eye_brow_img']) && !empty($eyebrow_result[0]['eye_brow_img']) && file_exists(\public_path('uploads/eyebrows/thumbnail/thumb_' . $eyebrow_result[0]['eye_brow_img']))) {
+                $mime_type = $this->_base64_mime_type($eyebrow_result[0]['eye_brow_img']);
+                $eyebrow_result[0]['eye_brow_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/eyebrows/thumbnail/thumb_' . $eyebrow_result[0]['eye_brow_img'])));
+            }
+            if (empty($eyebrow_result))
+                throw new Exception('Eye Brow List not found..!', 422);
+
+            $resp['status'] = true;
+            $resp['message'] = "Eye Brow List get successfully..!";
+            $resp['data'] = $eyebrow_result;
+            return response()->json($resp, 200);
+        } catch (Exception $ex) {
+            $resp['message'] = $ex->getMessage();
+            return response()->json($resp, 422);
+        }
+    }
 }

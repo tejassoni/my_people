@@ -124,4 +124,19 @@ class ear_master extends Model
   {
     return self::where('ear_id', $delete_id)->delete();
   }
+
+  /*
+    * author : Tejas Soni
+    * list_all - get record by id table : ear_master records    
+    * @param  - None        
+    * @return : array of all list records
+    */
+  public function get_recordby_Id($id = "")
+  {
+    $data = self::select('*')->where('ear_id', $id)->get();
+    if (!empty($data)) {
+      $data = $data->toArray();
+    }
+    return $data;
+  }
 }

@@ -48,12 +48,21 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    // Please ADD this two methods at the end of the class
+    /**
+     * Add This Method for JWT
+     *
+     * @var JWT
+     */
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
+    /**
+     * Add This Method for JWT
+     *
+     * @var JWT
+     */
     public function getJWTCustomClaims()
     {
         return [];

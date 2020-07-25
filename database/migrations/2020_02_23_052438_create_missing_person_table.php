@@ -15,6 +15,7 @@ class CreateMissingPersonTable extends Migration
     {
         Schema::create('missing_person', function (Blueprint $table) {
             $table->bigIncrements('missing_id');
+            $table->string('missing_person_img', 255)->nullable();
             $table->string('f_name', 50)->nullable(true);
             $table->string('m_name', 50)->nullable(true);
             $table->string('l_name', 50)->nullable(true);
@@ -39,6 +40,8 @@ class CreateMissingPersonTable extends Migration
             $table->text('cloth_description')->nullable(true);
             $table->integer('currency_id')->nullable(true); // Foriegn Key table currency_master
             $table->string('amount')->nullable(true);
+            $table->tinyInteger('is_found')->default(0);
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

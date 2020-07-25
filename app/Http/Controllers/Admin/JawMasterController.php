@@ -339,4 +339,37 @@ class JawMasterController extends Controller
         }
         die(json_encode($resp));
     }
+
+    /**
+     * Get Jaw List by Jaw ID Data Array
+     * @author Tejas
+     * @param  Request Jaw Id
+     * @return Array
+     */
+    public function get_jaw_id($jaw_id = "")
+    {
+        $resp = config('response_format.RES_RESULT');
+        try {
+            if (!isset($jaw_id) || empty($jaw_id))
+                throw new Exception('Jaw not found..!', 1);
+
+            $jaw_obj = new jaw_master();
+            $jaw_result = $jaw_obj->get_recordby_Id($jaw_id);
+
+            if (isset($jaw_result[0]['jaw_img']) && !empty($jaw_result[0]['jaw_img']) && file_exists(\public_path('uploads/jaws/thumbnail/thumb_' . $jaw_result[0]['jaw_img']))) {
+                $mime_type = $this->_base64_mime_type($jaw_result[0]['jaw_img']);
+                $jaw_result[0]['jaw_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/jaws/thumbnail/thumb_' . $jaw_result[0]['jaw_img'])));
+            }
+            if (empty($jaw_result))
+                throw new Exception('Jaw List not found..!', 422);
+
+            $resp['status'] = true;
+            $resp['message'] = "Jaw List get successfully..!";
+            $resp['data'] = $jaw_result;
+            return response()->json($resp, 200);
+        } catch (Exception $ex) {
+            $resp['message'] = $ex->getMessage();
+            return response()->json($resp, 422);
+        }
+    }
 }

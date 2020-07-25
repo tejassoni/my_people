@@ -170,6 +170,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function ()
     Route::post('/delete_discounts', 'Admin\DiscountMasterController@delete_all_records');
     Route::post('/discount_status', 'Admin\DiscountMasterController@status_change');
     /* Discount Module Ends here...! */
+
+    /* Hair Id */
+    Route::get('/gethair/{id?}', 'Admin\HairMasterController@get_hair_id');
+    Route::get('/geteye/{id?}', 'Admin\EyeMasterController@get_eye_id');
+    Route::get('/geteyebrow/{id?}', 'Admin\EyeBrowMasterController@get_eyebrow_id');
+    Route::get('/getjaw/{id?}', 'Admin\JawMasterController@get_jaw_id');
+    Route::get('/getlip/{id?}', 'Admin\LipMasterController@get_lip_id');
+    Route::get('/getskin/{id?}', 'Admin\SkinMasterController@get_skin_id');
+    Route::get('/getear/{id?}', 'Admin\EarMasterController@get_ear_id');
+    Route::get('/getnose/{id?}', 'Admin\NoseMasterController@get_nose_id');
 }); // Email Verified enables
 
 

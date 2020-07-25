@@ -338,4 +338,38 @@ class SkinMasterController extends Controller
         }
         die(json_encode($resp));
     }
+
+
+    /**
+     * Get Skin List by Skin ID Data Array
+     * @author Tejas
+     * @param  Request Skin Id
+     * @return Array
+     */
+    public function get_skin_id($skin_id = "")
+    {
+        $resp = config('response_format.RES_RESULT');
+        try {
+            if (!isset($skin_id) || empty($skin_id))
+                throw new Exception('Skin not found..!', 1);
+
+            $skin_obj = new skin_master();
+            $skin_result = $skin_obj->get_recordby_Id($skin_id);
+
+            if (isset($skin_result[0]['skin_img']) && !empty($skin_result[0]['skin_img']) && file_exists(\public_path('uploads/skins/thumbnail/thumb_' . $skin_result[0]['skin_img']))) {
+                $mime_type = $this->_base64_mime_type($skin_result[0]['skin_img']);
+                $skin_result[0]['skin_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/skins/thumbnail/thumb_' . $skin_result[0]['skin_img'])));
+            }
+            if (empty($skin_result))
+                throw new Exception('Skin List not found..!', 422);
+
+            $resp['status'] = true;
+            $resp['message'] = "Skin List get successfully..!";
+            $resp['data'] = $skin_result;
+            return response()->json($resp, 200);
+        } catch (Exception $ex) {
+            $resp['message'] = $ex->getMessage();
+            return response()->json($resp, 422);
+        }
+    }
 }

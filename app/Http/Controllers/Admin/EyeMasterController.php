@@ -340,4 +340,37 @@ class EyeMasterController extends Controller
         }
         die(json_encode($resp));
     }
+
+    /**
+     * Get Eye List by Eye ID Data Array
+     * @author Tejas
+     * @param  Request Eye Id
+     * @return Array
+     */
+    public function get_eye_id($eye_id = "")
+    {
+        $resp = config('response_format.RES_RESULT');
+        try {
+            if (!isset($eye_id) || empty($eye_id))
+                throw new Exception('Eye Id not found..!', 1);
+
+            $eye_obj = new eye_master();
+            $eye_result = $eye_obj->get_recordby_Id($eye_id);
+
+            if (isset($eye_result[0]['eye_img']) && !empty($eye_result[0]['eye_img']) && file_exists(\public_path('uploads/eyes/thumbnail/thumb_' . $eye_result[0]['eye_img']))) {
+                $mime_type = $this->_base64_mime_type($eye_result[0]['eye_img']);
+                $eye_result[0]['eye_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/eyes/thumbnail/thumb_' . $eye_result[0]['eye_img'])));
+            }
+            if (empty($eye_result))
+                throw new Exception('Eye List not found..!', 422);
+
+            $resp['status'] = true;
+            $resp['message'] = "Eye List get successfully..!";
+            $resp['data'] = $eye_result;
+            return response()->json($resp, 200);
+        } catch (Exception $ex) {
+            $resp['message'] = $ex->getMessage();
+            return response()->json($resp, 422);
+        }
+    }
 }

@@ -338,4 +338,37 @@ class HairMasterController extends Controller
         }
         die(json_encode($resp));
     }
+
+    /**
+     * Get Hair List by Hair ID Data Array
+     * @author Tejas
+     * @param  Request Hair Id
+     * @return Array
+     */
+    public function get_hair_id($hair_id = "")
+    {
+        $resp = config('response_format.RES_RESULT');
+        try {
+            if (!isset($hair_id) || empty($hair_id))
+                throw new Exception('Hair Id not found..!', 1);
+
+            $hair_obj = new hair_master();
+            $hair_result = $hair_obj->get_recordby_Id($hair_id);
+
+            if (isset($hair_result[0]['hair_img']) && !empty($hair_result[0]['hair_img']) && file_exists(\public_path('uploads/hairs/thumbnail/thumb_' . $hair_result[0]['hair_img']))) {
+                $mime_type = $this->_base64_mime_type($hair_result[0]['hair_img']);
+                $hair_result[0]['hair_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/hairs/thumbnail/thumb_' . $hair_result[0]['hair_img'])));
+            }
+            if (empty($hair_result))
+                throw new Exception('Hair List not found..!', 422);
+
+            $resp['status'] = true;
+            $resp['message'] = "Hair List get successfully..!";
+            $resp['data'] = $hair_result;
+            return response()->json($resp, 200);
+        } catch (Exception $ex) {
+            $resp['message'] = $ex->getMessage();
+            return response()->json($resp, 422);
+        }
+    }
 }

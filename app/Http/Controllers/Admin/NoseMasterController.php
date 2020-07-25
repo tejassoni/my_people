@@ -338,4 +338,38 @@ class NoseMasterController extends Controller
         }
         die(json_encode($resp));
     }
+
+
+    /**
+     * Get Nose List by Nose ID Data Array
+     * @author Tejas
+     * @param  Request Nose Id
+     * @return Array
+     */
+    public function get_nose_id($nose_id = "")
+    {
+        $resp = config('response_format.RES_RESULT');
+        try {
+            if (!isset($nose_id) || empty($nose_id))
+                throw new Exception('Nose Id not found..!', 1);
+
+            $nose_obj = new nose_master();
+            $nose_result = $nose_obj->get_recordby_Id($nose_id);
+
+            if (isset($nose_result[0]['nose_img']) && !empty($nose_result[0]['nose_img']) && file_exists(\public_path('uploads/noses/thumbnail/thumb_' . $nose_result[0]['nose_img']))) {
+                $mime_type = $this->_base64_mime_type($nose_result[0]['nose_img']);
+                $nose_result[0]['nose_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/noses/thumbnail/thumb_' . $nose_result[0]['nose_img'])));
+            }
+            if (empty($nose_result))
+                throw new Exception('Nose List not found..!', 422);
+
+            $resp['status'] = true;
+            $resp['message'] = "Nose List get successfully..!";
+            $resp['data'] = $nose_result;
+            return response()->json($resp, 200);
+        } catch (Exception $ex) {
+            $resp['message'] = $ex->getMessage();
+            return response()->json($resp, 422);
+        }
+    }
 }

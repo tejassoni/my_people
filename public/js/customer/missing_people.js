@@ -2,13 +2,54 @@ $(document).ready(function() {
     // Date Range
     $('input[name="missing_date"]').daterangepicker({
         singleDatePicker: true,
+        maxDate: new Date(),
         locale: {
             format: "DD/MM/YYYY"
         }
     });
 
+    // Date Range
+    $('input[name="birth_date"]').daterangepicker({
+        singleDatePicker: true,
+        maxDate: new Date(),
+        locale: {
+            format: "DD/MM/YYYY"
+        }
+    });
+
+    /* File Upload Starts  */
+    $("#missing_person_img").on("change", function() {
+        // Add the following code if you want the name of the file appear on select
+        var fileName = $(this)
+            .val()
+            .split("\\")
+            .pop();
+        $(this)
+            .siblings(".custom-file-label")
+            .addClass("selected")
+            .html(fileName);
+        // File Reader Convert into Base64 and Preview file
+        if (this.files && this.files[0]) {
+            var FR = new FileReader();
+            FR.addEventListener("load", function(e) {
+                document.getElementById("img_view").src = e.target.result;
+                // document.getElementById("b64").innerHTML = e.target.result;
+            });
+            FR.readAsDataURL(this.files[0]);
+            $(".file_preview").removeClass("d-none");
+        }
+    });
+
+    // Remove file from upload text
+    $(".close").on("click", function() {
+        $(".custom-file-label").html("Upload Missing Person Image");
+        document.getElementById("img_view").src = "#";
+        $(".file_preview").addClass("d-none");
+    });
+    /* File Upload Ends  */
+
     // Datatables Operation Starts
-    $("#discount_list_table").DataTable({
+    $("#discount_list_table1").DataTable({
         processing: true,
         serverSide: true,
         type: "get",
@@ -469,28 +510,47 @@ $(document).ready(function() {
                 type: "GET", // Default GET
                 url: APPURL + "/customer/getstate/" + country_id,
                 dataType: "json", // text , XML, HTML
-                beforeSend: function() {
-                },
+                beforeSend: function() {},
                 success: function(data_resp, textStatus, jqXHR) {
                     if (data_resp.status) {
                         $("#state_select").empty();
                         $("#city_select").empty();
-                        $("#city_select").append("<option>Select City</option>");
-                        $("#state_select").append("<option>Select State</option>");
+                        $("#city_select").append(
+                            "<option>Select City</option>"
+                        );
+                        $("#state_select").append(
+                            "<option>Select State</option>"
+                        );
                         $.each(data_resp.data, function(key, value) {
+                            var selected = "";
+                            if (
+                                $("#select_state_hidden").val() != "" &&
+                                $("#select_state_hidden").val() ==
+                                    value.state_id
+                            ) {
+                                selected = "selected";
+                            }
                             $("#state_select").append(
                                 '<option value="' +
-                                value.state_id +
-                                    '">' +
+                                    value.state_id +
+                                    '" ' +
+                                    selected +
+                                    ">" +
                                     value.name +
                                     "</option>"
                             );
                         });
                     }
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                },
+                error: function(jqXHR, textStatus, errorThrown) {},
                 complete: function() {
+                    // Dynamic Dependent Validation Selected
+                    if (
+                        $("#select_state_hidden").val() != "" ||
+                        $('#select_state_hidden').val().length != 0
+                    ) {
+                        $("#state_select").trigger("change");
+                    }
                 }
             });
         }
@@ -503,28 +563,237 @@ $(document).ready(function() {
                 type: "GET", // Default GET
                 url: APPURL + "/customer/getcity/" + state_id,
                 dataType: "json", // text , XML, HTML
-                beforeSend: function() {
-                },
+                beforeSend: function() {},
                 success: function(data_resp, textStatus, jqXHR) {
                     if (data_resp.status) {
                         $("#city_select").empty();
-                        $("#city_select").append("<option>Select City</option>");
+                        $("#city_select").append(
+                            "<option>Select City</option>"
+                        );
+
                         $.each(data_resp.data, function(key, value) {
+                            var selected = "";
+                            if (
+                                $("#select_city_hidden").val() != "" &&
+                                $("#select_city_hidden").val() == value.city_id
+                            ) {
+                                selected = "selected";
+                            }
+
                             $("#city_select").append(
                                 '<option value="' +
-                                value.city_id +
-                                    '">' +
+                                    value.city_id +
+                                    '" ' +
+                                    selected +
+                                    " >" +
                                     value.name +
                                     "</option>"
                             );
                         });
                     }
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                },
-                complete: function() {
-                }
+                error: function(jqXHR, textStatus, errorThrown) {},
+                complete: function() {}
             });
         }
     });
+
+    $(document).on("change", "#hair_select", function() {
+        var hair_id = $(this).val();
+        if (hair_id) {
+            $.ajax({
+                type: "GET", // Default GET
+                url: APPURL + "/admin/gethair/" + hair_id,
+                dataType: "json", // text , XML, HTML
+                beforeSend: function() {
+                    $("#hair_img_view").hide();
+                    $("#hair_img_view").attr("src", "");
+                },
+                success: function(data_resp, textStatus, jqXHR) {
+                    if (data_resp.status) {
+                        $("#hair_img_view").show();
+                        $("#hair_img_view").attr(
+                            "src",
+                            data_resp.data[0].hair_img
+                        );
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {},
+                complete: function() {}
+            });
+        }
+    });
+
+    $(document).on("change", "#eye_select", function() {
+        var eye_id = $(this).val();
+        if (eye_id) {
+            $.ajax({
+                type: "GET", // Default GET
+                url: APPURL + "/admin/geteye/" + eye_id,
+                dataType: "json", // text , XML, HTML
+                beforeSend: function() {
+                    $("#eye_img_view").hide();
+                    $("#eye_img_view").attr("src", "");
+                },
+                success: function(data_resp, textStatus, jqXHR) {
+                    if (data_resp.status) {
+                        $("#eye_img_view").show();
+                        $("#eye_img_view").attr(
+                            "src",
+                            data_resp.data[0].eye_img
+                        );
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {},
+                complete: function() {}
+            });
+        }
+    });
+
+    $(document).on("change", "#eyebrow_select", function() {
+        var eyebrow_id = $(this).val();
+        if (eyebrow_id) {
+            $.ajax({
+                type: "GET", // Default GET
+                url: APPURL + "/admin/geteyebrow/" + eyebrow_id,
+                dataType: "json", // text , XML, HTML
+                beforeSend: function() {
+                    $("#eye_brow_view").hide();
+                    $("#eye_brow_view").attr("src", "");
+                },
+                success: function(data_resp, textStatus, jqXHR) {
+                    if (data_resp.status) {
+                        $("#eye_brow_view").show();
+                        $("#eye_brow_view").attr(
+                            "src",
+                            data_resp.data[0].eye_brow_img
+                        );
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {},
+                complete: function() {}
+            });
+        }
+    });
+
+    $(document).on("change", "#face_jaw_select", function() {
+        var jaw_id = $(this).val();
+        if (jaw_id) {
+            $.ajax({
+                type: "GET", // Default GET
+                url: APPURL + "/admin/getjaw/" + jaw_id,
+                dataType: "json", // text , XML, HTML
+                beforeSend: function() {
+                    $("#jaw_view").hide();
+                    $("#jaw_view").attr("src", "");
+                },
+                success: function(data_resp, textStatus, jqXHR) {
+                    if (data_resp.status) {
+                        $("#jaw_view").show();
+                        $("#jaw_view").attr("src", data_resp.data[0].jaw_img);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {},
+                complete: function() {}
+            });
+        }
+    });
+
+    $(document).on("change", "#lip_select", function() {
+        var lip_id = $(this).val();
+        if (lip_id) {
+            $.ajax({
+                type: "GET", // Default GET
+                url: APPURL + "/admin/getlip/" + lip_id,
+                dataType: "json", // text , XML, HTML
+                beforeSend: function() {
+                    $("#lip_view").hide();
+                    $("#lip_view").attr("src", "");
+                },
+                success: function(data_resp, textStatus, jqXHR) {
+                    if (data_resp.status) {
+                        $("#lip_view").show();
+                        $("#lip_view").attr("src", data_resp.data[0].lip_img);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {},
+                complete: function() {}
+            });
+        }
+    });
+
+    $(document).on("change", "#skin_select", function() {
+        var skin_id = $(this).val();
+        if (skin_id) {
+            $.ajax({
+                type: "GET", // Default GET
+                url: APPURL + "/admin/getskin/" + skin_id,
+                dataType: "json", // text , XML, HTML
+                beforeSend: function() {
+                    $("#skin_view").hide();
+                    $("#skin_view").attr("src", "");
+                },
+                success: function(data_resp, textStatus, jqXHR) {
+                    if (data_resp.status) {
+                        $("#skin_view").show();
+                        $("#skin_view").attr("src", data_resp.data[0].skin_img);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {},
+                complete: function() {}
+            });
+        }
+    });
+
+    $(document).on("change", "#ear_select", function() {
+        var ear_id = $(this).val();
+        if (ear_id) {
+            $.ajax({
+                type: "GET", // Default GET
+                url: APPURL + "/admin/getear/" + ear_id,
+                dataType: "json", // text , XML, HTML
+                beforeSend: function() {
+                    $("#ear_view").hide();
+                    $("#ear_view").attr("src", "");
+                },
+                success: function(data_resp, textStatus, jqXHR) {
+                    if (data_resp.status) {
+                        $("#ear_view").show();
+                        $("#ear_view").attr("src", data_resp.data[0].ear_img);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {},
+                complete: function() {}
+            });
+        }
+    });
+
+    $(document).on("change", "#nose_select", function() {
+        var nose_id = $(this).val();
+        if (nose_id) {
+            $.ajax({
+                type: "GET", // Default GET
+                url: APPURL + "/admin/getnose/" + nose_id,
+                dataType: "json", // text , XML, HTML
+                beforeSend: function() {
+                    $("#nose_view").hide();
+                    $("#nose_view").attr("src", "");
+                },
+                success: function(data_resp, textStatus, jqXHR) {
+                    if (data_resp.status) {
+                        $("#nose_view").show();
+                        $("#nose_view").attr("src", data_resp.data[0].nose_img);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {},
+                complete: function() {}
+            });
+        }
+    });
+
+    // Dynamic Dependent Select Box While Validation Fails Selected    
+    if ($("#select_country_hidden").val()) {
+       $("#country_select").trigger('change');
+    }
+    
 });

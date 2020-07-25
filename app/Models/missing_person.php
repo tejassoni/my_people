@@ -33,7 +33,7 @@ class missing_person extends Model
    *
    * @var array
    */
-  protected $fillable = ['f_name', 'm_name', 'l_name', 'birth_date', 'age', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'missed_date', 'user_id', 'hair_id', 'eye_id', 'eye_brow_id', 'lip_id', 'jaw_id', 'skin_id', 'ear_id', 'nose_id', 'remark', 'cloth_description', 'currency_id', 'amount', 'status'];
+  protected $fillable = ['missing_person_img', 'f_name', 'm_name', 'l_name', 'birth_date', 'age', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'missed_date', 'user_id', 'hair_id', 'eye_id', 'eye_brow_id', 'lip_id', 'jaw_id', 'skin_id', 'ear_id', 'nose_id', 'remark', 'cloth_description', 'currency_id', 'amount', 'is_found', 'status'];
 
   /**
    * The attributes that aren't mass assignable.

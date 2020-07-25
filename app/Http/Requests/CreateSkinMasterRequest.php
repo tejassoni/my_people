@@ -46,7 +46,7 @@ class CreateSkinMasterRequest extends FormRequest
             'skin_color.required' => 'Color field is required..!',
             'filename.required' => 'File upload file is required..!',
             // 'filename.*' => 'File type must be jpg,png or bmp...!',
-            'filename.mimes' => 'File upload file is required..!',
+            'filename.mimes' => 'File type must be jpeg, jpg, bmp, png, gif, ico, apng, bmp, svg, tiff or webp..!',
             'filename.min' => 'Minimum file size must be 24KB...!',
             'filename.max' => 'Maximum file size must be 5MB...!'
         ];

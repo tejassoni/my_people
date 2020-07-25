@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use Image;
+use session;
 use Exception;
 use DataTables;
 use App\Models\ear_master;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\DeleteBulkRequest;
 use App\Http\Requests\StatusUpdateRequest;
 use App\Http\Requests\CreateEarMasterRequest;
@@ -22,8 +24,7 @@ class EarMasterController extends Controller
      * @return void
      */
     public function __construct()
-    { // coonstructor code starts here        
-
+    { // coonstructor code starts here 
     }
 
     /**
@@ -337,5 +338,39 @@ class EarMasterController extends Controller
             $resp['message'] = 'Ear is not Active/In-Active, Please try again...!';
         }
         die(json_encode($resp));
+    }
+
+
+    /**
+     * Get Ear List by Ear ID Data Array
+     * @author Tejas
+     * @param  Request Ear Id
+     * @return Array
+     */
+    public function get_ear_id($ear_id = "")
+    {
+        $resp = config('response_format.RES_RESULT');
+        try {
+            if (!isset($ear_id) || empty($ear_id))
+                throw new Exception('Ear Id not found..!', 1);
+
+            $ear_obj = new ear_master();
+            $ear_result = $ear_obj->get_recordby_Id($ear_id);
+
+            if (isset($ear_result[0]['ear_img']) && !empty($ear_result[0]['ear_img']) && file_exists(\public_path('uploads/ears/thumbnail/thumb_' . $ear_result[0]['ear_img']))) {
+                $mime_type = $this->_base64_mime_type($ear_result[0]['ear_img']);
+                $ear_result[0]['ear_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/ears/thumbnail/thumb_' . $ear_result[0]['ear_img'])));
+            }
+            if (empty($ear_result))
+                throw new Exception('Ear List not found..!', 422);
+
+            $resp['status'] = true;
+            $resp['message'] = "Ear List get successfully..!";
+            $resp['data'] = $ear_result;
+            return response()->json($resp, 200);
+        } catch (Exception $ex) {
+            $resp['message'] = $ex->getMessage();
+            return response()->json($resp, 422);
+        }
     }
 }

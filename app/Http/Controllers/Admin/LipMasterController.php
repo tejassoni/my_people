@@ -338,4 +338,37 @@ class LipMasterController extends Controller
         }
         die(json_encode($resp));
     }
+
+    /**
+     * Get Lip List by Lip ID Data Array
+     * @author Tejas
+     * @param  Request Lip Id
+     * @return Array
+     */
+    public function get_lip_id($lip_id = "")
+    {
+        $resp = config('response_format.RES_RESULT');
+        try {
+            if (!isset($lip_id) || empty($lip_id))
+                throw new Exception('Eye Id not found..!', 1);
+
+            $lip_obj = new lip_master();
+            $lip_result = $lip_obj->get_recordby_Id($lip_id);
+
+            if (isset($lip_result[0]['lip_img']) && !empty($lip_result[0]['lip_img']) && file_exists(\public_path('uploads/lips/thumbnail/thumb_' . $lip_result[0]['lip_img']))) {
+                $mime_type = $this->_base64_mime_type($lip_result[0]['lip_img']);
+                $lip_result[0]['lip_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/lips/thumbnail/thumb_' . $lip_result[0]['lip_img'])));
+            }
+            if (empty($lip_result))
+                throw new Exception('Lip List not found..!', 422);
+
+            $resp['status'] = true;
+            $resp['message'] = "Lip List get successfully..!";
+            $resp['data'] = $lip_result;
+            return response()->json($resp, 200);
+        } catch (Exception $ex) {
+            $resp['message'] = $ex->getMessage();
+            return response()->json($resp, 422);
+        }
+    }
 }

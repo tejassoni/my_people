@@ -46,16 +46,27 @@
       <!-- .card-body -->
       <div class="card-body">
         <!-- form start -->
-        <form role="form" name="missing_person_add" id="missing_person_add" method="post" action="{{ url('customer/missing_person_insert') }}">
+        <form role="form" name="missing_person_add" id="missing_person_add" method="post" action="{{ url('customer/missing_person_insert') }}" enctype="multipart/form-data">
           <!-- csrf security starts -->
           @csrf
           <div class="row">
             <!-- .col-md-6 Left Starts -->
             <div class="col-md-6">
 
+              <div class="form-group custom-file mb-3">
+                <input type="file" class="custom-file-input" id="missing_person_img" name="filename">
+                <label class="custom-file-label" for="customFile">Upload Missing Person Image</label>
+                <!-- File preview Starts -->
+                <img class="file_preview mb-5 d-none" id="img_view" alt="Image Preview" src="#" height="70" width="70">
+                <button type="button" class="file_preview close float-left d-none" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                <!-- File preview Ends -->
+              </div>
+
               <div class="form-group required">
                 <label for="first_name"><?= ('First Name') ?></label>
-                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name" value="{{ old('first_name') }}" required />
+                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter First Name" value="{{ old('first_name') }}" />
               </div>
               <div class="form-group required">
                 <label for="middle_name"><?= ('Middle Name') ?></label>
@@ -89,18 +100,24 @@
                   <option value="" disabled selected><?= ('No Records found..') ?></>
                     @endif
                 </select>
+                <!-- Dynamic Dependend Validation Selected -->
+                <input type='hidden' id='select_country_hidden' name='select_country_hidden' value='{{ (is_array(old()) && !empty(old('country_select')))?old('country_select'):'' }}'>
               </div>
-              <div class="form-group w-120 required">
+              <div class="form-group required">
                 <label><?= ('Select State') ?></label>
                 <select class="form-control" name="state_select" id="state_select" required>
                   <option value="" disabled selected><?= ('Select State') ?></option>
                 </select>
+                <!-- Dynamic Dependend Validation Selected -->
+                <input type='hidden' id='select_state_hidden' name='select_state_hidden' value='{{ (is_array(old()) && !empty(old('state_select')))?old('state_select'):'' }}'>
               </div>
-              <div class="form-group w-120 required">
+              <div class="form-group required">
                 <label><?= ('Select City') ?></label>
                 <select class="form-control" name="city_select" id="city_select" required>
                   <option value="" disabled selected><?= ('Select City') ?></option>
                 </select>
+                <!-- Dynamic Dependend Validation Selected -->
+                <input type='hidden' id='select_city_hidden' name='select_city_hidden' value='{{ (is_array(old()) && !empty(old('city_select')))?old('city_select'):'' }}'>
               </div>
               <div class="form-group required">
                 <label for="pincode"><?= ('Pincode') ?></label>
@@ -110,129 +127,203 @@
                 <label for="missing_date"> Missing Date </label>
                 <input type="text" class="form-control" name="missing_date" id="missing_date" placeholder="Enter Missing Date" value="{{ old('missing_date') }}" />
               </div>
-              <div class="form-group">
-                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                  <input type="checkbox" class="custom-control-input" name="status" id="status" @if(is_array(old()) && old('status')=='on' ) checked @endif>
-                  <label class="custom-control-label" for="status"><?= ('Status') ?></label>
-                </div>
+              <div class="form-group required">
+                <label for="remark"><?= ('Cloth Description') ?></label>
+                <textarea class="form-control" name="cloth_description" id="cloth_description" rows="3" placeholder="Enter Cloth Description" required>{{ old('cloth_description') }}</textarea>
               </div>
             </div>
             <!-- /.col-md-6 Left Ends-->
 
             <!-- .col-md-6 Right Starts -->
             <div class="col-md-6">
-              <div class="form-group w-120">
-                <label><?= ('Select Hair') ?></label>
-                <select class="form-control" name="hair_select" id="hair_select">
-                  @if(isset($hair_list) && !empty($hair_list))
-                  <option value="" disabled selected><?= ('Select Hair') ?></option>
-                  @foreach ($hair_list as $hair_key => $hair_val)
-                  <option value="{{ $hair_val['hair_id'] }}" {{ (is_array(old()) && !empty(old('hair_select')) && old('hair_select') == $hair_val['hair_id'])? 'selected' : '' }}>{{ ucwords($hair_val['hair_style_name']) }}</option>
-                  @endforeach
-                  @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
-                    @endif
-                </select>
+
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="form-group clearfix">
+                    <label><?= ('Select Hair') ?></label>
+                    <select class="form-control" name="hair_select" id="hair_select">
+                      @if(isset($hair_list) && !empty($hair_list))
+                      <option value="" disabled selected><?= ('Select Hair') ?></option>
+                      @foreach ($hair_list as $hair_key => $hair_val)
+                      <option value="{{ $hair_val['hair_id'] }}" {{ (is_array(old()) && !empty(old('hair_select')) && old('hair_select') == $hair_val['hair_id'])? 'selected' : '' }}>{{ ucwords($hair_val['hair_style_name']) }}</option>
+                      @endforeach
+                      @else
+                      <option value="" disabled selected><?= ('No Records found..') ?></>
+                        @endif
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-sm-3">
+                  <div class="">
+                    <img class="file_preview_select mb-5" id="hair_img_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('hair_select')))? url('uploads/hairs/thumbnail/thumb_'.App\Models\hair_master::find(old('hair_select'))->hair_img) : asset('assets/no-preview.jpg') }}" height="70" width="70">
+                  </div>
+                </div>
               </div>
-              <div class="form-group w-120">
-                <label><?= ('Select Eye') ?></label>
-                <select class="form-control" name="eye_select" id="eye_select">
-                  @if(isset($eye_list) && !empty($eye_list))
-                  <option value="" disabled selected><?= ('Select Eye') ?></option>
-                  @foreach ($eye_list as $eye_key => $eye_val)
-                  <option value="{{ $eye_val['eye_id'] }}" {{ (is_array(old()) && !empty(old('eye_select')) && old('eye_select') == $eye_val['eye_id'])? 'selected' : '' }}>{{ ucwords($eye_val['eye_name']) }}</option>
-                  @endforeach
-                  @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
-                    @endif
-                </select>
+
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="form-group clearfix">
+                    <label><?= ('Select Eye') ?></label>
+                    <select class="form-control" name="eye_select" id="eye_select">
+                      @if(isset($eye_list) && !empty($eye_list))
+                      <option value="" disabled selected><?= ('Select Eye') ?></option>
+                      @foreach ($eye_list as $eye_key => $eye_val)
+                      <option value="{{ $eye_val['eye_id'] }}" {{ (is_array(old()) && !empty(old('eye_select')) && old('eye_select') == $eye_val['eye_id'])? 'selected' : '' }}>{{ ucwords($eye_val['eye_name']) }}</option>
+                      @endforeach
+                      @else
+                      <option value="" disabled selected><?= ('No Records found..') ?></>
+                        @endif
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="">
+                    <img class="file_preview_select mb-5" id="eye_img_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('eye_select')))? url('uploads/eyes/thumbnail/thumb_'.App\Models\eye_master::find(old('eye_select'))->eye_img) : asset('assets/no-preview.jpg') }}" height="70" width="70">
+                  </div>
+                </div>
               </div>
-              <div class="form-group w-120">
-                <label><?= ('Select Eye Brow') ?></label>
-                <select class="form-control" name="eyebrow_select" id="eyebrow_select">
-                  @if(isset($eyebrow_list) && !empty($eyebrow_list))
-                  <option value="" disabled selected><?= ('Select EyeBrow') ?></option>
-                  @foreach ($eyebrow_list as $eyebrow_key => $eyebrow_val)
-                  <option value="{{ $eyebrow_val['eye_brow_id'] }}" {{ (is_array(old()) && !empty(old('eyebrow_select')) && old('eyebrow_select') == $eyebrow_val['eye_brow_id'])? 'selected' : '' }}>{{ ucwords($eyebrow_val['eye_brow_name']) }}</option>
-                  @endforeach
-                  @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
-                    @endif
-                </select>
+
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="form-group clearfix">
+                    <label><?= ('Select Eye Brow') ?></label>
+                    <select class="form-control" name="eyebrow_select" id="eyebrow_select">
+                      @if(isset($eyebrow_list) && !empty($eyebrow_list))
+                      <option value="" disabled selected><?= ('Select EyeBrow') ?></option>
+                      @foreach ($eyebrow_list as $eyebrow_key => $eyebrow_val)
+                      <option value="{{ $eyebrow_val['eye_brow_id'] }}" {{ (is_array(old()) && !empty(old('eyebrow_select')) && old('eyebrow_select') == $eyebrow_val['eye_brow_id'])? 'selected' : '' }}>{{ ucwords($eyebrow_val['eye_brow_name']) }}</option>
+                      @endforeach
+                      @else
+                      <option value="" disabled selected><?= ('No Records found..') ?></>
+                        @endif
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="">
+                    <img class="file_preview_select mb-5" id="eye_brow_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('eyebrow_select')))? url('uploads/eyebrows/thumbnail/thumb_'.App\Models\eyebrow_master::find(old('eyebrow_select'))->eye_brow_img) : asset('assets/no-preview.jpg') }}" height="70" width="70">
+                  </div>
+                </div>
               </div>
-              <div class="form-group w-120">
-                <label><?= ('Select Lip') ?></label>
-                <select class="form-control" name="lip_select" id="lip_select" required>
-                  @if(isset($lip_list) && !empty($lip_list))
-                  <option value="" disabled selected><?= ('Select Lip') ?></option>
-                  @foreach ($lip_list as $lip_key => $lip_val)
-                  <option value="{{ $lip_val['lip_id'] }}" {{ (is_array(old()) && !empty(old('lip_select')) && old('lip_select') == $lip_val['lip_id'])? 'selected' : '' }}>{{ ucwords($lip_val['lip_name']) }}</option>
-                  @endforeach
-                  @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
-                    @endif
-                </select>
+
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="form-group clearfix">
+                    <label><?= ('Select Lip') ?></label>
+                    <select class="form-control" name="lip_select" id="lip_select">
+                      @if(isset($lip_list) && !empty($lip_list))
+                      <option value="" disabled selected><?= ('Select Lip') ?></option>
+                      @foreach ($lip_list as $lip_key => $lip_val)
+                      <option value="{{ $lip_val['lip_id'] }}" {{ (is_array(old()) && !empty(old('lip_select')) && old('lip_select') == $lip_val['lip_id'])? 'selected' : '' }}>{{ ucwords($lip_val['lip_name']) }}</option>
+                      @endforeach
+                      @else
+                      <option value="" disabled selected><?= ('No Records found..') ?></>
+                        @endif
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="">
+                    <img class="file_preview_select mb-5" id="lip_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('lip_select')))? url('uploads/lips/thumbnail/thumb_'.App\Models\lip_master::find(old('lip_select'))->lip_img) : asset('assets/no-preview.jpg') }}" height="70" width="70">
+                  </div>
+                </div>
               </div>
-              <div class="form-group w-120">
-                <label><?= ('Select Face / Jaw') ?></label>
-                <select class="form-control" name="face_jaw_select" id="face_jaw_select" required>
-                  @if(isset($jaw_list) && !empty($jaw_list))
-                  <option value="" disabled selected><?= ('Select Face Jaw') ?></option>
-                  @foreach ($jaw_list as $jaw_key => $jaw_val)
-                  <option value="{{ $jaw_val['jaw_id'] }}" {{ (is_array(old()) && !empty(old('face_jaw_select')) && old('face_jaw_select') == $jaw_val['jaw_id'])? 'selected' : '' }}>{{ ucwords($jaw_val['jaw_name']) }}</option>
-                  @endforeach
-                  @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
-                    @endif
-                </select>
+
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="form-group clearfix">
+                    <label><?= ('Select Face / Jaw') ?></label>
+                    <select class="form-control" name="face_jaw_select" id="face_jaw_select">
+                      @if(isset($jaw_list) && !empty($jaw_list))
+                      <option value="" disabled selected><?= ('Select Face Jaw') ?></option>
+                      @foreach ($jaw_list as $jaw_key => $jaw_val)
+                      <option value="{{ $jaw_val['jaw_id'] }}" {{ (is_array(old()) && !empty(old('face_jaw_select')) && old('face_jaw_select') == $jaw_val['jaw_id'])? 'selected' : '' }}>{{ ucwords($jaw_val['jaw_name']) }}</option>
+                      @endforeach
+                      @else
+                      <option value="" disabled selected><?= ('No Records found..') ?></>
+                        @endif
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="">
+                    <img class="file_preview_select mb-5" id="jaw_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('face_jaw_select')))? url('uploads/jaws/thumbnail/thumb_'.App\Models\jaw_master::find(old('face_jaw_select'))->jaw_img) : asset('assets/no-preview.jpg') }}" height="70" width="70">
+                  </div>
+                </div>
               </div>
-              <div class="form-group w-120">
-                <label><?= ('Select Skin') ?></label>
-                <select class="form-control" name="skin_select" id="skin_select" required>
-                  @if(isset($skin_list) && !empty($skin_list))
-                  <option value="" disabled selected><?= ('Select Skin') ?></option>
-                  @foreach ($skin_list as $skin_key => $skin_val)
-                  <option value="{{ $skin_val['skin_id'] }}" {{ (is_array(old()) && !empty(old('skin_select')) && old('skin_select') == $skin_val['skin_id'])? 'selected' : '' }}>{{ ucwords($skin_val['skin_name']) }}</option>
-                  @endforeach
-                  @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
-                    @endif
-                </select>
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="form-group clearfix">
+                    <label><?= ('Select Skin') ?></label>
+                    <select class="form-control" name="skin_select" id="skin_select">
+                      @if(isset($skin_list) && !empty($skin_list))
+                      <option value="" disabled selected><?= ('Select Skin') ?></option>
+                      @foreach ($skin_list as $skin_key => $skin_val)
+                      <option value="{{ $skin_val['skin_id'] }}" {{ (is_array(old()) && !empty(old('skin_select')) && old('skin_select') == $skin_val['skin_id'])? 'selected' : '' }}>{{ ucwords($skin_val['skin_name']) }}</option>
+                      @endforeach
+                      @else
+                      <option value="" disabled selected><?= ('No Records found..') ?></>
+                        @endif
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="">
+                    <img class="file_preview_select mb-5" id="skin_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('skin_select')))? url('uploads/skins/thumbnail/thumb_'.App\Models\skin_master::find(old('skin_select'))->skin_img) : asset('assets/no-preview.jpg') }}" height="70" width="70">
+                  </div>
+                </div>
               </div>
-              <div class="form-group w-120">
-                <label><?= ('Select Ear') ?></label>
-                <select class="form-control" name="ear_select" id="ear_select" required>
-                  @if(isset($ear_list) && !empty($ear_list))
-                  <option value="" disabled selected><?= ('Select Ear') ?></option>
-                  @foreach ($ear_list as $ear_key => $ear_val)
-                  <option value="{{ $ear_val['ear_id'] }}" {{ (is_array(old()) && !empty(old('ear_select')) && old('ear_select') == $ear_val['ear_id'])? 'selected' : '' }}>{{ ucwords($ear_val['ear_name']) }}</option>
-                  @endforeach
-                  @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
-                    @endif
-                </select>
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="form-group clearfix">
+                    <label><?= ('Select Ear') ?></label>
+                    <select class="form-control" name="ear_select" id="ear_select">
+                      @if(isset($ear_list) && !empty($ear_list))
+                      <option value="" disabled selected><?= ('Select Ear') ?></option>
+                      @foreach ($ear_list as $ear_key => $ear_val)
+                      <option value="{{ $ear_val['ear_id'] }}" {{ (is_array(old()) && !empty(old('ear_select')) && old('ear_select') == $ear_val['ear_id'])? 'selected' : '' }}>{{ ucwords($ear_val['ear_name']) }}</option>
+                      @endforeach
+                      @else
+                      <option value="" disabled selected><?= ('No Records found..') ?></>
+                        @endif
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="">
+                    <img class="file_preview_select mb-5" id="ear_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('eyebrow_select')))? url('uploads/ears/thumbnail/thumb_'.App\Models\ear_master::find(old('ear_select'))->ear_img) : asset('assets/no-preview.jpg') }}" height="70" width="70">
+                  </div>
+                </div>
               </div>
-              <div class="form-group w-120">
-                <label><?= ('Select Nose') ?></label>
-                <select class="form-control" name="nose_select" id="nose_select" required>
-                  @if(isset($nose_list) && !empty($nose_list))
-                  <option value="" disabled selected><?= ('Select Nose') ?></option>
-                  @foreach ($nose_list as $nose_key => $nose_val)
-                  <option value="{{ $nose_val['nose_id'] }}" {{ (is_array(old()) && !empty(old('nose_select')) && old('nose_select') == $nose_val['nose_id'])? 'selected' : '' }}>{{ ucwords($nose_val['nose_name']) }}</option>
-                  @endforeach
-                  @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
-                    @endif
-                </select>
+
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="form-group clearfix">
+                    <label><?= ('Select Nose') ?></label>
+                    <select class="form-control" name="nose_select" id="nose_select">
+                      @if(isset($nose_list) && !empty($nose_list))
+                      <option value="" disabled selected><?= ('Select Nose') ?></option>
+                      @foreach ($nose_list as $nose_key => $nose_val)
+                      <option value="{{ $nose_val['nose_id'] }}" {{ (is_array(old()) && !empty(old('nose_select')) && old('nose_select') == $nose_val['nose_id'])? 'selected' : '' }}>{{ ucwords($nose_val['nose_name']) }}</option>
+                      @endforeach
+                      @else
+                      <option value="" disabled selected><?= ('No Records found..') ?></>
+                        @endif
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="">
+                    <img class="file_preview_select mb-5" id="nose_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('nose_select')))? url('uploads/noses/thumbnail/thumb_'.App\Models\nose_master::find(old('nose_select'))->nose_img) : asset('assets/no-preview.jpg') }}" height="70" width="70">
+                  </div>
+                </div>
               </div>
               <div class="form-group required">
                 <label for="remark"><?= ('Remark') ?></label>
                 <textarea class="form-control" name="remark" id="remark" rows="3" placeholder="Enter Remark" required>{{ old('remark') }}</textarea>
               </div>
-              <div class="form-group required">
-                <label for="remark"><?= ('Cloth Description') ?></label>
-                <textarea class="form-control" name="cloth_description" id="cloth_description" rows="3" placeholder="Enter Cloth Description" required>{{ old('cloth_description') }}</textarea>
-              </div>
+
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group clearfix">
@@ -243,7 +334,7 @@
                 <div class="col-sm-6">
                   <div class="form-group w-120 clearfix">
                     <label><?= ('Currency Type For Reward') ?></label>
-                    <select class="form-control" name="currency_select" id="currency_select" required>
+                    <select class="form-control" name="currency_select" id="currency_select">
                       @if(isset($currency_list) && !empty($currency_list))
                       <option value="" disabled selected><?= ('Select Currency') ?></option>
                       @foreach ($currency_list as $currency_key => $currency_val)

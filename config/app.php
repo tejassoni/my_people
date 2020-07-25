@@ -135,7 +135,8 @@ return [
     */
 
     'providers' => [
-
+    	 // Jwt auth library
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         /*
          * Laravel Framework Service Providers...
          */
