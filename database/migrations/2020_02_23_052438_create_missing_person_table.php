@@ -19,6 +19,7 @@ class CreateMissingPersonTable extends Migration
             $table->string('f_name', 50)->nullable(true);
             $table->string('m_name', 50)->nullable(true);
             $table->string('l_name', 50)->nullable(true);
+            $table->char('gender', 6)->nullable(true);
             $table->date('birth_date')->nullable(true);
             $table->integer('age')->nullable(true);
             $table->text('address')->nullable(true);

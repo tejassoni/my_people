@@ -36,16 +36,13 @@
           <table id="missing_person_list_table" class="display datatables table table-striped table-bordered w-100">
             <thead>
               <tr>
-                <!-- Enable If First Column is Checkbox  -->
-                <th>
-                  <input type="checkbox" name="select_all_chkbox" class="select_all_chkbox" value="0" id="select_all_chkbox">
-                </th>
                 <th><?= ('Name') ?></th>
                 <th><?= ('Image') ?></th>
                 <th><?= ('Location') ?></th>
                 <th><?= ('Age') ?></th>
                 <th><?= ('Missing Date') ?></th>
                 <th><?= ('Emergency Contact') ?></th>
+                <th><?= ('Missing Status') ?></th>
                 <th><?= ('Action') ?></th>
               </tr>
             </thead>

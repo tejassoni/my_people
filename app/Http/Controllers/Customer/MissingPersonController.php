@@ -14,6 +14,7 @@ use App\Models\hair_master;
 use App\Models\nose_master;
 use App\Models\skin_master;
 use App\Models\state_master;
+use App\Models\find_person;
 use Illuminate\Http\Request;
 use App\Models\country_master;
 use App\Models\eyebrow_master;
@@ -109,6 +110,7 @@ class MissingPersonController extends Controller
         $preArr['m_name'] = $request->input('middle_name');
         $preArr['l_name'] = $request->input('last_name');
         $preArr['birth_date'] = date("Y-m-d", strtotime(str_replace("/", "-", $request->input('birth_date'))));
+        $preArr['gender'] = $request->input('gender');
         $preArr['age'] = $request->input('age');
         $preArr['address'] = $request->input('address');
         $preArr['country_id'] = $request->input('country_select');
@@ -177,22 +179,31 @@ class MissingPersonController extends Controller
             $missing_person_obj = new missing_person;
             // $list = $missing_person_obj->list_all();
             $list = $missing_person_obj->list_belongsTo();
-
             return DataTables::of($list)
                 ->addIndexColumn()
+                ->addColumn('missing_status', function ($list) {
+                    $missing_status = '<span class="text-danger"><i class="fa fa-ban" aria-hidden="true"></i> Missing </span>';
+                    $find_person = find_person::find($list['missing_id']);
+                    if (isset($find_person) && !empty($find_person) && $find_person['approval_status'] == "pending") {
+                        $missing_status = '<span class="text-warning"><i class="fa fa-clock" aria-hidden="true"></i> Pending Approval</span>';
+                    }
+                    return $missing_status;
+                })
                 ->addColumn('action', function ($list) {
                     $button = '';
-                    $edit_button = '<a href="' . url("/customer/missing_person_edit/{$list['missing_id']}") . '" class="btn btn-xs btn-warning btn_edit" title="Edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
-                    $delete_button = '<a href="#delete-' . $list['missing_id'] . '" delete_id="' . $list['missing_id'] . '" class="btn btn-xs btn-danger btn_delete" title="Delete"><i class="far fa-trash-alt"></i> Delete</a>';
+                    $edit_button = '<a href="' . url("/customer/missing_person_edit/{$list['missing_id']}") . '" class="btn btn-xs btn-info btn_edit" title="Edit"><i class="far fa-eye"></i> View </a> &nbsp;';
+                    $download_button = '<a href="#delete-' . $list['missing_id'] . '" delete_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_delete" title="Delete"><i class="fa fa-download"></i> Download</a>';
+                    $request_button = '<a href="#delete-' . $list['missing_id'] . '" delete_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_delete" title="Delete"><i class="fa fa-reply"></i> Request</a>';
                     $button .= $edit_button;
-                    $button .= $delete_button;
+                    $button .= $download_button;
+                    $button .= $request_button;
                     return $button;
                 })
                 ->addColumn('missing_person_img', function ($list) {
                     if (!empty($list['missing_person_img']))
                         return '<img src="' . url('uploads/missing_persons/thumbnail/thumb_' . $list['missing_person_img']) . '" title="Image" height="50" width="50"/>';
                 })
-                ->rawColumns(['action', 'missing_person_img'])
+                ->rawColumns(['action', 'missing_person_img', 'missing_status'])
                 ->make(true);
         }
         return view('customer.missing_persons.list_view');

@@ -37,7 +37,6 @@ class CreateMissingPersonRequest extends FormRequest
             'address' => 'required',
             'country_select' => 'required',
             'state_select' => 'required',
-            'city_select' => 'required',
             'pincode' => 'required:integer',
             'missing_date' => 'required',
             'remark' => 'required',
@@ -62,17 +61,16 @@ class CreateMissingPersonRequest extends FormRequest
             'address.required' => 'Address field is required..!',
             'country_select.required' => 'Country field is required..!',
             'state_select.required' => 'State field is required..!',
-            'city_select.required' => 'City field is required..!',
             'pincode.required' => 'Pincode field is required..!',
             'pincode.integer' => 'Pincode field is must be Integer..!',
             'missing_date.required' => 'Missing Date field is required..!',
             'remark.required' => 'Remark field is required..!',
             'cloth_description.required' => 'Coth Description field is required..!',
-            'filename.required' => 'File upload file is required..!',
+            'filename.required' => 'Missing Person Image upload file is required..!',
             // 'filename.*' => 'File type must be jpg,png or bmp...!',
-            'filename.mimes' => 'File type must be jpeg, jpg, bmp, png, gif, ico, apng, bmp, svg, tiff or webp..!',
-            'filename.min' => 'Minimum file size must be 24KB...!',
-            'filename.max' => 'Maximum file size must be 5MB...!'
+            'filename.mimes' => 'Missing Person Image type must be jpeg, jpg, bmp, png, gif, ico, apng, bmp, svg, tiff or webp..!',
+            'filename.min' => 'Missing Person Image Minimum file size must be 24KB...!',
+            'filename.max' => 'Missing Person Image Maximum file size must be 5MB...!'
         ];
     }
 }

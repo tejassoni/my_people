@@ -76,10 +76,33 @@
                 <label for="last_name"><?= ('Last Name') ?></label>
                 <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter Last Name" value="{{ old('last_name') }}" required />
               </div>
-              <div class="form-group required">
-                <label for="birth_date"> Birth Date </label>
-                <input type="text" class="form-control" name="birth_date" id="birth_date" placeholder="Enter Birth Date" value="{{ old('birth_date') }}" />
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group clearfix">
+                    <div class="form-group required">
+                      <label for="birth_date"> Birth Date </label>
+                      <input type="text" class="form-control" name="birth_date" id="birth_date" placeholder="Enter Birth Date" value="{{ old('birth_date') }}" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label for="birth_date"> Gender </label>
+                  <div class="form-group">
+                    <!-- Verticle radio button replace class with .form-check -->
+                    <div class="form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" value="male" checked>
+                      <label class="form-check-label">Male</label>
+                    </div>
+                    <div class="form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" value="female">
+                      <label class="form-check-label">Female</label>
+                    </div>
+                  </div>
+                </div>
               </div>
+
+
               <div class="form-group required">
                 <label for="age"><?= ('Age') ?></label>
                 <input type="number" class="form-control" name="age" id="age" placeholder="Enter Age" value="{{ old('age') }}" required min="0" />
@@ -111,9 +134,9 @@
                 <!-- Dynamic Dependend Validation Selected -->
                 <input type='hidden' id='select_state_hidden' name='select_state_hidden' value='{{ (is_array(old()) && !empty(old('state_select')))?old('state_select'):'' }}'>
               </div>
-              <div class="form-group required">
+              <div class="form-group">
                 <label><?= ('Select City') ?></label>
-                <select class="form-control" name="city_select" id="city_select" required>
+                <select class="form-control" name="city_select" id="city_select">
                   <option value="" disabled selected><?= ('Select City') ?></option>
                 </select>
                 <!-- Dynamic Dependend Validation Selected -->

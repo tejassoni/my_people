@@ -55,7 +55,7 @@ $(document).ready(function() {
         type: "get",
         ajax: "missing_person_list",
         order: [
-            [1, "asc"] // asc OR desc
+            [0, "asc"] // asc OR desc
         ],
         aLengthMenu: [
             // Sort Numbers of Rows
@@ -66,24 +66,7 @@ $(document).ready(function() {
         autoWidth: true,
         columns: [
             {
-                // First Column As a Checkbox
-                targets: 0,
-                searchable: false,
-                orderable: false,
-                className: "dt-body-center",
-                render: function(data, type, full, meta, row) {
-                    // function to modify dynamic data
-                    return (
-                        '<input type="checkbox" class="child_chkbox" name="child_chkbox[]" value="' +
-                        $("<div/>")
-                            .text(full.missing_id)
-                            .html() +
-                        '">'
-                    );
-                }
-            },
-            {
-                width: "10%",
+                width: "15%",
                 visible: true, // Hide Which Column Do not need to show in Datatable list
                 data: "missing_full_name",
                 name: "missing_full_name",
@@ -95,12 +78,12 @@ $(document).ready(function() {
                 data: "missing_person_img",
                 name: "missing_person_img",
                 title: "Image",
-                orderable: true,
-                searchable: true
+                orderable: false,
+                searchable: false
             },
             {
-                data: "country_name",
-                name: "country_name",
+                data: "location",
+                name: "location",
                 title: "Location",
                 orderable: true,
                 searchable: true
@@ -127,6 +110,13 @@ $(document).ready(function() {
                 searchable: true
             },
             {
+                data: "missing_status",
+                name: "missing_status",
+                title: "Missing Status",
+                orderable: true,
+                searchable: true
+            },
+            {
                 width: "15%",
                 data: "action",
                 name: "action",
@@ -149,7 +139,7 @@ $(document).ready(function() {
                 sheetName: "Sheet1",
                 autoFilter: false,
                 exportOptions: {
-                    columns: [1, 2, 3, 4, 5]
+                    columns: [0, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -160,7 +150,7 @@ $(document).ready(function() {
                 width: "auto",
                 filename: "CSVReport",
                 exportOptions: {
-                    columns: [1, 2, 3, 4, 5]
+                    columns: [0, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -171,7 +161,7 @@ $(document).ready(function() {
                 filename: "PrintReport",
                 autoPrint: true,
                 exportOptions: {
-                    columns: [1, 2, 3, 4, 5]
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -184,7 +174,7 @@ $(document).ready(function() {
                 orientation: "portrait", // portrait OR landscape
                 pageSize: "LEGAL", // LETTER OR TABLOID OR A3 OR A4 OR A5 OR
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5]
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -193,7 +183,7 @@ $(document).ready(function() {
                 text: '<i class="fa fa-copy"></i>',
                 titleAttr: "Copy",
                 exportOptions: {
-                    columns: [1, 2, 3, 4, 5]
+                    columns: [0, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -204,301 +194,18 @@ $(document).ready(function() {
                 action: function(e, dt, node, config) {
                     dt.ajax.reload();
                 }
-            },
-            {
-                // Delete All Custom Button
-                className: "btn btn-default",
-                text: '<i class="fa fa-trash"></i>',
-                titleAttr: "Delete Selected",
-                action: function(e, dt, node, config) {
-                    var select_all_chkbx = $(".select_all_chkbox").val();
-                    var child_chkbx = [];
-                    $("input:checkbox[name='child_chkbox[]']:checked")
-                        .map(function(_, el) {
-                            child_chkbx.push($(el).val());
-                        })
-                        .get();
-
-                    if (select_all_chkbx == 1 || child_chkbx.length !== 0) {
-                        // Checkbox Selected for Delete
-                        if (confirm("Are you sure you want to Delete?")) {
-                            // Ajax CSRF Token Setup
-                            $.ajaxSetup({
-                                headers: {
-                                    "X-CSRF-TOKEN": $(
-                                        'meta[name="csrf-token"]'
-                                    ).attr("content")
-                                }
-                            });
-                            ajaxDelete(child_chkbx);
-                        }
-                        return false;
-                    } else {
-                        // Delete Operation Error Select Alteast 1 Checkbox
-                        var warning_head = "";
-                        var warning_body = "";
-                        warning_head +=
-                            '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
-                        warning_body +=
-                            "Before Delete, Please select alteast ONE CheckBox..!";
-                        $(".modal-header h4").html(warning_head);
-                        $(".modal-body p").html(warning_body);
-                        $(".error_modal").trigger("click");
-                        setTimeout(function() {
-                            $(".close").trigger("click");
-                        }, 2000);
-                    }
-                }
             }
         ]
     });
     // Datatables Operation Ends
 
-    /* Bulk Delete ajax Starts */
-    function ajaxDelete(ids = []) {
-        $.ajax({
-            url: APPURL + "/admin/delete_discounts",
-            type: "POST",
-            data: { ids: ids },
-            dataType: "JSON",
-            beforeSend: function() {
-                $(".modal-header h4").html("");
-                $(".modal-body p").html("");
-            },
-            success: function(data, textStatus, jqXHR) {
-                if (data.status) {
-                    var success_head = "";
-                    var success_body = "";
-                    success_head +=
-                        '<i class="fa fa-check-circle" aria-hidden="true"></i> Success..!';
-                    success_body += "Discounts are Deleted successfully.";
-                    $(".modal-header h4").html(success_head);
-                    $(".modal-body p").html(success_body);
-                    $(".error_modal").trigger("click");
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);
-                } else {
-                    var warning_head = "";
-                    var warning_body = "";
-                    warning_head +=
-                        '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
-                    warning_body +=
-                        "Discounts are not deleted... Please try after sometime. ";
-                    $(".modal-header h4").html(warning_head);
-                    $(".modal-body p").html(warning_body);
-                    $(".error_modal").trigger("click");
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {}
-        });
-    }
-    /* Bulk Delete ajax Ends */
-
-    // Handle click on "Select all" control Starts
-    $(document).on("click", "#select_all_chkbox", function() {
-        var attr = $(this).attr("checked");
-        if (typeof attr !== typeof undefined && attr !== false) {
-            $(this).prop("checked", false);
-            $(this).removeAttr("checked");
-            $(this).val(0);
-            // Datatables Child Checkbox
-            $(".child_chkbox").removeAttr("checked");
-            $(".child_chkbox").prop("checked", false);
-            $(".child_chkbox")
-                .closest("tr")
-                .removeClass("bg-secondary text-white");
-        } else {
-            $(this).prop("checked", true);
-            $(this).attr("checked", "checked");
-            $(this).val(1);
-            // Datatables Child Checkbox
-            $(".child_chkbox").prop("checked", true);
-            $(".child_chkbox").attr("checked", "checked");
-            $(".child_chkbox")
-                .closest("tr")
-                .addClass("bg-secondary text-white");
-        }
+    // Radio button Gender Starts
+    $(document).on("change", "input:radio[name=gender]", function() {
+        $("input:radio[name=gender]").removeAttr("checked");
+        $(this).prop("checked", true);
+        $(this).attr("checked", "checked");
     });
-    // Handle click on "Select all" control Ends
-
-    // Checkbox checked popup Starts
-    $(document).on("click", ".child_chkbox", function() {
-        var attr = $(this).attr("checked");
-        if (typeof attr !== typeof undefined && attr !== false) {
-            $(this).prop("checked", false);
-            $(this).removeAttr("checked");
-            // $(this).val(0);
-            $(this)
-                .closest("tr")
-                .removeClass("bg-secondary text-white");
-        } else {
-            $(this).prop("checked", true);
-            $(this).attr("checked", "checked");
-            // $(this).val(1);
-
-            $(this)
-                .closest("tr")
-                .addClass("bg-secondary text-white");
-        }
-    });
-    // Checkbox checked popup Ends
-
-    // Action Delete Specific Starts
-    $(document).on("click", ".btn_delete", function() {
-        if (confirm("Are you sure you want to Delete?")) {
-            // Ajax CSRF Token Setup
-            $.ajaxSetup({
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-                }
-            });
-            ajaxDeleteSpecific($(this).attr("delete_id"));
-        } else {
-            return false;
-        }
-    });
-    // Action Delete Specific Ends
-
-    /* Bulk Delete ajax Starts */
-    function ajaxDeleteSpecific(ids) {
-        $.ajax({
-            url: APPURL + "/admin/discount_delete/" + ids,
-            type: "get",
-            dataType: "JSON",
-            beforeSend: function() {
-                $(".modal-header h4").html("");
-                $(".modal-body p").html("");
-            },
-            success: function(data, textStatus, jqXHR) {
-                if (data.status) {
-                    var success_head = "";
-                    var success_body = "";
-                    success_head +=
-                        '<i class="fa fa-check-circle" aria-hidden="true"></i> Success..!';
-                    success_body += "Discount is Deleted successfully.";
-                    $(".modal-header h4").html(success_head);
-                    $(".modal-body p").html(success_body);
-                    $(".error_modal").trigger("click");
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);
-                } else {
-                    var warning_head = "";
-                    var warning_body = "";
-                    warning_head +=
-                        '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
-                    warning_body +=
-                        "Discount is not deleted... Please try after sometime. ";
-                    $(".modal-header h4").html(warning_head);
-                    $(".modal-body p").html(warning_body);
-                    $(".error_modal").trigger("click");
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {}
-        });
-    }
-    /* Bulk Delete ajax Ends */
-
-    // Status Change Dynamically Starts
-    $(document).on("click", ".btn_status", function() {
-        // Ajax CSRF Token Setup
-        $.ajaxSetup({
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-            }
-        });
-
-        $.ajax({
-            url: APPURL + "/admin/discount_status",
-            type: "POST",
-            data: {
-                id: $(this).attr("discount_id"),
-                status: $(this).attr("status")
-            },
-            dataType: "JSON",
-            beforeSend: function() {
-                $(".modal-header h4").html("");
-                $(".modal-body p").html("");
-            },
-            success: function(data, textStatus, jqXHR) {
-                if (data.status) {
-                    var success_head = "";
-                    var success_body = "";
-                    success_head +=
-                        '<i class="fa fa-check-circle" aria-hidden="true"></i> Success..!';
-                    success_body += data.message;
-                    $(".modal-header h4").html(success_head);
-                    $(".modal-body p").html(success_body);
-                    $(".error_modal").trigger("click");
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);
-                } else {
-                    var warning_head = "";
-                    var warning_body = "";
-                    warning_head +=
-                        '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
-                    warning_body +=
-                        "Discount is In Activated... Please try after sometime. ";
-                    $(".modal-header h4").html(warning_head);
-                    $(".modal-body p").html(warning_body);
-                    $(".error_modal").trigger("click");
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {}
-        });
-    });
-    // Status Change Dynamically Ends
-
-    //Select Option Change Selected Status
-    $(document).on("change", "#plan_id_select", function() {
-        $("#plan_id_select").removeAttr("selected", "selected");
-        $("option:selected", this).attr("selected", "selected");
-    });
-
-    // Checkbox checked popup Starts
-    $(document).on("click", ".discount_validity_chkbx", function() {
-        var attr = $(this).attr("checked");
-        if (typeof attr !== typeof undefined && attr !== false) {
-            $(this).prop("checked", false);
-            $(this).removeAttr("checked");
-            $(this).val(0);
-            $("#discount_validity").attr("disabled", "disabled");
-        } else {
-            $(this).prop("checked", true);
-            $(this).attr("checked", "checked");
-            $(this).val(1);
-            $("#discount_validity").removeAttr("disabled");
-        }
-    });
-    // Checkbox checked popup Ends
-
-    // Checkbox checked popup Starts
-    $(document).on("change", "#discount_type_select", function() {
-        var get_selected_val = $(this)
-            .find(":selected")
-            .val();
-        if (
-            $(this)
-                .find(":selected")
-                .val() !== "none"
-        ) {
-            $("#discount_amount").removeAttr("disabled");
-        } else {
-            $("#discount_amount").attr("disabled", "disabled");
-        }
-    });
-    // Checkbox checked popup Ends
+    // Radio button Gender Ends
 
     /* Dynamic Country Wise State , City Starts */
 
@@ -546,7 +253,7 @@ $(document).ready(function() {
                     // Dynamic Dependent Validation Selected
                     if (
                         $("#select_state_hidden").val() != "" ||
-                        $('#select_state_hidden').val().length != 0
+                        $("#select_state_hidden").val().length != 0
                     ) {
                         $("#state_select").trigger("change");
                     }
@@ -790,9 +497,8 @@ $(document).ready(function() {
         }
     });
 
-    // Dynamic Dependent Select Box While Validation Fails Selected    
+    // Dynamic Dependent Select Box While Validation Fails Selected
     if ($("#select_country_hidden").val()) {
-       $("#country_select").trigger('change');
+        $("#country_select").trigger("change");
     }
-    
 });
