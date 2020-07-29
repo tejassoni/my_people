@@ -191,10 +191,10 @@ class MissingPersonController extends Controller
                 })
                 ->addColumn('action', function ($list) {
                     $button = '';
-                    $edit_button = '<a href="' . url("/customer/missing_person_edit/{$list['missing_id']}") . '" class="btn btn-xs btn-info btn_edit" title="Edit"><i class="far fa-eye"></i> View </a> &nbsp;';
-                    $download_button = '<a href="#delete-' . $list['missing_id'] . '" delete_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_delete" title="Delete"><i class="fa fa-download"></i> Download</a>';
-                    $request_button = '<a href="#delete-' . $list['missing_id'] . '" delete_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_delete" title="Delete"><i class="fa fa-reply"></i> Request</a>';
-                    $button .= $edit_button;
+                    $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
+                    $download_button = '<a href="#download-' . $list['missing_id'] . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
+                    $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request</a>';
+                    $button .= $view_button;
                     $button .= $download_button;
                     $button .= $request_button;
                     return $button;

@@ -325,7 +325,7 @@ return [
                 ]
             ],
         ],
-        ['header' => 'Missing Person'],
+        ['header' => 'MISSING PERSON'],
         [
             'text'    => 'Missing Person',
             'icon'    => 'fas fa-fw fa-user',
@@ -335,20 +335,36 @@ return [
                     'url'  => '/customer/missing_person_list',
                     'icon'    => 'fas fa-fw fa-th-list',
                 ]
-            ],
+            ]
         ],
-        ['header' => 'labels'],
+        ['header' => 'FOUND / IDENTIFIED PERSON'],
         [
-            'text'       => 'important',
-            'icon_color' => 'red',
+            'text'    => 'Found Missing Person',
+            'icon'    => 'fas fa-fw fa-user',
+            'submenu' => [
+                [
+                    'text' => 'Missing Person List',
+                    'url'  => '/customer/missing_person_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ]
+            ]
         ],
+        ['header' => 'MY MISSING PERSON'],
         [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
+            'text'    => 'My Missing Person',
+            'icon'    => 'fas fa-fw fa-user',
+            'submenu' => [
+                [
+                    'text' => 'My Missing Person List',
+                    'url'  => '/customer/missing_person_list',
+                    'icon'    => 'fas fa-fw fa-th-list',
+                ]
+            ]
         ],
+        ['header' => 'DONATE'],
         [
-            'text'       => 'information',
-            'icon_color' => 'aqua',
+            'text'       => 'Donate Support Work',
+            'icon_color' => 'green',
         ],
     ],
 
