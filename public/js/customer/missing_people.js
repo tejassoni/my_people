@@ -516,7 +516,10 @@ $(document).ready(function() {
 
                     if (data_resp.status) {
                         // Missing Person Information
-                        $("#missing_person_view").attr("src",data_resp.data.missing_person_img);
+                        $("#missing_person_view").attr(
+                            "src",
+                            data_resp.data.missing_person_img
+                        );
                         $(".person_name").text(
                             data_resp.data.missing_full_name
                         );
@@ -525,42 +528,129 @@ $(document).ready(function() {
                         $(".person_birthdate").text(data_resp.data.birth_date);
                         $(".person_age").text(data_resp.data.missing_age);
                         $(".person_height").text(data_resp.data.missing_height);
-                        $(".person_weight").text(data_resp.data.missing_weight);                       
+                        $(".person_weight").text(data_resp.data.missing_weight);
                         $(".person_address").text(
                             data_resp.data.missing_address
-                        );                        
+                        );
                         $(".person_pincode").text(data_resp.data.pincode);
                         $(".person_country").text(data_resp.data.country_name);
                         $(".person_state").text(data_resp.data.state_name);
                         $(".person_city").text(data_resp.data.city_name);
-                        $("#missing_person_face_view").attr("src",data_resp.data.jaw_img);
-                        $("#missing_person_skin_view").attr("src",data_resp.data.skin_img);
-                        $("#missing_person_hair_view").attr("src",data_resp.data.hair_img);
-                        $("#missing_person_nose_view").attr("src",data_resp.data.nose_img);
-                        $("#missing_person_eyebrow_view").attr("src",data_resp.data.eye_brow_img);
-                        $("#missing_person_eye_view").attr("src",data_resp.data.eye_img);
-                        $("#missing_person_ear_view").attr("src",data_resp.data.ear_img);
-                        $("#missing_person_lip_view").attr("src",data_resp.data.lip_img);
-                        $(".cloths_description").text(data_resp.data.cloth_description);
+                        $("#missing_person_face_view").attr(
+                            "src",
+                            data_resp.data.jaw_img
+                        );
+                        $("#missing_person_skin_view").attr(
+                            "src",
+                            data_resp.data.skin_img
+                        );
+                        $("#missing_person_hair_view").attr(
+                            "src",
+                            data_resp.data.hair_img
+                        );
+                        $("#missing_person_nose_view").attr(
+                            "src",
+                            data_resp.data.nose_img
+                        );
+                        $("#missing_person_eyebrow_view").attr(
+                            "src",
+                            data_resp.data.eye_brow_img
+                        );
+                        $("#missing_person_eye_view").attr(
+                            "src",
+                            data_resp.data.eye_img
+                        );
+                        $("#missing_person_ear_view").attr(
+                            "src",
+                            data_resp.data.ear_img
+                        );
+                        $("#missing_person_lip_view").attr(
+                            "src",
+                            data_resp.data.lip_img
+                        );
+                        $(".cloths_description").text(
+                            data_resp.data.cloth_description
+                        );
                         $(".remarks_description").text(data_resp.data.remark);
 
                         // Parents Information
                         $(".parent_name").text(data_resp.data.parent_full_name);
-                        $(".parent_address").text(data_resp.data.parent_address);
+                        $(".parent_address").text(
+                            data_resp.data.parent_address
+                        );
                         $(".parent_email").text(data_resp.data.parent_email);
                         $(".parent_mobile").text(data_resp.data.parent_mobile);
                         var symbol = data_resp.data.symbol;
                         if (symbol === undefined || symbol === null) {
                             $(".parent_rewards").text(data_resp.data.amount);
-                       }else{
-                        $(".parent_rewards").text(data_resp.data.amount +" "+data_resp.data.symbol);
-                       }
-                        
+                        } else {
+                            $(".parent_rewards").text(
+                                data_resp.data.amount +
+                                    " " +
+                                    data_resp.data.symbol
+                            );
+                        }
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {},
                 complete: function() {}
             });
         }
+    });
+
+    $(document).on("click", ".btn_request", function() {
+        $("#missing_id").val($(this).attr("request_id"));
+    });
+
+    /* Bootstrap Modal file File upload */
+    $("#request_form").on("submit", function(e) {
+        e.preventDefault();
+
+        // Ajax CSRF Token Setup
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            }
+        });
+        var formData = new FormData(this);
+        $.ajax({
+            type: "POST", // Default GET
+            url: APPURL + "/customer/request_person",
+            data: formData,
+            dataType: "json", // text , XML, HTML
+            contentType: false,
+            processData: false,
+            beforeSend: function() {                
+                $('.btn_request_submit').attr("disabled","disabled");
+                $('.btn_close').removeAttr("disabled","disabled");
+                $('.modal-body').css('opacity', '.5');
+            },
+            success: function(data_resp, textStatus, jqXHR) {
+                // On ajax success operation
+                console.log(
+                    "Success ajax calls status :: " +
+                        textStatus +
+                        " jqXHR :: " +
+                        jqXHR
+                );
+                if(data_resp.status){
+                    $('#find_person_img').val('');
+                    $('#message').val('');
+                    $('.statusMsg').html('<span style="color:green;"> Thanks for contacting us, we\'ll get back to you soon.</p>');
+                }else{
+                    $('.statusMsg').html('<span style="color:red;"> Some problem occurred, please try again.</span>');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('.statusMsg').html('<span style="color:red;"> Some problem occurred, please try again.</span>');
+            },
+            complete: function() {
+                // On ajax complete operation
+                // console.log('Complete ajax send');
+                $('.btn_request_submit').removeAttr("disabled","disabled");
+                $('.btn_close').removeAttr("disabled","disabled");
+                $('.modal-body').css('opacity', '');
+            }
+        });
     });
 });

@@ -10,11 +10,11 @@ use App\Models\eye_master;
 use App\Models\jaw_master;
 use App\Models\lip_master;
 use App\Models\city_master;
+use App\Models\find_person;
 use App\Models\hair_master;
 use App\Models\nose_master;
 use App\Models\skin_master;
 use App\Models\state_master;
-use App\Models\find_person;
 use Illuminate\Http\Request;
 use App\Models\country_master;
 use App\Models\eyebrow_master;
@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\DeleteBulkRequest;
 use App\Http\Requests\StatusUpdateRequest;
 use App\Http\Requests\UpdateDiscountRequest;
+use App\Http\Requests\CreateFindPersonRequest;
 use App\Http\Requests\CreateMissingPersonRequest;
 
 class MissingPersonController extends Controller
@@ -512,5 +513,54 @@ class MissingPersonController extends Controller
                 return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
             }
         }
+    }
+
+    /**
+     * Handle routs Controller Find Person functionality
+     * @author Tejas
+     * @param  Person Image, Message
+     * @return Boolean
+     */
+    public function find_person_request(CreateFindPersonRequest $request)
+    {   // default response formate initialize
+        $resp = config('response_format.RES_RESULT');
+
+        // Set Insert data array for pass into insert query
+        $insert_data = $this->_prepareInsertFindPersonData($request);
+        // File Upload Starts Folder Path : // root\public\uploads        
+        if ($request->hasFile('filename')) {
+
+            $filehandle = $this->_fileUploads($request);
+            $insert_data['find_person_img'] = $filehandle['data']['filename'];
+        }
+
+        // File Upload Ends
+        $find_person_obj = new find_person();
+        $find_person_result = $find_person_obj->insert_data($insert_data);
+
+        if ($find_person_result->exists) {
+            $resp['status'] = true;
+            $resp['data'] = array();
+            $resp['message'] = 'Find Person inserted successfully...!';
+            return response()->json($resp);
+        } else {
+            $resp['message'] = 'Find Person not inserted, Please try again...!';
+            return response()->json($resp);
+        }
+    }
+
+    /**
+     * Prepare Insert Find Person Data Array
+     * @author Tejas
+     * @param  Request Inputs, (Optional) Addtional Array Datas
+     * @return Array
+     */
+    private function _prepareInsertFindPersonData($request = "", $additional = array())
+    {
+        $preArr['missing_id'] = $request->input('missing_id');
+        $preArr['description'] = $request->input('message');
+        $preArr['approval_status'] = 'pending';
+        $preArr['status'] = 1;
+        return $preArr;
     }
 }
