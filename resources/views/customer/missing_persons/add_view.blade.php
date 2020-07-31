@@ -101,7 +101,20 @@
                   </div>
                 </div>
               </div>
-
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group required">
+                    <label for="height"><?= ('Height') ?></label>
+                    <input type="number" class="form-control" name="height" id="height" placeholder="Enter Height in cm" value="{{ old('height') }}" required min="0" />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group required">
+                    <label for="weight"><?= ('Weight') ?></label>
+                    <input type="number" class="form-control" name="weight" id="weight" placeholder="Enter Weight in kg" value="{{ old('weight') }}" required min="0" />
+                  </div>
+                </div>
+              </div>
 
               <div class="form-group required">
                 <label for="age"><?= ('Age') ?></label>

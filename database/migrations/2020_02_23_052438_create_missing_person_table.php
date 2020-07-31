@@ -22,6 +22,8 @@ class CreateMissingPersonTable extends Migration
             $table->char('gender', 6)->nullable(true);
             $table->date('birth_date')->nullable(true);
             $table->integer('age')->nullable(true);
+            $table->integer('height')->nullable(true);
+            $table->integer('weight')->nullable(true);
             $table->text('address')->nullable(true);
             $table->integer('country_id')->nullable(true); // Foriegn Key table country_master
             $table->integer('state_id')->nullable(true); // Foriegn Key table state_master

@@ -112,10 +112,12 @@ class MissingPersonController extends Controller
         $preArr['birth_date'] = date("Y-m-d", strtotime(str_replace("/", "-", $request->input('birth_date'))));
         $preArr['gender'] = $request->input('gender');
         $preArr['age'] = $request->input('age');
+        $preArr['height'] = $request->input('height');
+        $preArr['weight'] = $request->input('weight');
         $preArr['address'] = $request->input('address');
         $preArr['country_id'] = $request->input('country_select');
         $preArr['state_id'] = $request->input('state_select');
-        $preArr['city_id'] = $request->input('city_select');
+        $preArr['city_id'] = ($request->input('city_select') == "Select City") ? null : $request->input('city_select');
         $preArr['pincode'] = $request->input('pincode');
         $preArr['user_id'] = Auth::user()->id;
         $preArr['hair_id'] = $request->input('hair_select');
@@ -191,7 +193,7 @@ class MissingPersonController extends Controller
                 })
                 ->addColumn('action', function ($list) {
                     $button = '';
-                    $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
+                    $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
                     $download_button = '<a href="#download-' . $list['missing_id'] . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
                     $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request</a>';
                     $button .= $view_button;
@@ -377,5 +379,138 @@ class MissingPersonController extends Controller
             $resp['message'] = 'Discount is not Active/In-Active, Please try again...!';
         }
         die(json_encode($resp));
+    }
+
+
+    /**
+     * Get City List by State ID Data Array
+     * @author Tejas
+     * @param  Request Inputs, (Optional) Addtional Array Datas
+     * @return Array
+     */
+    public function get_personby_id($person_id = "")
+    {
+        $resp = config('response_format.RES_RESULT');
+        try {
+            if (!isset($person_id) || empty($person_id))
+                throw new Exception('Person Id not found..!', 1);
+
+            $missing_person_obj = new missing_person();
+            $missing_person_result = $missing_person_obj->list_belongsToBy_id($person_id);
+            if (empty($missing_person_result))
+                throw new Exception('Missing Person List not found..!', 422);
+
+            // Missing Person Image Base 64 encoded
+            if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['missing_person_img']);
+                $missing_person_result[0]['missing_person_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img'])));
+            } else { // Default
+                $missing_person_result[0]['missing_person_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Face / Jaw Image Base 64 encoded
+            if (isset($missing_person_result[0]['jaw_img']) && !empty($missing_person_result[0]['ear_img']) && file_exists(\public_path('uploads/jaws/' . $missing_person_result[0]['jaw_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['ear_img']);
+                $missing_person_result[0]['jaw_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/jaws/' . $missing_person_result[0]['jaw_img'])));
+            } else { // Default
+                $missing_person_result[0]['jaw_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Skin Image Base 64 encoded
+            if (isset($missing_person_result[0]['skin_img']) && !empty($missing_person_result[0]['skin_img']) && file_exists(\public_path('uploads/skins/' . $missing_person_result[0]['skin_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['skin_img']);
+                $missing_person_result[0]['skin_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/skins/' . $missing_person_result[0]['skin_img'])));
+            } else { // Default
+                $missing_person_result[0]['skin_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Hair Image Base 64 encoded
+            if (isset($missing_person_result[0]['hair_img']) && !empty($missing_person_result[0]['hair_img']) && file_exists(\public_path('uploads/hairs/' . $missing_person_result[0]['hair_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['hair_img']);
+                $missing_person_result[0]['hair_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/hairs/' . $missing_person_result[0]['hair_img'])));
+            } else { // Default
+                $missing_person_result[0]['hair_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Nose Image Base 64 encoded
+            if (isset($missing_person_result[0]['nose_img']) && !empty($missing_person_result[0]['nose_img']) && file_exists(\public_path('uploads/noses/' . $missing_person_result[0]['nose_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['nose_img']);
+                $missing_person_result[0]['nose_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/noses/' . $missing_person_result[0]['nose_img'])));
+            } else { // Default
+                $missing_person_result[0]['nose_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Eye Brow Image Base 64 encoded
+            if (isset($missing_person_result[0]['eye_brow_img']) && !empty($missing_person_result[0]['eye_brow_img']) && file_exists(\public_path('uploads/eyebrows/' . $missing_person_result[0]['eye_brow_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['eye_brow_img']);
+                $missing_person_result[0]['eye_brow_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/eyebrows/' . $missing_person_result[0]['eye_brow_img'])));
+            } else { // Default
+                $missing_person_result[0]['eye_brow_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Eye Image Base 64 encoded
+            if (isset($missing_person_result[0]['eye_img']) && !empty($missing_person_result[0]['eye_brow_img']) && file_exists(\public_path('uploads/eyes/' . $missing_person_result[0]['eye_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['eye_img']);
+                $missing_person_result[0]['eye_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/eyes/' . $missing_person_result[0]['eye_img'])));
+            } else { // Default
+                $missing_person_result[0]['eye_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Ear Image Base 64 encoded
+            if (isset($missing_person_result[0]['ear_img']) && !empty($missing_person_result[0]['ear_img']) && file_exists(\public_path('uploads/ears/' . $missing_person_result[0]['ear_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['ear_img']);
+                $missing_person_result[0]['ear_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/ears/' . $missing_person_result[0]['ear_img'])));
+            } else { // Default
+                $missing_person_result[0]['ear_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Lip Image Base 64 encoded
+            if (isset($missing_person_result[0]['lip_img']) && !empty($missing_person_result[0]['lip_img']) && file_exists(\public_path('uploads/lips/' . $missing_person_result[0]['lip_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['lip_img']);
+                $missing_person_result[0]['lip_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/lips/' . $missing_person_result[0]['lip_img'])));
+            } else { // Default
+                $missing_person_result[0]['lip_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            $resp['status'] = true;
+            $resp['message'] = "Missing Person List get successfully..!";
+            $resp['data'] = $missing_person_result[0];
+            return response()->json($resp, 200);
+        } catch (Exception $ex) {
+            $resp['message'] = $ex->getMessage();
+            return response()->json($resp, 422);
+        }
+    }
+
+    /**
+     * Handle routs Controller update functionality
+     * @author Tejas
+     * @param  filename with extention OR ONLY file extention and secound param true
+     * @return mime type
+     */
+    private function _default_image($filename = "")
+    {
+        $mime_type = $this->_base64_mime_type($filename);
+        return $mime_type . base64_encode(file_get_contents(\public_path('assets/' . $filename)));
+    }
+
+    /**
+     * Handle routs Controller update functionality
+     * @author Tejas
+     * @param  filename with extention OR ONLY file extention and secound param true
+     * @return mime type
+     */
+    private function _base64_mime_type($filename = "", $extention_only = false)
+    {
+        $mime_types = config('mime_types');
+        if (!$extention_only) {
+            if (in_array(strtolower(strstr($filename, ".")), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower(strstr($filename, "."))] . ";base64,";
+            }
+        } else {
+            if (in_array(strtolower($filename), array_flip($mime_types['mime_types']))) {
+                return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
+            }
+        }
     }
 }

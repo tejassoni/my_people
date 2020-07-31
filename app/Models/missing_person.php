@@ -33,7 +33,7 @@ class missing_person extends Model
    *
    * @var array
    */
-  protected $fillable = ['missing_person_img', 'f_name', 'm_name', 'l_name', 'gender', 'birth_date', 'age', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'missed_date', 'user_id', 'hair_id', 'eye_id', 'eye_brow_id', 'lip_id', 'jaw_id', 'skin_id', 'ear_id', 'nose_id', 'remark', 'cloth_description', 'currency_id', 'amount', 'is_found', 'status'];
+  protected $fillable = ['missing_person_img', 'f_name', 'm_name', 'l_name', 'height', 'weight', 'gender', 'birth_date', 'age', 'address', 'country_id', 'state_id', 'city_id', 'pincode', 'missed_date', 'user_id', 'hair_id', 'eye_id', 'eye_brow_id', 'lip_id', 'jaw_id', 'skin_id', 'ear_id', 'nose_id', 'remark', 'cloth_description', 'currency_id', 'amount', 'is_found', 'status'];
 
   /**
    * The attributes that aren't mass assignable.
@@ -168,17 +168,60 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * getRecordById - Discount ID : discount_master 
-    * @param  - ID
-    * @return : get one row list object
+    * list_all - get record by id table : city_master records    
+    * @param  - None        
+    * @return : array of all list records
     */
-  public function getRecordById($id = "")
+  public function get_recordby_Id($id = "")
   {
-    $data = self::selectRaw('*');
-    $data->selectRaw("DATE_FORMAT(start_date, '%d/%m/%Y') as startDate, DATE_FORMAT(end_date, '%d/%m/%Y') as endDate");
-    $data->where('discount_id', $id);
+    $data = self::select('*')->where('missing_id', $id)->get();
     if (!empty($data)) {
-      $data = $data->first();
+      $data = $data->toArray();
+    }
+    return $data;
+  }
+
+  /*
+    * author : Tejas Soni
+    * list_belongsTo - get all table : missing_master and user_master records    
+    * @param  - None        
+    * @return : array of all list records
+    */
+  public function list_belongsToBy_id($missing_id = "")
+  {
+    $data = self::selectRaw('`missing_person`.`missing_id` as `missing_id`,`missing_person`.`amount` as `amount`,`missing_person`.`age` as `missing_age`,`missing_person`.`cloth_description` as `cloth_description`,`missing_person`.`remark` as `remark`,`missing_person`.`height` as `missing_height`,`missing_person`.`weight` as `missing_weight`,`missing_person`.`pincode` as `pincode`, CONCAT(missing_person.f_name," ",missing_person.l_name) AS `missing_full_name`, `missing_person`.`age` AS `age`, `missing_person`.`missing_person_img` as `missing_person_img`, DATE_FORMAT(missed_date, "%d/%m/%Y") as missing_date,`missing_person`.`address` as `missing_address`,`missing_person`.`gender` as `missing_gender`,DATE_FORMAT(birth_date, "%d/%m/%Y") as birth_date')
+      ->selectRaw('`user_master`.`id` as `user_id`,`user_master`.`address` as `parent_address`,CONCAT(user_master.f_name," ",user_master.l_name) AS `parent_full_name`,`user_master`.`mobile` as `parent_mobile`,`user_master`.`email` as `parent_email`')
+      ->selectRaw('`country_master`.`country_id` as `country_id`,`country_master`.`name` as `country_name`')
+      ->selectRaw('`state_master`.`country_id` as `state_id`,`state_master`.`name` as `state_name`')
+      ->selectRaw('`city_master`.`city_id` as `city_id`,`city_master`.`name` as `city_name`')
+      ->selectRaw('`jaw_master`.`jaw_id` as `jaw_id`,`jaw_master`.`jaw_img` as `jaw_img`')
+      ->selectRaw('`skin_master`.`skin_id` as `skin_id`,`skin_master`.`skin_img` as `skin_img`')
+      ->selectRaw('`ear_master`.`ear_id` as `ear_id`,`ear_master`.`ear_img` as `ear_img`')
+      ->selectRaw('`hair_master`.`hair_id` as `hair_id`,`hair_master`.`hair_img` as `hair_img`')
+      ->selectRaw('`nose_master`.`nose_id` as `nose_id`,`nose_master`.`nose_img` as `nose_img`')
+      ->selectRaw('`eye_brow_master`.`eye_brow_id` as `eye_brow_id`,`eye_brow_master`.`eye_brow_img` as `eye_brow_img`')
+      ->selectRaw('`eye_master`.`eye_id` as `eye_id`,`eye_master`.`eye_img` as `eye_img`')
+      ->selectRaw('`lip_master`.`lip_id` as `lip_id`,`lip_master`.`lip_img` as `lip_img`')
+      ->selectRaw('`currency_master`.`currency_id` as `currency_id`,`currency_master`.`symbol` as `symbol`')
+      ->leftJoin('user_master', 'missing_person.user_id', '=', 'user_master.id')
+      ->leftJoin('country_master', 'missing_person.country_id', '=', 'country_master.country_id')
+      ->leftJoin('state_master', 'missing_person.state_id', '=', 'state_master.state_id')
+      ->leftJoin('city_master', 'missing_person.city_id', '=', 'city_master.city_id')
+      ->leftJoin('ear_master', 'missing_person.ear_id', '=', 'ear_master.ear_id')
+      ->leftJoin('jaw_master', 'missing_person.jaw_id', '=', 'jaw_master.jaw_id')
+      ->leftJoin('hair_master', 'missing_person.hair_id', '=', 'hair_master.hair_id')
+      ->leftJoin('skin_master', 'missing_person.skin_id', '=', 'skin_master.skin_id')
+      ->leftJoin('nose_master', 'missing_person.nose_id', '=', 'nose_master.nose_id')
+      ->leftJoin('eye_brow_master', 'missing_person.eye_brow_id', '=', 'eye_brow_master.eye_brow_id')
+      ->leftJoin('eye_master', 'missing_person.eye_id', '=', 'eye_master.eye_id')
+      ->leftJoin('lip_master', 'missing_person.lip_id', '=', 'lip_master.lip_id')
+      ->leftJoin('currency_master', 'missing_person.currency_id', '=', 'currency_master.currency_id')
+      ->where('missing_person.status', $missing_id)
+      ->where('missing_person.status', 1)
+      ->where('missing_person.is_found', 0)
+      ->get();
+    if (!empty($data)) {
+      $data = $data->toArray();
     }
     return $data;
   }

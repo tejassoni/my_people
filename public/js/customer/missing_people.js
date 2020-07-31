@@ -208,7 +208,6 @@ $(document).ready(function() {
     // Radio button Gender Ends
 
     /* Dynamic Country Wise State , City Starts */
-
     $(document).on("change", "#country_select", function() {
         var country_id = $(this).val();
         if (country_id) {
@@ -303,6 +302,7 @@ $(document).ready(function() {
             });
         }
     });
+    /* Dynamic Country Wise State , City Ends */
 
     $(document).on("change", "#hair_select", function() {
         var hair_id = $(this).val();
@@ -501,4 +501,66 @@ $(document).ready(function() {
     if ($("#select_country_hidden").val()) {
         $("#country_select").trigger("change");
     }
+
+    $(document).on("click", ".btn_view", function() {
+        var view_id = $(this).attr("view_id");
+        if (view_id) {
+            $.ajax({
+                type: "GET", // Default GET
+                url: APPURL + "/customer/get_missing_person/" + view_id,
+                dataType: "json", // text , XML, HTML
+                beforeSend: function() {},
+                success: function(data_resp, textStatus, jqXHR) {
+                    console.log("Test :: 1 ::");
+                    console.log(data_resp);
+
+                    if (data_resp.status) {
+                        // Missing Person Information
+                        $("#missing_person_view").attr("src",data_resp.data.missing_person_img);
+                        $(".person_name").text(
+                            data_resp.data.missing_full_name
+                        );
+                        $(".person_country").text(data_resp.data.country_name);
+                        $(".person_gender").text(data_resp.data.missing_gender);
+                        $(".person_birthdate").text(data_resp.data.birth_date);
+                        $(".person_age").text(data_resp.data.missing_age);
+                        $(".person_height").text(data_resp.data.missing_height);
+                        $(".person_weight").text(data_resp.data.missing_weight);                       
+                        $(".person_address").text(
+                            data_resp.data.missing_address
+                        );                        
+                        $(".person_pincode").text(data_resp.data.pincode);
+                        $(".person_country").text(data_resp.data.country_name);
+                        $(".person_state").text(data_resp.data.state_name);
+                        $(".person_city").text(data_resp.data.city_name);
+                        $("#missing_person_face_view").attr("src",data_resp.data.jaw_img);
+                        $("#missing_person_skin_view").attr("src",data_resp.data.skin_img);
+                        $("#missing_person_hair_view").attr("src",data_resp.data.hair_img);
+                        $("#missing_person_nose_view").attr("src",data_resp.data.nose_img);
+                        $("#missing_person_eyebrow_view").attr("src",data_resp.data.eye_brow_img);
+                        $("#missing_person_eye_view").attr("src",data_resp.data.eye_img);
+                        $("#missing_person_ear_view").attr("src",data_resp.data.ear_img);
+                        $("#missing_person_lip_view").attr("src",data_resp.data.lip_img);
+                        $(".cloths_description").text(data_resp.data.cloth_description);
+                        $(".remarks_description").text(data_resp.data.remark);
+
+                        // Parents Information
+                        $(".parent_name").text(data_resp.data.parent_full_name);
+                        $(".parent_address").text(data_resp.data.parent_address);
+                        $(".parent_email").text(data_resp.data.parent_email);
+                        $(".parent_mobile").text(data_resp.data.parent_mobile);
+                        var symbol = data_resp.data.symbol;
+                        if (symbol === undefined || symbol === null) {
+                            $(".parent_rewards").text(data_resp.data.amount);
+                       }else{
+                        $(".parent_rewards").text(data_resp.data.amount +" "+data_resp.data.symbol);
+                       }
+                        
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {},
+                complete: function() {}
+            });
+        }
+    });
 });
