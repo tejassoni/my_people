@@ -626,13 +626,6 @@ $(document).ready(function() {
                 $('.modal-body').css('opacity', '.5');
             },
             success: function(data_resp, textStatus, jqXHR) {
-                // On ajax success operation
-                console.log(
-                    "Success ajax calls status :: " +
-                        textStatus +
-                        " jqXHR :: " +
-                        jqXHR
-                );
                 if(data_resp.status){
                     $('#find_person_img').val('');
                     $('#message').val('');
@@ -645,12 +638,46 @@ $(document).ready(function() {
                 $('.statusMsg').html('<span style="color:red;"> Some problem occurred, please try again.</span>');
             },
             complete: function() {
-                // On ajax complete operation
-                // console.log('Complete ajax send');
                 $('.btn_request_submit').removeAttr("disabled","disabled");
                 $('.btn_close').removeAttr("disabled","disabled");
                 $('.modal-body').css('opacity', '');
             }
         });
     });
+
+    // PDF Download
+    // $(document).on("click", ".btn_download", function() {
+    //     download_id = $(this).attr('download_id');
+    //     $.ajax({
+    //         url: APPURL + "/customer/get_pdf_person/" + download_id,
+    //         type: "get",
+    //         // dataType: 'JSON',
+    //         processData: false,
+    //         contentType: false,
+    //         beforeSend: function() {
+    //         },
+    //         success: function(data, textStatus, jqXHR) {
+    //             if (data.status) {
+    //                 var success_head = "";
+    //                 var success_body = "";
+    //                 success_head += '<i class="fa fa-check-circle" aria-hidden="true"></i> Success..!';
+    //                 success_body += 'PDF Downloaded successfully.';
+    //                 $(".modal-header h4").html(success_head);
+    //                 $(".modal-body p").html(success_body);
+    //                 $('.error_modal').trigger('click');
+    //             } else {
+    //                 var warning_head = "";
+    //                 var warning_body = "";
+    //                 warning_head += '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
+    //                 warning_body += 'PDF not Downloaded... Please try after sometime. ';
+    //                 $(".modal-header h4").html(warning_head);
+    //                 $(".modal-body p").html(warning_body);
+    //                 $('.error_modal').trigger('click');
+    //             }
+    //         },
+    //         error: function(jqXHR, textStatus, errorThrown) {
+
+    //         }
+    //     });
+    // });
 });

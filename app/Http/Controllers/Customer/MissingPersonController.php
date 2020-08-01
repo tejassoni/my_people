@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customer;
 use Image;
 use Exception;
 use DataTables;
+use Barryvdh\DomPDF\Facade as PDF;
 use App\Models\ear_master;
 use App\Models\eye_master;
 use App\Models\jaw_master;
@@ -195,7 +196,7 @@ class MissingPersonController extends Controller
                 ->addColumn('action', function ($list) {
                     $button = '';
                     $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
-                    $download_button = '<a href="#download-' . $list['missing_id'] . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
+                    $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
                     $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request</a>';
                     $button .= $view_button;
                     $button .= $download_button;
@@ -562,5 +563,105 @@ class MissingPersonController extends Controller
         $preArr['approval_status'] = 'pending';
         $preArr['status'] = 1;
         return $preArr;
+    }
+
+    /**
+     * Handle routs Controller Find Person functionality
+     * @author Tejas
+     * @param  Person Image, Message
+     * @return Boolean
+     */
+    public function download_pdf($download_id = "")
+    {   // default response formate initialize
+        $resp = config('response_format.RES_RESULT');
+        try {
+
+            if (!isset($download_id) || empty($download_id))
+                throw new Exception('Person Id not found..!', 1);
+
+            $missing_person_obj = new missing_person();
+            $missing_person_result = $missing_person_obj->list_belongsToBy_id($download_id);
+
+            // Missing Person Image Base 64 encoded
+            if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['missing_person_img']);
+                $missing_person_result[0]['missing_person_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img'])));
+            } else { // Default
+                $missing_person_result[0]['missing_person_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Face / Jaw Image Base 64 encoded
+            if (isset($missing_person_result[0]['jaw_img']) && !empty($missing_person_result[0]['ear_img']) && file_exists(\public_path('uploads/jaws/' . $missing_person_result[0]['jaw_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['ear_img']);
+                $missing_person_result[0]['jaw_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/jaws/' . $missing_person_result[0]['jaw_img'])));
+            } else { // Default
+                $missing_person_result[0]['jaw_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Skin Image Base 64 encoded
+            if (isset($missing_person_result[0]['skin_img']) && !empty($missing_person_result[0]['skin_img']) && file_exists(\public_path('uploads/skins/' . $missing_person_result[0]['skin_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['skin_img']);
+                $missing_person_result[0]['skin_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/skins/' . $missing_person_result[0]['skin_img'])));
+            } else { // Default
+                $missing_person_result[0]['skin_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Hair Image Base 64 encoded
+            if (isset($missing_person_result[0]['hair_img']) && !empty($missing_person_result[0]['hair_img']) && file_exists(\public_path('uploads/hairs/' . $missing_person_result[0]['hair_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['hair_img']);
+                $missing_person_result[0]['hair_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/hairs/' . $missing_person_result[0]['hair_img'])));
+            } else { // Default
+                $missing_person_result[0]['hair_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Nose Image Base 64 encoded
+            if (isset($missing_person_result[0]['nose_img']) && !empty($missing_person_result[0]['nose_img']) && file_exists(\public_path('uploads/noses/' . $missing_person_result[0]['nose_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['nose_img']);
+                $missing_person_result[0]['nose_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/noses/' . $missing_person_result[0]['nose_img'])));
+            } else { // Default
+                $missing_person_result[0]['nose_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Eye Brow Image Base 64 encoded
+            if (isset($missing_person_result[0]['eye_brow_img']) && !empty($missing_person_result[0]['eye_brow_img']) && file_exists(\public_path('uploads/eyebrows/' . $missing_person_result[0]['eye_brow_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['eye_brow_img']);
+                $missing_person_result[0]['eye_brow_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/eyebrows/' . $missing_person_result[0]['eye_brow_img'])));
+            } else { // Default
+                $missing_person_result[0]['eye_brow_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Eye Image Base 64 encoded
+            if (isset($missing_person_result[0]['eye_img']) && !empty($missing_person_result[0]['eye_brow_img']) && file_exists(\public_path('uploads/eyes/' . $missing_person_result[0]['eye_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['eye_img']);
+                $missing_person_result[0]['eye_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/eyes/' . $missing_person_result[0]['eye_img'])));
+            } else { // Default
+                $missing_person_result[0]['eye_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Ear Image Base 64 encoded
+            if (isset($missing_person_result[0]['ear_img']) && !empty($missing_person_result[0]['ear_img']) && file_exists(\public_path('uploads/ears/' . $missing_person_result[0]['ear_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['ear_img']);
+                $missing_person_result[0]['ear_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/ears/' . $missing_person_result[0]['ear_img'])));
+            } else { // Default
+                $missing_person_result[0]['ear_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            // Lip Image Base 64 encoded
+            if (isset($missing_person_result[0]['lip_img']) && !empty($missing_person_result[0]['lip_img']) && file_exists(\public_path('uploads/lips/' . $missing_person_result[0]['lip_img']))) {
+                $mime_type = $this->_base64_mime_type($missing_person_result[0]['lip_img']);
+                $missing_person_result[0]['lip_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/lips/' . $missing_person_result[0]['lip_img'])));
+            } else { // Default
+                $missing_person_result[0]['lip_img'] = $this->_default_image('no-preview.jpg');
+            }
+
+            if (empty($missing_person_result))
+                throw new Exception('Missing Person Details not found..!', 422);
+
+            $pdf = PDF::loadView('templates.pdf.find_person_template', ['pdf_data' => $missing_person_result[0]]);
+            return $pdf->download('person_details.pdf');
+        } catch (Exception $ex) {
+            $resp['message'] = $ex->getMessage();
+            return redirect()->back()->withInput()->with('error', $resp['message']);
+        }
     }
 }

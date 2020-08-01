@@ -135,7 +135,7 @@ return [
     */
 
     'providers' => [
-    	 // Jwt auth library
+        // Jwt auth library
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         /*
          * Laravel Framework Service Providers...
@@ -182,6 +182,8 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         // Image Library
         Intervention\Image\ImageServiceProvider::class,
+        // DOM PDF
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -235,6 +237,7 @@ return [
         // Yajra datatables
         'Datatables' => 'Yajra\Datatables\Facades\Datatables',
         'Image'     => Intervention\Image\Facades\Image::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];
