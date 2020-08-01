@@ -187,20 +187,24 @@ class MissingPersonController extends Controller
                 ->addIndexColumn()
                 ->addColumn('missing_status', function ($list) {
                     $missing_status = '<span class="text-danger"><i class="fa fa-ban" aria-hidden="true"></i> Missing </span>';
-                    $find_person = find_person::find($list['missing_id']);
+                    $find_person = find_person::where('missing_id', $list['missing_id'])->first();
                     if (isset($find_person) && !empty($find_person) && $find_person['approval_status'] == "pending") {
                         $missing_status = '<span class="text-warning"><i class="fa fa-clock" aria-hidden="true"></i> Pending Approval</span>';
                     }
                     return $missing_status;
                 })
                 ->addColumn('action', function ($list) {
+                    $find_person = find_person::where('missing_id', $list['missing_id'])->first();
                     $button = '';
                     $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
                     $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
-                    $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request</a>';
                     $button .= $view_button;
                     $button .= $download_button;
-                    $button .= $request_button;
+                    if (isset($find_person) && empty($find_person)) {
+                        $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request</a>';
+                        $button .= $request_button;
+                    }
+
                     return $button;
                 })
                 ->addColumn('missing_person_img', function ($list) {
@@ -210,7 +214,8 @@ class MissingPersonController extends Controller
                 ->rawColumns(['action', 'missing_person_img', 'missing_status'])
                 ->make(true);
         }
-        return view('customer.missing_persons.list_view');
+        $country_list = country_master::all();
+        return view('customer.missing_persons.list_view', compact('country_list'));
     }
 
     /**
@@ -566,9 +571,9 @@ class MissingPersonController extends Controller
     }
 
     /**
-     * Handle routs Controller Find Person functionality
+     * Handle routs Controller Download PDF functionality
      * @author Tejas
-     * @param  Person Image, Message
+     * @param  Person Id
      * @return Boolean
      */
     public function download_pdf($download_id = "")
@@ -663,5 +668,72 @@ class MissingPersonController extends Controller
             $resp['message'] = $ex->getMessage();
             return redirect()->back()->withInput()->with('error', $resp['message']);
         }
+    }
+
+    /**
+     * Get State List by Country ID Data Array
+     * @author Tejas
+     * @param  Request Inputs, (Optional) Addtional Array Datas
+     * @return Array
+     */
+    public function search_result(Request $request)
+    {
+        $resp = config('response_format.RES_RESULT');
+        if ($request->ajax()) {
+
+            $start_date = null;
+            $end_date = null;
+            if ($request->has('missed_date')) {
+                $explodeDates = explode(" - ", $request->input('missed_date'));
+                $start_date = date("Y-m-d", strtotime(str_replace("/", "-", $explodeDates[0])));
+                $end_date = date("Y-m-d", strtotime(str_replace("/", "-", $explodeDates[1])));
+            }
+
+            $postData['missing_date_start'] = $start_date;
+            $postData['missing_date_end'] = $end_date;
+            $postData['full_name'] = $request->input('full_name');
+            $postData['gender'] = $request->input('gender');
+            $postData['age'] = $request->input('age');
+            $postData['country_id'] = $request->input('country_id');
+            $postData['state_id'] = $request->input('state_id');
+            $postData['city_id'] = $request->input('city_id');
+
+            $missing_person_obj = new missing_person;
+            $list = $missing_person_obj->list_belongsToSearch($postData);
+
+            $data = DataTables::of($list)
+                ->addIndexColumn()
+                ->addColumn('missing_status', function ($list) {
+                    $missing_status = '<span class="text-danger"><i class="fa fa-ban" aria-hidden="true"></i> Missing </span>';
+                    $find_person = find_person::where('missing_id', $list['missing_id'])->first();
+                    if (isset($find_person) && !empty($find_person) && $find_person['approval_status'] == "pending") {
+                        $missing_status = '<span class="text-warning"><i class="fa fa-clock" aria-hidden="true"></i> Pending Approval</span>';
+                    }
+                    return $missing_status;
+                })
+                ->addColumn('action', function ($list) {
+                    $find_person = find_person::where('missing_id', $list['missing_id'])->first();
+                    $button = '';
+                    $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
+                    $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
+                    $button .= $view_button;
+                    $button .= $download_button;
+                    if (isset($find_person) && empty($find_person)) {
+                        $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request</a>';
+                        $button .= $request_button;
+                    }
+
+                    return $button;
+                })
+                ->addColumn('missing_person_img', function ($list) {
+                    if (!empty($list['missing_person_img']))
+                        return '<img src="' . url('uploads/missing_persons/thumbnail/thumb_' . $list['missing_person_img']) . '" title="Image" height="50" width="50"/>';
+                })
+                ->rawColumns(['action', 'missing_person_img', 'missing_status'])
+                ->make(true);
+        }
+        $resp['status'] = true;
+        $resp['data'] = $data;
+        return response()->json($resp);
     }
 }

@@ -193,6 +193,7 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
     Route::get('/get_missing_person/{id?}', 'Customer\MissingPersonController@get_personby_id');
     Route::post('/request_person', 'Customer\MissingPersonController@find_person_request');
     Route::get('/get_pdf_person/{id?}', 'Customer\MissingPersonController@download_pdf');
+    Route::post('/filter_data', 'Customer\MissingPersonController@search_result');
     /* Missing Person Module Ends here...! */
 
     /* Country , State and City Dynamic */

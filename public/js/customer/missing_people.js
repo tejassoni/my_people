@@ -9,6 +9,14 @@ $(document).ready(function() {
     });
 
     // Date Range
+    $('input[name="missing_date_filter"]').daterangepicker({
+        maxDate: new Date(),
+        locale: {
+            format: "DD/MM/YYYY"
+        }
+    });
+
+    // Date Range
     $('input[name="birth_date"]').daterangepicker({
         singleDatePicker: true,
         maxDate: new Date(),
@@ -49,7 +57,7 @@ $(document).ready(function() {
     /* File Upload Ends  */
 
     // Datatables Operation Starts
-    $("#missing_person_list_table").DataTable({
+   var datatable = $("#missing_person_list_table").DataTable({
         processing: true,
         serverSide: true,
         type: "get",
@@ -511,9 +519,6 @@ $(document).ready(function() {
                 dataType: "json", // text , XML, HTML
                 beforeSend: function() {},
                 success: function(data_resp, textStatus, jqXHR) {
-                    console.log("Test :: 1 ::");
-                    console.log(data_resp);
-
                     if (data_resp.status) {
                         // Missing Person Information
                         $("#missing_person_view").attr(
@@ -620,30 +625,254 @@ $(document).ready(function() {
             dataType: "json", // text , XML, HTML
             contentType: false,
             processData: false,
-            beforeSend: function() {                
-                $('.btn_request_submit').attr("disabled","disabled");
-                $('.btn_close').removeAttr("disabled","disabled");
-                $('.modal-body').css('opacity', '.5');
+            beforeSend: function() {
+                $(".btn_request_submit").attr("disabled", "disabled");
+                $(".btn_close").removeAttr("disabled", "disabled");
+                $(".modal-body").css("opacity", ".5");
             },
             success: function(data_resp, textStatus, jqXHR) {
-                if(data_resp.status){
-                    $('#find_person_img').val('');
-                    $('#message').val('');
-                    $('.statusMsg').html('<span style="color:green;"> Thanks for contacting us, we\'ll get back to you soon.</p>');
-                }else{
-                    $('.statusMsg').html('<span style="color:red;"> Some problem occurred, please try again.</span>');
+                if (data_resp.status) {
+                    $("#find_person_img").val("");
+                    $("#message").val("");
+                    $(".statusMsg").html(
+                        '<span style="color:green;"> Thanks for contacting us, we\'ll get back to you soon.</p>'
+                    );
+                } else {
+                    $(".statusMsg").html(
+                        '<span style="color:red;"> Some problem occurred, please try again.</span>'
+                    );
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $('.statusMsg').html('<span style="color:red;"> Some problem occurred, please try again.</span>');
+                $(".statusMsg").html(
+                    '<span style="color:red;"> Some problem occurred, please try again.</span>'
+                );
             },
             complete: function() {
-                $('.btn_request_submit').removeAttr("disabled","disabled");
-                $('.btn_close').removeAttr("disabled","disabled");
-                $('.modal-body').css('opacity', '');
+                $(".btn_request_submit").removeAttr("disabled", "disabled");
+                $(".btn_close").removeAttr("disabled", "disabled");
+                $(".modal-body").css("opacity", "");
             }
         });
     });
+
+    // Search Filter Ajax Starts
+    $(document).on("click", ".btn_person_search", function() {
+        // Ajax CSRF Token Setup
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+            }
+        });
+
+        $.ajax({
+            url: APPURL + "/customer/filter_data",
+            type: "POST",
+            data: {
+                missed_date: $("#missing_date_filter").val(),
+                full_name: $("#missing_name").val(),
+                gender: $("#gender_select").val(),
+                age: $("#missing_age").val(),
+                country_id: $("#country_select").val(),
+                state_id: $("#state_select").val(),
+                city_id: $("#city_select").val()
+            },
+            dataType: "JSON",
+            beforeSend: function() {
+                $("#missing_person_list_table")
+                .DataTable()
+                .clear()
+                .destroy();
+            },
+            success: function(data, textStatus, jqXHR) {
+                datatable.rows.add(data.data.original.data); // Add new data
+                datatable.columns.adjust().draw(); // Redraw the DataTable
+                console.log('Test :: 1 ::');
+                console.log(data.data.original.data);
+                return false;
+                if (data.status) {
+                    var success_head = "";
+                    var success_body = "";
+                    success_head +=
+                        '<i class="fa fa-check-circle" aria-hidden="true"></i> Success..!';
+                    success_body += data.message;
+                    $(".modal-header h4").html(success_head);
+                    $(".modal-body p").html(success_body);
+                    $(".error_modal").trigger("click");
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    var warning_head = "";
+                    var warning_body = "";
+                    warning_head +=
+                        '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Sorry, Operation Fails...!';
+                    warning_body +=
+                        "Ear is In Activated... Please try after sometime. ";
+                    $(".modal-header h4").html(warning_head);
+                    $(".modal-body p").html(warning_body);
+                    $(".error_modal").trigger("click");
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {}
+        });
+     
+        // $("#missing_person_list_table").DataTable({
+        //     processing: true,
+        //     serverSide: true,
+        //     "ajax": {
+        //         "url": APPURL + "/customer/filter_data",
+        //         "type": 'POST',
+        //         "data": 123
+        //     }, 
+        //     order: [
+        //         [0, "asc"] // asc OR desc
+        //     ],
+        //     aLengthMenu: [
+        //         // Sort Numbers of Rows
+        //         [10, 25, 50, 100, 200, -1],
+        //         [10, 25, 50, 100, 200, "All"]
+        //     ],
+        //     iDisplayLength: 10, // Default Display Numbers of Rows
+        //     autoWidth: true,
+        //     columns: [
+        //         {
+        //             width: "15%",
+        //             visible: true, // Hide Which Column Do not need to show in Datatable list
+        //             data: "missing_full_name",
+        //             name: "missing_full_name",
+        //             title: "Name",
+        //             orderable: true,
+        //             searchable: true
+        //         },
+        //         {
+        //             data: "missing_person_img",
+        //             name: "missing_person_img",
+        //             title: "Image",
+        //             orderable: false,
+        //             searchable: false
+        //         },
+        //         {
+        //             data: "location",
+        //             name: "location",
+        //             title: "Location",
+        //             orderable: true,
+        //             searchable: true
+        //         },
+        //         {
+        //             data: "age",
+        //             name: "age",
+        //             title: "Age",
+        //             orderable: true,
+        //             searchable: true
+        //         },
+        //         {
+        //             data: "missing_date",
+        //             name: "missing_date",
+        //             title: "Missing Date",
+        //             orderable: true,
+        //             searchable: true
+        //         },
+        //         {
+        //             data: "parent_mobile",
+        //             name: "parent_mobile",
+        //             title: "Emergency Contact",
+        //             orderable: true,
+        //             searchable: true
+        //         },
+        //         {
+        //             data: "missing_status",
+        //             name: "missing_status",
+        //             title: "Missing Status",
+        //             orderable: true,
+        //             searchable: true
+        //         },
+        //         {
+        //             width: "15%",
+        //             data: "action",
+        //             name: "action",
+        //             title: "Action",
+        //             orderable: false,
+        //             searchable: false
+        //         }
+        //     ],
+        //     dom:
+        //         "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-6 text-center mb-2'B><'col-sm-12 col-md-3'f>>" + // Top Header
+        //         "<'row'<'col-sm-12'tr>>" + // Table Body
+        //         "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>", // Bottom Footer
+        //     buttons: [
+        //         {
+        //             extend: "excelHtml5",
+        //             className: "btn btn-default",
+        //             text: '<i class="fa fa-file-excel"></i>',
+        //             titleAttr: "Excel",
+        //             filename: "ExcelReport",
+        //             sheetName: "Sheet1",
+        //             autoFilter: false,
+        //             exportOptions: {
+        //                 columns: [0, 2, 3, 4, 5, 6]
+        //             }
+        //         },
+        //         {
+        //             extend: "csvHtml5",
+        //             className: "btn btn-default",
+        //             text: '<i class="fa fa-file-csv"></i>',
+        //             titleAttr: "CSV",
+        //             width: "auto",
+        //             filename: "CSVReport",
+        //             exportOptions: {
+        //                 columns: [0, 2, 3, 4, 5, 6]
+        //             }
+        //         },
+        //         {
+        //             extend: "print",
+        //             className: "btn btn-default",
+        //             text: '<i class="fa fa-print"></i>',
+        //             titleAttr: "Print",
+        //             filename: "PrintReport",
+        //             autoPrint: true,
+        //             exportOptions: {
+        //                 columns: [0, 1, 2, 3, 4, 5, 6]
+        //             }
+        //         },
+        //         {
+        //             extend: "pdfHtml5",
+        //             className: "btn btn-default",
+        //             text: '<i class="fa fa-file-pdf"></i>',
+        //             titleAttr: "PDF",
+        //             filename: "PDFReport",
+        //             title: "PDF Title", // Heading Title
+        //             orientation: "portrait", // portrait OR landscape
+        //             pageSize: "LEGAL", // LETTER OR TABLOID OR A3 OR A4 OR A5 OR
+        //             exportOptions: {
+        //                 columns: [0, 1, 2, 3, 4, 5, 6]
+        //             }
+        //         },
+        //         {
+        //             extend: "copyHtml5",
+        //             className: "btn btn-default",
+        //             text: '<i class="fa fa-copy"></i>',
+        //             titleAttr: "Copy",
+        //             exportOptions: {
+        //                 columns: [0, 2, 3, 4, 5, 6]
+        //             }
+        //         },
+        //         {
+        //             extend: "pdfHtml5",
+        //             className: "btn btn-default",
+        //             text: '<i class="fas fa-sync-alt"></i>',
+        //             titleAttr: "Reload",
+        //             action: function(e, dt, node, config) {
+        //                 dt.ajax.reload();
+        //             }
+        //         }
+        //     ]
+        // });
+    });
+    // Search Filter Ajax Ends
 
     // PDF Download
     // $(document).on("click", ".btn_download", function() {

@@ -339,12 +339,12 @@ return [
         ],
         ['header' => 'FOUND / IDENTIFIED PERSON'],
         [
-            'text'    => 'Found Missing Person',
+            'text'    => 'Identified Person',
             'icon'    => 'fas fa-fw fa-user',
             'submenu' => [
                 [
-                    'text' => 'Missing Person List',
-                    'url'  => '/customer/missing_person_list',
+                    'text' => 'Identified Person List',
+                    'url'  => '/customer/missing_person_list1',
                     'icon'    => 'fas fa-fw fa-th-list',
                 ]
             ]
@@ -356,7 +356,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'My Missing Person List',
-                    'url'  => '/customer/missing_person_list',
+                    'url'  => '/customer/missing_person_list1',
                     'icon'    => 'fas fa-fw fa-th-list',
                 ]
             ]
