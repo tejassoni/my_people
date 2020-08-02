@@ -699,9 +699,8 @@ class MissingPersonController extends Controller
             $postData['city_id'] = $request->input('city_id');
 
             $missing_person_obj = new missing_person;
-            $list = $missing_person_obj->list_belongsToSearch($postData);
-
-            $data = DataTables::of($list)
+            $list = $missing_person_obj->list_belongsTo();
+            return DataTables::of($list)
                 ->addIndexColumn()
                 ->addColumn('missing_status', function ($list) {
                     $missing_status = '<span class="text-danger"><i class="fa fa-ban" aria-hidden="true"></i> Missing </span>';
@@ -722,7 +721,6 @@ class MissingPersonController extends Controller
                         $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request</a>';
                         $button .= $request_button;
                     }
-
                     return $button;
                 })
                 ->addColumn('missing_person_img', function ($list) {
@@ -732,8 +730,7 @@ class MissingPersonController extends Controller
                 ->rawColumns(['action', 'missing_person_img', 'missing_status'])
                 ->make(true);
         }
-        $resp['status'] = true;
-        $resp['data'] = $data;
-        return response()->json($resp);
+        $country_list = country_master::all();
+        return view('customer.missing_persons.list_view', compact('country_list'));
     }
 }
