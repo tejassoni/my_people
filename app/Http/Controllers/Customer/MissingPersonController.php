@@ -180,9 +180,39 @@ class MissingPersonController extends Controller
     public function list_view(Request $request)
     {
         if ($request->ajax()) {
+
+            // Custom Filter Datatables
+            $PostData = [];
+            if ($request->has('enable_missed_data') && $request->get('enable_missed_data')) {
+                $explodeDates = explode(" - ", $request->get('missed_date'));
+                $PostData['missed_date']['start'] = date("Y-m-d", strtotime(str_replace("/", "-", $explodeDates[0])));
+                $PostData['missed_date']['end'] = date("Y-m-d", strtotime(str_replace("/", "-", $explodeDates[1])));
+            } else {
+                $PostData['missed_date'] = null;
+            }
+
+            if ($request->has('name'))
+                $PostData['full_name'] = $request->get('name');
+
+            if ($request->has('gender'))
+                $PostData['gender'] = $request->get('gender');
+
+            if ($request->has('age'))
+                $PostData['age'] = $request->get('age');
+
+            if ($request->has('country_id'))
+                $PostData['country_id'] = $request->get('country_id');
+
+            if ($request->has('state_id'))
+                $PostData['state_id'] = $request->get('state_id');
+
+            if ($request->has('city_id'))
+                $PostData['city_id'] = $request->get('city_id');
+
             $missing_person_obj = new missing_person;
-            // $list = $missing_person_obj->list_all();
-            $list = $missing_person_obj->list_belongsTo();
+            $list = $missing_person_obj->list_belongsToSearch($PostData);
+            // $list = $missing_person_obj->list_belongsTo();
+
             return DataTables::of($list)
                 ->addIndexColumn()
                 ->addColumn('missing_status', function ($list) {

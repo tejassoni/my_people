@@ -31,9 +31,12 @@
       <!-- First Row Starts -->
       <div class="row">
         <div class="col-sm">
-          <div class="form-group">
-            <label for="missing_date_filter"><?= ('Date Range') ?></label>
-            <input type="text" class="form-control" name="missing_date_filter" id="missing_date_filter" placeholder="Select Dates" value="{{ old('missing_date') }}" />
+          <div class="form-group clearfix">
+            <div class="icheck-primary d-inline">
+              <input type="checkbox" name="missdate_validity_chkbx" class="missdate_validity_chkbx" id="missdate_validity_chkbx" value="0">
+              <label for="missdate_validity_chkbx"> <?= ('Missing Date') ?> </label>
+            </div>
+            <input type="text" class="form-control" name="missing_date_filter" id="missing_date_filter" placeholder="Enter Dates" value="{{ old('missing_date') }}" disabled />
           </div>
         </div>
         <div class="col-sm">
