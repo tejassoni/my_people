@@ -230,11 +230,10 @@ class MissingPersonController extends Controller
                     $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
                     $button .= $view_button;
                     $button .= $download_button;
-                    if (isset($find_person) && empty($find_person)) {
+                    if (isset($find_person) && !empty($find_person) && $find_person->approval_status == "pending") {
                         $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request</a>';
                         $button .= $request_button;
                     }
-
                     return $button;
                 })
                 ->addColumn('missing_person_img', function ($list) {

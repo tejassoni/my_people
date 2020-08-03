@@ -273,7 +273,7 @@ class missing_person extends Model
       ->leftJoin('eye_master', 'missing_person.eye_id', '=', 'eye_master.eye_id')
       ->leftJoin('lip_master', 'missing_person.lip_id', '=', 'lip_master.lip_id')
       ->leftJoin('currency_master', 'missing_person.currency_id', '=', 'currency_master.currency_id')
-      ->where('missing_person.status', $missing_id)
+      ->where('missing_person.missing_id', $missing_id)
       ->where('missing_person.status', 1)
       ->where('missing_person.is_found', 0)
       ->get();
