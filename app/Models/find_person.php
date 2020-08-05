@@ -33,7 +33,7 @@ class find_person extends Model
    *
    * @var array
    */
-  protected $fillable = ['missing_id', 'find_person_img', 'description', 'approval_status', 'status'];
+  protected $fillable = ['missing_id', 'find_person_img', 'description', 'approval_status', 'findby_user_id', 'status'];
 
   /**
    * The attributes that aren't mass assignable.

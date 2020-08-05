@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use DB; // DB::enableQueryLog(); dd(DB::getQueryLog());
 
@@ -182,6 +183,33 @@ class missing_person extends Model
     }
     $data =  $data->get();
     // dd(DB::getQueryLog());
+    if (!empty($data)) {
+      $data = $data->toArray();
+    }
+    return $data;
+  }
+
+  /*
+    * author : Tejas Soni
+    * list_belongsTo - get all table : missing_master and user_master records    
+    * @param  - None        
+    * @return : array of all list records
+    */
+  public function my_list_belongsTo()
+  {
+    $data = self::selectRaw('`missing_person`.`missing_id` as `missing_id`, CONCAT(missing_person.f_name," ",missing_person.l_name) AS `missing_full_name`, `missing_person`.`age` AS `age`, `missing_person`.`missing_person_img` as `missing_person_img`, DATE_FORMAT(missed_date, "%d/%m/%Y") as missing_date,CONCAT(country_master.name,", ",state_master.name,", ",city_master.name,", ",missing_person.pincode) AS `location`')
+      ->selectRaw('`user_master`.`id` as `user_id`,CONCAT(user_master.f_name," ",user_master.l_name) AS `parent_full_name`,`user_master`.`mobile` as `parent_mobile`,`user_master`.`email` as `parent_email`')
+      ->selectRaw('`country_master`.`country_id` as `country_id`,`country_master`.`name` as `country_name`')
+      ->selectRaw('`state_master`.`country_id` as `state_id`,`state_master`.`name` as `state_name`')
+      ->selectRaw('`city_master`.`city_id` as `city_id`,`city_master`.`name` as `city_name`')
+      ->leftJoin('user_master', 'missing_person.user_id', '=', 'user_master.id')
+      ->leftJoin('country_master', 'missing_person.country_id', '=', 'country_master.country_id')
+      ->leftJoin('state_master', 'missing_person.state_id', '=', 'state_master.state_id')
+      ->leftJoin('city_master', 'missing_person.city_id', '=', 'city_master.city_id')
+      ->where('missing_person.user_id', Auth::user()->id)
+      ->where('missing_person.status', 1)
+      ->where('missing_person.is_found', 0)
+      ->get();
     if (!empty($data)) {
       $data = $data->toArray();
     }

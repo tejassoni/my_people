@@ -19,6 +19,7 @@ class CreateFindPersonTable extends Migration
             $table->string('find_person_img', 255)->nullable();
             $table->text('description')->nullable(true);
             $table->string('approval_status', 20)->nullable(true);
+            $table->integer('findby_user_id')->nullable(true);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

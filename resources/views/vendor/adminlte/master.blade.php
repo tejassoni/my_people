@@ -222,10 +222,15 @@
     @endif
 
 
-    <!-- Discount Backend Page wise JS Load -->
+    <!-- Missing Person Backend Page wise JS Load -->
     @if(strpos(Request::url(), 'missing_person_add') !== false ||
     strpos(Request::url(), 'missing_person_list') !== false)
     <script src="{{ asset('js/customer/missing_people.js') }}"></script>
+    @endif
+
+    @if(strpos(Request::url(), 'mymissing_person_add') !== false ||
+    strpos(Request::url(), 'mymissing_person_list') !== false)
+    <script src="{{ asset('js/customer/my_missing_people.js') }}"></script>
     @endif
 
 </body>
