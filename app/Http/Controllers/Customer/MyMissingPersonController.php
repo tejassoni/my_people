@@ -29,6 +29,7 @@ use App\Http\Requests\UpdateDiscountRequest;
 use App\Http\Requests\CreateFindPersonRequest;
 use App\Http\Requests\UpdateFindPersonResponse;
 use App\Http\Requests\CreateMissingPersonRequest;
+use App\Models\user_master;
 
 class MyMissingPersonController extends Controller
 {
@@ -416,6 +417,7 @@ class MyMissingPersonController extends Controller
 
             $missing_person_obj = new missing_person;
             $list = $missing_person_obj->my_list_belongsTo();
+            $response_person_img = "";
 
             return DataTables::of($list)
                 ->addIndexColumn()
@@ -435,7 +437,9 @@ class MyMissingPersonController extends Controller
                     $button .= $view_button;
                     $button .= $download_button;
                     if (isset($find_person) && !empty($find_person) && $find_person->approval_status == "pending") {
-                        $request_button = '<a href="#response-' . $list['missing_id'] . '" response_id="' . $list['missing_id'] . '" find_id="' . $find_person->find_id . '" class="btn btn-xs btn-secondary btn_response" title="Response" data-toggle="modal" data-target="#personResponseModal"><i class="fa fa-reply"></i> Response</a>';
+                        $user_details = user_master::where('id', $find_person['findby_user_id'])->first();
+                        $response_person_img = $user_details->user_img;
+                        $request_button = '<a href="#response-' . $list['missing_id'] . '" response_id="' . $list['missing_id'] . '" find_id="' . $find_person->find_id . '" class="btn btn-xs btn-secondary btn_response" title="Response" data-toggle="modal" data-target="#personResponseModal" response_user_img="' . $response_person_img . '"><i class="fa fa-reply"></i> Response User</a>';
                         $button .= $request_button;
                     }
                     return $button;

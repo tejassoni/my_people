@@ -197,8 +197,8 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
     /* Missing Person Module Ends here...! */
 
     /* My Missing Person Module Starts here...! */
-    Route::get('/mymissing_person_list', 'Customer\MissingPersonController@mymissing_list_view');
-    Route::post('/response_person', 'Customer\MissingPersonController@find_person_response');
+    Route::get('/mymissing_person_list', 'Customer\MyMissingPersonController@mymissing_list_view');
+    Route::post('/response_person', 'Customer\MyMissingPersonController@find_person_response');
     /* My Missing Person Module Ends here...! */
 
     /* Country , State and City Dynamic */

@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ __('Response FindBy Person') }} </h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ __('Send Response To Person Who Found') }} </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -10,8 +10,21 @@
             <p class="statusMsg"></p>
             <form id="response_form" name="response_form" action='' method="post">
                 <div class="modal-body">
+
                     <div class="row">
-                        <h6><b>Request Person Details</b></h6>
+                        <h6><b>Missing Person Details</b></h6>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <img class="file_preview_select mb-1 img-fluid" id="missing_person_view" alt="Image Preview" src="{{ asset('assets/no-preview.jpg') }}" height="180" width="auto">
+                        </div>
+                        <div class="col-sm-6">
+                            <span><b>{{ __('Message : ') }}</b></span><span>test asdasd</span><br>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <h6><b>Response Person Details</b></h6>
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
@@ -30,17 +43,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="row">
-                        <h6><b>Missing Person Details</b></h6>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <img class="file_preview_select mb-1 img-fluid" id="missing_person_view" alt="Image Preview" src="{{ asset('assets/no-preview.jpg') }}" height="180" width="auto">
-                        </div>
-                        <div class="col-sm-6">
-                            <span><b>{{ __('Message : ') }}</b></span><span>test asdasd</span><br>
-                        </div>
-                    </div>
+                    <div class="row"></div>
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="form-group required">

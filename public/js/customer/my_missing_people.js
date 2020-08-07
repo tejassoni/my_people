@@ -616,6 +616,15 @@ $(document).ready(function() {
     $(document).on("click", ".btn_response", function() {
         $("#find_id_hidden").val($(this).attr("find_id"));
         $("#missing_id_hidden").val($(this).attr("response_id"));
+        // parents calls based child attr find        
+        var img_src = $(this).closest("tr").find("[src]").attr('src');
+        if(img_src !== null || img_src !== ""){
+            $("#response_form").find("[src]").first().attr("src",img_src.replace('thumbnail/thumb_',''));
+        }             
+        $("#response_form").find("[src]").last().attr("src",window.location.origin+"/uploads/users/"+$(this).attr('response_user_img'));
+        var pathname = window.location.pathname; // Returns path only (/path/example.html)
+        var url      = window.location.href;     // Returns full URL (https://example.com/path/example.html)
+        var origin   = window.location.origin;   // Returns base URL (https://example.com)
     });
 
     /* Bootstrap Modal file File upload */

@@ -233,7 +233,7 @@ class MissingPersonController extends Controller
                     $button .= $view_button;
                     $button .= $download_button;
                     if (empty($find_person) || $find_person->approval_status != "pending") {
-                        $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request</a>';
+                        $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request Parents</a>';
                         $button .= $request_button;
                     }
                     return $button;
@@ -608,77 +608,5 @@ class MissingPersonController extends Controller
             $resp['message'] = $ex->getMessage();
             return redirect()->back()->withInput()->with('error', $resp['message']);
         }
-    }
-
-    /**
-     * Handle routs Controller load view request
-     * @author Tejas
-     * @param  none
-     * @return role/view/list_view.blade.php
-     */
-    public function mymissing_list_view(Request $request)
-    {
-        if ($request->ajax()) {
-
-            $missing_person_obj = new missing_person;
-            $list = $missing_person_obj->my_list_belongsTo();
-
-            return DataTables::of($list)
-                ->addIndexColumn()
-                ->addColumn('missing_status', function ($list) {
-                    $missing_status = '<span class="text-danger"><i class="fa fa-ban" aria-hidden="true"></i> Missing </span>';
-                    $find_person = find_person::where('status', 1)->where('missing_id', $list['missing_id'])->first();
-                    if (isset($find_person) && !empty($find_person) && $find_person['approval_status'] == "pending") {
-                        $missing_status = '<span class="text-warning"><i class="fa fa-clock" aria-hidden="true"></i> Pending Approval</span>';
-                    }
-                    return $missing_status;
-                })
-                ->addColumn('action', function ($list) {
-                    $find_person = find_person::where('status', 1)->where('missing_id', $list['missing_id'])->first();
-                    $button = '';
-                    $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
-                    $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
-                    $button .= $view_button;
-                    $button .= $download_button;
-                    if (isset($find_person) && !empty($find_person) && $find_person->approval_status == "pending") {
-                        $request_button = '<a href="#response-' . $list['missing_id'] . '" response_id="' . $list['missing_id'] . '" find_id="' . $find_person->find_id . '" class="btn btn-xs btn-secondary btn_response" title="Response" data-toggle="modal" data-target="#personResponseModal"><i class="fa fa-reply"></i> Response</a>';
-                        $button .= $request_button;
-                    }
-                    return $button;
-                })
-                ->addColumn('missing_person_img', function ($list) {
-                    if (!empty($list['missing_person_img']))
-                        return '<img src="' . url('uploads/missing_persons/thumbnail/thumb_' . $list['missing_person_img']) . '" title="Image" height="50" width="50"/>';
-                })
-                ->rawColumns(['action', 'missing_person_img', 'missing_status'])
-                ->make(true);
-        }
-        $country_list = country_master::all();
-        return view('customer.my_missing_persons.list_view', compact('country_list'));
-    }
-
-    /**
-     * Handle routs Controller Find Person functionality
-     * @author Tejas
-     * @param  Person Image, Message
-     * @return Boolean
-     */
-    public function find_person_response(UpdateFindPersonResponse $request)
-    {   // default response formate initialize
-        $resp = config('response_format.RES_RESULT');
-
-        // File Upload Ends
-        $find_person_obj = new find_person();
-        $find_person_result = $find_person_obj->update_records($insert_data);
-
-        // if ($find_person_result->exists) {
-        //     $resp['status'] = true;
-        //     $resp['data'] = array();
-        //     $resp['message'] = 'Find Person inserted successfully...!';
-        //     return response()->json($resp);
-        // } else {
-        //     $resp['message'] = 'Find Person not inserted, Please try again...!';
-        //     return response()->json($resp);
-        // }
     }
 }
