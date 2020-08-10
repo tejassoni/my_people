@@ -140,4 +140,5 @@
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
+<script src="{{ asset('js/admin/user_master.js') }}" defer></script>
 @stop

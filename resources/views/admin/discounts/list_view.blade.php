@@ -58,5 +58,5 @@
     </div> <!-- /.col -->
   </div> <!-- /.col -->
 </section>
-
+<script src="{{ asset('js/admin/discount_master.js') }}" defer></script>
 @stop

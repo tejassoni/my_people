@@ -61,7 +61,7 @@
                 <label class="custom-file-label" for="customFile"><?= ('Choose file') ?></label>
                 <input type="hidden" class="form-control" id="skin_img_hidden" name="filename_hidden" value="{{ (is_array(old()) && !empty(old('skin_img')))? old('skin_img') : $skin_result->skin_img }}">
                 <!-- File preview Starts -->
-                <img class="file_preview mb-5 {{ (!empty($skin_result->skin_img))? '' : 'd-none' }}" id="img_view" alt="Image Preview"src="{{ (is_array(old()) && !empty(old('skin_img')))? old('skin_img') : $skin_result->skin_img }}" height="70" width="70">
+                <img class="file_preview mb-5 {{ (!empty($skin_result->skin_img))? '' : 'd-none' }}" id="img_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('skin_img')))? old('skin_img') : $skin_result->skin_img }}" height="70" width="70">
                 <button type="button" class="file_preview close float-left {{ (!empty($skin_result->skin_img))? '' : 'd-none' }}" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>
@@ -90,13 +90,11 @@
           @endif
         </div>
         <!-- /.card -->
-
-
-
       </div>
       <!--/.col (left) -->
     </div>
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
+<script src="{{ asset('js/admin/skin_master.js') }}" defer></script>
 @stop

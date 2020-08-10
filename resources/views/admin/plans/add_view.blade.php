@@ -102,4 +102,5 @@
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
+<script src="{{ asset('js/admin/plan_master.js') }}" defer></script>
 @stop

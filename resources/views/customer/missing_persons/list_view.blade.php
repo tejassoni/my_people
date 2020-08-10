@@ -158,5 +158,5 @@
   <!-- Customer Request Find  Bootstrap Modal Ends -->
 
 </section>
-
+<script src="{{ asset('js/customer/missing_people.js') }}" defer></script>
 @stop

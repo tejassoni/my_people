@@ -61,7 +61,7 @@
                 <label class="custom-file-label" for="customFile"><?= ('Choose file') ?></label>
                 <input type="hidden" class="form-control" id="eye_brow_img_hidden" name="filename_hidden" value="{{ (is_array(old()) && !empty(old('eye_brow_img')))? old('eye_brow_img') : $eyebrow_result->eye_brow_img }}">
                 <!-- File preview Starts -->
-                <img class="file_preview mb-5 {{ (!empty($eyebrow_result->eye_brow_img))? '' : 'd-none' }}" id="img_view" alt="Image Preview"src="{{ (is_array(old()) && !empty(old('eye_brow_img')))? old('eye_brow_img') : $eyebrow_result->eye_brow_img }}" height="70" width="70">
+                <img class="file_preview mb-5 {{ (!empty($eyebrow_result->eye_brow_img))? '' : 'd-none' }}" id="img_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('eye_brow_img')))? old('eye_brow_img') : $eyebrow_result->eye_brow_img }}" height="70" width="70">
                 <button type="button" class="file_preview close float-left {{ (!empty($eyebrow_result->eye_brow_img))? '' : 'd-none' }}" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>
@@ -99,4 +99,5 @@
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
+<script src="{{ asset('js/admin/eyebrow_master.js') }}" defer></script>
 @stop

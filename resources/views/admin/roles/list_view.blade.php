@@ -56,5 +56,5 @@
     </div> <!-- /.col -->
   </div> <!-- /.col -->
 </section>
-
+<script src="{{ asset('js/admin/role_master.js') }}" defer></script>
 @stop

@@ -104,13 +104,11 @@
           @endif
         </div>
         <!-- /.card -->
-
-
-
       </div>
       <!--/.col (left) -->
     </div>
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
+<script src="{{ asset('js/customer/my_missing_people.js') }}" defer></script>
 @stop

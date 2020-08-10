@@ -405,5 +405,5 @@
   <div class="row mt-30">
   </div>
 </section>
-
+<script src="{{ asset('js/customer/my_missing_people.js') }}" defer></script>
 @stop

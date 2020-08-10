@@ -64,7 +64,6 @@
   <!-- Customer Request Find Details Bootstrap Modal Starts -->
   @include('vendor.adminlte.partials.modal_send_response_message')
   <!-- Customer Request Find  Bootstrap Modal Ends -->
-
 </section>
-
+<script src="{{ asset('js/customer/my_missing_people.js') }}" defer></script>
 @stop

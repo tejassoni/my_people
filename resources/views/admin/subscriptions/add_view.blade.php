@@ -96,4 +96,5 @@
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
+<script src="{{ asset('js/admin/subscription_master.js') }}" defer></script>
 @stop

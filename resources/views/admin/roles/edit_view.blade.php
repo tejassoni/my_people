@@ -88,4 +88,5 @@
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
+<script src="{{ asset('js/admin/role_master.js') }}" defer></script>
 @stop

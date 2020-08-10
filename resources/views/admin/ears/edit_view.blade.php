@@ -99,4 +99,5 @@
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
+<script src="{{ asset('js/admin/ear_master.js') }}" defer></script>
 @stop

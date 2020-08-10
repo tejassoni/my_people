@@ -94,13 +94,11 @@
           </form>
         </div>
         <!-- /.card -->
-
-
-
       </div>
       <!--/.col (left) -->
     </div>
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
+<script src="{{ asset('js/admin/discount_master.js') }}" defer></script>
 @stop
