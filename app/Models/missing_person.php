@@ -208,7 +208,7 @@ class missing_person extends Model
       ->leftJoin('city_master', 'missing_person.city_id', '=', 'city_master.city_id')
       ->where('missing_person.user_id', Auth::user()->id)
       ->where('missing_person.status', 1)
-      ->where('missing_person.is_found', 0)
+      ->whereIn('missing_person.is_found', [0, 1])
       ->get();
     if (!empty($data)) {
       $data = $data->toArray();
@@ -224,7 +224,7 @@ class missing_person extends Model
     */
   public function update_records($udpate_data = array(), $where_check)
   {
-    return self::where('discount_id', $where_check)->update($udpate_data);
+    return self::where('missing_id', $where_check)->update($udpate_data);
   }
 
   /*
@@ -235,7 +235,7 @@ class missing_person extends Model
     */
   public function delete_bulk_records($delete_ids = array())
   {
-    return self::whereIn('discount_id', $delete_ids)->delete();
+    return self::whereIn('missing_id', $delete_ids)->delete();
   }
 
 

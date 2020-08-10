@@ -471,17 +471,17 @@ class MissingPersonController extends Controller
         $resp = config('response_format.RES_RESULT');
 
         // Set Insert data array for pass into insert query
+        $updatematches_data = $this->_prepareFindUpdateMatchData($request, [1]);
         $insert_data = $this->_prepareInsertFindPersonData($request);
         // File Upload Starts Folder Path : // root\public\uploads        
         if ($request->hasFile('filename')) {
-
             $filehandle = $this->_fileUploads($request);
             $insert_data['find_person_img'] = $filehandle['data']['filename'];
         }
 
         // File Upload Ends
         $find_person_obj = new find_person();
-        $find_person_result = $find_person_obj->insert_data($insert_data);
+        $find_person_result = $find_person_obj->update_Or_Create($updatematches_data, $insert_data);
 
         if ($find_person_result->exists) {
             $resp['status'] = true;
@@ -492,6 +492,20 @@ class MissingPersonController extends Controller
             $resp['message'] = 'Find Person not inserted, Please try again...!';
             return response()->json($resp);
         }
+    }
+
+    /**
+     * Prepare Update Or Create Data Array
+     * @author Tejas
+     * @param  Request Inputs, (Optional) Addtional Array Datas
+     * @return Array
+     */
+    private function _prepareFindUpdateMatchData($request = "", $additional = array())
+    {
+        $preArr['findby_user_id'] = Auth::user()->id;
+        $preArr['missing_id'] = $request->input('missing_id');
+        $preArr['status'] = $additional[0];
+        return $preArr;
     }
 
     /**

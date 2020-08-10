@@ -55,23 +55,25 @@ $(document).ready(function() {
         $(".file_preview").addClass("d-none");
     });
     /* File Upload Ends  */
-    
+
     // Datatables Operation Starts
-      var dataTable =  $("#my_missing_person_list_table").DataTable({
+    var dataTable = $("#my_missing_person_list_table").DataTable({
         processing: true,
         serverSide: true,
         type: "get",
-        ajax: {url:"mymissing_person_list",'data': function(data){  
-            
-            data.enable_missed_data = $('#missdate_validity_chkbx').val();
-            data.missed_date = $('#missing_date_filter').val();
-            data.name = $('#missing_name').val();
-            data.gender = $('#gender_select').val();
-            data.age = $('#missing_age').val();
-            data.country_id = $('#country_select').val();
-            data.state_id = $('#state_select').val();
-            data.city_id = $('#city_select').val();
-         }},
+        ajax: {
+            url: "mymissing_person_list",
+            data: function(data) {
+                data.enable_missed_data = $("#missdate_validity_chkbx").val();
+                data.missed_date = $("#missing_date_filter").val();
+                data.name = $("#missing_name").val();
+                data.gender = $("#gender_select").val();
+                data.age = $("#missing_age").val();
+                data.country_id = $("#country_select").val();
+                data.state_id = $("#state_select").val();
+                data.city_id = $("#city_select").val();
+            }
+        },
         order: [
             [0, "asc"] // asc OR desc
         ],
@@ -613,18 +615,36 @@ $(document).ready(function() {
         }
     });
 
+    /* Bind / Append Data To Modal On Click */
     $(document).on("click", ".btn_response", function() {
         $("#find_id_hidden").val($(this).attr("find_id"));
         $("#missing_id_hidden").val($(this).attr("response_id"));
-        // parents calls based child attr find        
-        var img_src = $(this).closest("tr").find("[src]").attr('src');
-        if(img_src !== null || img_src !== ""){
-            $("#response_form").find("[src]").first().attr("src",img_src.replace('thumbnail/thumb_',''));
-        }             
-        $("#response_form").find("[src]").last().attr("src",window.location.origin+"/uploads/users/"+$(this).attr('response_user_img'));
-        var pathname = window.location.pathname; // Returns path only (/path/example.html)
-        var url      = window.location.href;     // Returns full URL (https://example.com/path/example.html)
-        var origin   = window.location.origin;   // Returns base URL (https://example.com)
+        $("#missing_message").text($(this).attr("missing_message"));        
+        $("#response_name").text($(this).attr("response_user_name"));
+        $("#response_email").text($(this).attr("response_user_email"));
+        $("#response_mobile").text($(this).attr("response_user_mobile"));
+        $("#response_address").text($(this).attr("response_user_address"));
+        
+        // parents calls based child attr find
+        var img_src = $(this)
+            .closest("tr")
+            .find("[src]")
+            .attr("src");
+        if (img_src !== null || img_src !== "") {
+            $("#response_form")
+                .find("[src]")
+                .first()
+                .attr("src", img_src.replace("thumbnail/thumb_", ""));
+        }
+        $("#response_form")
+            .find("[src]")
+            .last()
+            .attr(
+                "src",
+                window.location.origin +
+                    "/uploads/users/" +
+                    $(this).attr("response_user_img")
+            );
     });
 
     /* Bootstrap Modal file File upload */
@@ -652,10 +672,9 @@ $(document).ready(function() {
             },
             success: function(data_resp, textStatus, jqXHR) {
                 if (data_resp.status) {
-                    $("#find_person_img").val("");
                     $("#message").val("");
                     $(".statusMsg").html(
-                        '<span style="color:green;"> Thanks for contacting us, we\'ll get back to you soon.</p>'
+                        '<span style="color:green;"> Thanks, Your message sent successfully.</p>'
                     );
                 } else {
                     $(".statusMsg").html(

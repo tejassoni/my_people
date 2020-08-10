@@ -12,19 +12,19 @@
                 <div class="modal-body">
 
                     <div class="row">
-                        <h6><b>Missing Person Details</b></h6>
+                        <h6><b>{{ __('Missing Person Details') }}</b></h6>
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
                             <img class="file_preview_select mb-1 img-fluid" id="missing_person_view" alt="Image Preview" src="{{ asset('assets/no-preview.jpg') }}" height="180" width="auto">
                         </div>
                         <div class="col-sm-6">
-                            <span><b>{{ __('Message : ') }}</b></span><span>test asdasd</span><br>
+                            <span><b>{{ __('Message : ') }}</b></span><span id="missing_message"></span><br>
                         </div>
                     </div>
 
                     <div class="row">
-                        <h6><b>Response Person Details</b></h6>
+                        <h6><b>{{ __('Response Person Details') }}</b></h6>
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
@@ -34,13 +34,10 @@
                         <input type='hidden' id='missing_id_hidden' name='missing_id_hidden' value=''>
 
                         <div class="col-sm-6">
-                            <span><b>{{ __('Name : ') }}</b></span><span>test asdasd</span><br>
-                            <span><b>{{ __('Mobile : ') }}</b></span><span>99595999</span><br>
-                            <span><b>{{ __('Address : ') }}</b></span><span>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                    industry.
-                                </p>
-                            </span>
+                            <span><b>{{ __('Name : ') }}</b></span><span id="response_name"></span><br>
+                            <span><b>{{ __('Email : ') }}</b></span><span id="response_email"></span><br>
+                            <span><b>{{ __('Mobile : ') }}</b></span><span id="response_mobile"></span><br>
+                            <span><b>{{ __('Address : ') }}</b></span><span id="response_address"></span>
                         </div>
                     </div>
                     <div class="row"></div>
@@ -51,7 +48,7 @@
                                 <select class="form-control" name="status_select" id="status_select" required>
                                     <option value="" disabled selected><?= ('Select Status') ?></option>
                                     <option value="accept"><?= ('Accept') ?></option>
-                                    <option value="cancel"><?= ('Cancel') ?></option>
+                                    <option value="reject"><?= ('Reject') ?></option>
                                 </select>
                             </div>
                         </div>

@@ -648,15 +648,19 @@ $(document).ready(function() {
                         '<span style="color:green;"> Thanks for contacting us, we\'ll get back to you soon.</p>'
                     );
                 } else {
-                    $(".statusMsg").html(
-                        '<span style="color:red;"> Some problem occurred, please try again.</span>'
-                    );
+                    $.each(data_resp.errors, function(key, value) {
+                        $(".statusMsg").append(
+                            "<span style='color:red;'>" + key + " : " + value + '</p>'
+                        );
+                    });
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $(".statusMsg").html(
-                    '<span style="color:red;"> Some problem occurred, please try again.</span>'
-                );
+                $.each(jqXHR.responseJSON.errors, function(key, value) {
+                    $(".statusMsg").html(
+                        "<span style='color:red;'>" + key + " : " + value + '</span>'
+                    );
+                });
             },
             complete: function() {
                 $(".btn_request_submit").removeAttr("disabled", "disabled");

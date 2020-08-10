@@ -418,14 +418,16 @@ class MyMissingPersonController extends Controller
             $missing_person_obj = new missing_person;
             $list = $missing_person_obj->my_list_belongsTo();
             $response_person_img = "";
-
             return DataTables::of($list)
                 ->addIndexColumn()
                 ->addColumn('missing_status', function ($list) {
                     $missing_status = '<span class="text-danger"><i class="fa fa-ban" aria-hidden="true"></i> Missing </span>';
                     $find_person = find_person::where('status', 1)->where('missing_id', $list['missing_id'])->first();
+
                     if (isset($find_person) && !empty($find_person) && $find_person['approval_status'] == "pending") {
                         $missing_status = '<span class="text-warning"><i class="fa fa-clock" aria-hidden="true"></i> Pending Approval</span>';
+                    } else if (isset($find_person) && !empty($find_person) && $find_person['approval_status'] == "accept") {
+                        $missing_status = '<span class="text-info"><i class="fa fa-check" aria-hidden="true"></i> Accepted </span>';
                     }
                     return $missing_status;
                 })
@@ -439,7 +441,7 @@ class MyMissingPersonController extends Controller
                     if (isset($find_person) && !empty($find_person) && $find_person->approval_status == "pending") {
                         $user_details = user_master::where('id', $find_person['findby_user_id'])->first();
                         $response_person_img = $user_details->user_img;
-                        $request_button = '<a href="#response-' . $list['missing_id'] . '" response_id="' . $list['missing_id'] . '" find_id="' . $find_person->find_id . '" class="btn btn-xs btn-secondary btn_response" title="Response" data-toggle="modal" data-target="#personResponseModal" response_user_img="' . $response_person_img . '"><i class="fa fa-reply"></i> Response User</a>';
+                        $request_button = '<a href="#response-' . $list['missing_id'] . '" response_id="' . $list['missing_id'] . '" find_id="' . $find_person->find_id . '" class="btn btn-xs btn-secondary btn_response" title="Response" data-toggle="modal" data-target="#personResponseModal" response_user_img="' . $response_person_img . '" response_user_name="' . $user_details->f_name . ' ' . $user_details->l_name . '" response_user_email="' . $user_details->email . '" response_user_mobile="' . $user_details->mobile . '" response_user_address="' . $user_details->address . '" missing_message="' . $find_person->description . '"><i class="fa fa-reply"></i> Response User</a>';
                         $button .= $request_button;
                     }
                     return $button;
@@ -464,19 +466,54 @@ class MyMissingPersonController extends Controller
     public function find_person_response(UpdateFindPersonResponse $request)
     {   // default response formate initialize
         $resp = config('response_format.RES_RESULT');
+        $updatematches_data = $this->_prepareFindUpdateMatchData($request, [1]);
+        $insertnew_data = $this->_prepareFindInsertData($request, [1]);
 
-        // File Upload Ends
         $find_person_obj = new find_person();
-        $find_person_result = $find_person_obj->update_records($insert_data);
+        $find_person_result = $find_person_obj->update_Or_Create($updatematches_data, $insertnew_data);
 
-        // if ($find_person_result->exists) {
-        //     $resp['status'] = true;
-        //     $resp['data'] = array();
-        //     $resp['message'] = 'Find Person inserted successfully...!';
-        //     return response()->json($resp);
-        // } else {
-        //     $resp['message'] = 'Find Person not inserted, Please try again...!';
-        //     return response()->json($resp);
-        // }
+        if ($request->input('status_select') == "accept") {
+            $missing_person_obj = new missing_person();
+            $missing_person_result = $missing_person_obj->update_records(['is_found' => 1], $request->missing_id_hidden);
+        }
+
+        if (isset($find_person_result) && $find_person_result) {
+            $resp['status'] = true;
+            $resp['data'] = array();
+            $resp['message'] = 'Find Person Message Sent successfully...!';
+            return response()->json($resp);
+        } else {
+            $resp['message'] = 'Find Person Message Not Sent, Please try again...!';
+            return response()->json($resp);
+        }
+    }
+
+    /**
+     * Prepare Update Or Create Data Array
+     * @author Tejas
+     * @param  Request Inputs, (Optional) Addtional Array Datas
+     * @return Array
+     */
+    private function _prepareFindUpdateMatchData($request = "", $additional = array())
+    {
+        $preArr['find_id'] = $request->input('find_id_hidden');
+        $preArr['missing_id'] = $request->input('missing_id_hidden');
+        $preArr['status'] = $additional[0];
+        return $preArr;
+    }
+
+    /**
+     * Prepare Update Data Array
+     * @author Tejas
+     * @param  Request Inputs, (Optional) Addtional Array Datas
+     * @return Array
+     */
+    private function _prepareFindInsertData($request = "", $additional = array())
+    {
+        $preArr['find_id'] = $request->input('find_id_hidden');
+        $preArr['missing_id'] = $request->input('missing_id_hidden');
+        $preArr['approval_status'] = $request->input('status_select');
+        $preArr['status'] = $additional[0];
+        return $preArr;
     }
 }
