@@ -188,7 +188,6 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
 
     /* Missing Person Module Starts here...! */
     Route::get('/missing_person_list', 'Customer\MissingPersonController@list_view');
-    Route::get('/missing_person_add', 'Customer\MissingPersonController@add_view');
     Route::post('/missing_person_insert', 'Customer\MissingPersonController@insert_records');
     Route::get('/get_missing_person/{id?}', 'Customer\MissingPersonController@get_personby_id');
     Route::post('/request_person', 'Customer\MissingPersonController@find_person_request');
@@ -199,6 +198,7 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
     /* My Missing Person Module Starts here...! */
     Route::get('/mymissing_person_list', 'Customer\MyMissingPersonController@mymissing_list_view');
     Route::post('/response_person', 'Customer\MyMissingPersonController@find_person_response');
+    Route::get('/missing_person_add', 'Customer\MyMissingPersonController@add_view');
     /* My Missing Person Module Ends here...! */
 
     /* Country , State and City Dynamic */

@@ -29,36 +29,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/fontawesome.min.css') }}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-
-    <!-- Admin Backend Page wise CSS Load -->
-    @if(strpos(Request::url(), 'ear_add') !== false ||
-    strpos(Request::url(), 'ear_list') !== false ||
-    strpos(Request::url(), 'ear_edit') !== false ||
-    strpos(Request::url(), 'eyebrow_add') !== false ||
-    strpos(Request::url(), 'eyebrow_list') !== false ||
-    strpos(Request::url(), 'eyebrow_edit') !== false ||
-    strpos(Request::url(), 'eye_add') !== false ||
-    strpos(Request::url(), 'eye_list') !== false ||
-    strpos(Request::url(), 'eye_edit') !== false ||
-    strpos(Request::url(), 'hair_add') !== false ||
-    strpos(Request::url(), 'hair_list') !== false ||
-    strpos(Request::url(), 'hair_edit') !== false ||
-    strpos(Request::url(), 'jaw_add') !== false ||
-    strpos(Request::url(), 'jaw_list') !== false ||
-    strpos(Request::url(), 'jaw_edit') !== false ||
-    strpos(Request::url(), 'lip_add') !== false ||
-    strpos(Request::url(), 'lip_list') !== false ||
-    strpos(Request::url(), 'nose_add') !== false ||
-    strpos(Request::url(), 'nose_list') !== false ||
-    strpos(Request::url(), 'nose_edit') !== false ||
-    strpos(Request::url(), 'skin_add') !== false ||
-    strpos(Request::url(), 'skin_list') !== false ||
-    strpos(Request::url(), 'skin_edit') !== false )
-    <link rel="stylesheet" href="{{ asset('vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
-    @endif
-
     @yield('adminlte_css')
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     @else
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -101,34 +72,6 @@
     <script src="{{ asset('vendor/datatables-plugins/buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables-plugins/buttons/js/buttons.print.min.js') }}"></script>
     <!-- Export Buttons Datatables JS Requires Starts -->
-
-    <!-- Admin Backend Page wise JS Load -->
-    @if(strpos(Request::url(), 'ear_add') !== false ||
-    strpos(Request::url(), 'ear_list') !== false ||
-    strpos(Request::url(), 'ear_edit') !== false ||
-    strpos(Request::url(), 'eyebrow_add') !== false ||
-    strpos(Request::url(), 'eyebrow_list') !== false ||
-    strpos(Request::url(), 'eyebrow_edit') !== false ||
-    strpos(Request::url(), 'eye_add') !== false ||
-    strpos(Request::url(), 'eye_list') !== false ||
-    strpos(Request::url(), 'eye_edit') !== false ||
-    strpos(Request::url(), 'hair_add') !== false ||
-    strpos(Request::url(), 'hair_list') !== false ||
-    strpos(Request::url(), 'hair_edit') !== false ||
-    strpos(Request::url(), 'jaw_add') !== false ||
-    strpos(Request::url(), 'jaw_list') !== false ||
-    strpos(Request::url(), 'jaw_edit') !== false ||
-    strpos(Request::url(), 'lip_add') !== false ||
-    strpos(Request::url(), 'lip_list') !== false ||
-    strpos(Request::url(), 'lip_edit') !== false ||
-    strpos(Request::url(), 'nose_add') !== false ||
-    strpos(Request::url(), 'nose_list') !== false ||
-    strpos(Request::url(), 'nose_edit') !== false ||
-    strpos(Request::url(), 'skin_add') !== false ||
-    strpos(Request::url(), 'skin_list') !== false ||
-    strpos(Request::url(), 'skin_edit') !== false)
-    <script src="{{ asset('vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
-    @endif
 </body>
 @include('vendor.adminlte.partials.modal_messages')
 @extends('adminlte::admin-footer')

@@ -4,6 +4,7 @@
 
 @section('content_header')
 @include('vendor.adminlte.partials.header_messages')
+<link rel="stylesheet" href="{{ asset('vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
 <div class="row">
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
     <h1 class="m-0 text-dark"><?= ('Eyebrow Edit') ?></h1>
@@ -99,5 +100,6 @@
     <!-- /.row -->
   </div><!-- /.container-fluid -->
 </section>
+<script src="{{ asset('vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}" defer></script>
 <script src="{{ asset('js/admin/eyebrow_master.js') }}" defer></script>
 @stop

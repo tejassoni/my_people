@@ -2,6 +2,7 @@
 
 @section('title', 'AdminLTE')
 @include('vendor.adminlte.partials.header_response_messages')
+<link rel="stylesheet" href="{{ asset('vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
 @section('content_header')
 <div class="row">
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -57,5 +58,6 @@
     </div> <!-- /.col -->
   </div> <!-- /.col -->
 </section>
+<script src="{{ asset('vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}" defer></script>
 <script src="{{ asset('js/admin/eye_master.js') }}" defer></script>
 @stop

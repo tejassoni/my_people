@@ -1,0 +1,33 @@
+1) Create Project Backupfolder for latest project svn and git clone latest source code into it
+-> git clone https://github.com/tejassinelogix/wrapperapi.git
+
+2) Install Meld Merge Tool https://meldmerge.org/
+3) How to merge code with Meld tool [ Blue Highlight is a files those need to merge files [Changes in files ] / Green Highlight means new files ]
+	a) Click on Directory comparision
+	b) Select current working project folder on Directory Comparission button
+	c) Select Latest pulled backup project folder on File Comparrision button
+	d) Wait for load both directory comparision
+	e) Select one by one file to compare and merge
+	f) Save both files if top bar notification message is "files are identical"
+	g) If green hightlighted files than use right click on file and do Copy to Right Or Copy to Left option
+	
+	Note : Remove green space if any found in file during merge process, 
+	       You have to merge only those files that you have worked
+	       Don't merge .env, vendor folder, .htaccess etc configurations related files just ignore them using following file add filename with path
+	       .gitignore
+
+4) Project backup folder git operations
+	a) git pull
+	// after taking latest source code merge current working directory with backup latest source code
+	b) git status
+	c) git add .
+	d) git commit -m "comment message"
+	e) git push                  [ Done ]
+
+5) Current Working Directory after push code from Backup folder than process below steps to take latest source code that you have pushed
+	a) git reset --hard head
+	b) git fetch --all
+	c) git pull                  [ Done if no errors ]
+	// if git pull throws an error of remove files first than only process below steps 
+	d) git clean -f -d
+	e) git pull                  [ Done ]

@@ -62,7 +62,7 @@ class MyMissingPersonController extends Controller
         $ear_list = ear_master::where('status', 1)->get();
         $nose_list = nose_master::where('status', 1)->get();
         $currency_list = currency_master::where('status', 1)->get();
-        return view('customer.missing_persons.add_view', compact('country_list', 'hair_list', 'eye_list', 'eyebrow_list', 'lip_list', 'jaw_list', 'skin_list', 'ear_list', 'nose_list', 'currency_list'));
+        return view('customer.my_missing_persons.add_view', compact('country_list', 'hair_list', 'eye_list', 'eyebrow_list', 'lip_list', 'jaw_list', 'skin_list', 'ear_list', 'nose_list', 'currency_list'));
     }
 
     /**
@@ -152,9 +152,9 @@ class MyMissingPersonController extends Controller
         try {
             $fileNameOnly = preg_replace("/[^a-z0-9\_\-]/i", '', basename($request->file('filename')->getClientOriginalName(), '.' . $request->file('filename')->getClientOriginalExtension()));
             $fileFullName = $fileNameOnly . "_" . date('dmY') . "_" . time() . "." . $request->file('filename')->getClientOriginalExtension();
-            $request->file('filename')->move(public_path('uploads/missing_persons'), $fileFullName);
+            $request->file('filename')->move(public_path('uploads/my_missing_persons'), $fileFullName);
             // Thumbnail Image
-            Image::make(public_path("uploads/missing_persons/$fileFullName"))->resize(300, 200)->save(public_path("uploads/missing_persons/thumbnail/thumb_$fileFullName"));
+            Image::make(public_path("uploads/my_missing_persons/$fileFullName"))->resize(300, 200)->save(public_path("uploads/my_missing_persons/thumbnail/thumb_$fileFullName"));
             $resp['status'] = true;
             $resp['data'] = array('filename' => $fileFullName, 'thumbnail' => "thumb_$fileFullName");
             $resp['message'] = "File uploaded successfully..!";
@@ -192,9 +192,9 @@ class MyMissingPersonController extends Controller
                 throw new Exception('Missing Person List not found..!', 422);
 
             // Missing Person Image Base 64 encoded
-            if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img']))) {
+            if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/my_missing_persons/' . $missing_person_result[0]['missing_person_img']))) {
                 $mime_type = $this->_base64_mime_type($missing_person_result[0]['missing_person_img']);
-                $missing_person_result[0]['missing_person_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img'])));
+                $missing_person_result[0]['missing_person_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/my_missing_persons/' . $missing_person_result[0]['missing_person_img'])));
             } else { // Default
                 $missing_person_result[0]['missing_person_img'] = $this->_default_image('no-preview.jpg');
             }
@@ -323,9 +323,9 @@ class MyMissingPersonController extends Controller
             $missing_person_result = $missing_person_obj->list_belongsToBy_id($download_id);
 
             // Missing Person Image Base 64 encoded
-            if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img']))) {
+            if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/my_missing_persons/' . $missing_person_result[0]['missing_person_img']))) {
                 $mime_type = $this->_base64_mime_type($missing_person_result[0]['missing_person_img']);
-                $missing_person_result[0]['missing_person_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img'])));
+                $missing_person_result[0]['missing_person_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/my_missing_persons/' . $missing_person_result[0]['missing_person_img'])));
             } else { // Default
                 $missing_person_result[0]['missing_person_img'] = $this->_default_image('no-preview.jpg');
             }
@@ -414,7 +414,6 @@ class MyMissingPersonController extends Controller
     public function mymissing_list_view(Request $request)
     {
         if ($request->ajax()) {
-
             $missing_person_obj = new missing_person;
             $list = $missing_person_obj->my_list_belongsTo();
             $response_person_img = "";
@@ -436,25 +435,28 @@ class MyMissingPersonController extends Controller
                     $button = '';
                     $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
                     $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
-                    $button .= $view_button;
-                    $button .= $download_button;
                     if (isset($find_person) && !empty($find_person) && $find_person->approval_status == "pending") {
                         $user_details = user_master::where('id', $find_person['findby_user_id'])->first();
                         $response_person_img = $user_details->user_img;
                         $request_button = '<a href="#response-' . $list['missing_id'] . '" response_id="' . $list['missing_id'] . '" find_id="' . $find_person->find_id . '" class="btn btn-xs btn-secondary btn_response" title="Response" data-toggle="modal" data-target="#personResponseModal" response_user_img="' . $response_person_img . '" response_user_name="' . $user_details->f_name . ' ' . $user_details->l_name . '" response_user_email="' . $user_details->email . '" response_user_mobile="' . $user_details->mobile . '" response_user_address="' . $user_details->address . '" missing_message="' . $find_person->description . '"><i class="fa fa-reply"></i> Response User</a>';
                         $button .= $request_button;
+                    } else if (isset($find_person) && !empty($find_person) && $find_person->approval_status == "accept") {
+                        $view_button = '';
+                        $download_button = '';
                     }
+                    $button .= $view_button;
+                    $button .= $download_button;
                     return $button;
                 })
                 ->addColumn('missing_person_img', function ($list) {
                     if (!empty($list['missing_person_img']))
-                        return '<img src="' . url('uploads/missing_persons/thumbnail/thumb_' . $list['missing_person_img']) . '" title="Image" height="50" width="50"/>';
+                        return '<img src="' . url('uploads/my_missing_persons/thumbnail/thumb_' . $list['missing_person_img']) . '" title="Image" height="50" width="50"/>';
                 })
                 ->rawColumns(['action', 'missing_person_img', 'missing_status'])
                 ->make(true);
         }
         $country_list = country_master::all();
-        return view('customer.my_missing_persons.list_view', compact('country_list'));
+        return view('customer.my_my_missing_persons.list_view', compact('country_list'));
     }
 
     /**
