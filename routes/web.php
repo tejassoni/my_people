@@ -188,7 +188,6 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
 
     /* Missing Person Module Starts here...! */
     Route::get('/missing_person_list', 'Customer\MissingPersonController@list_view');
-    Route::post('/missing_person_insert', 'Customer\MissingPersonController@insert_records');
     Route::get('/get_missing_person/{id?}', 'Customer\MissingPersonController@get_personby_id');
     Route::post('/request_person', 'Customer\MissingPersonController@find_person_request');
     Route::get('/get_pdf_person/{id?}', 'Customer\MissingPersonController@download_pdf');
@@ -199,6 +198,9 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
     Route::get('/mymissing_person_list', 'Customer\MyMissingPersonController@mymissing_list_view');
     Route::post('/response_person', 'Customer\MyMissingPersonController@find_person_response');
     Route::get('/missing_person_add', 'Customer\MyMissingPersonController@add_view');
+    Route::post('/missing_person_insert', 'Customer\MyMissingPersonController@insert_records');
+    Route::get('/mymissing_person_edit/{id?}', 'Customer\MyMissingPersonController@get_edit_records');
+    Route::put('/mymissing_update/{id?}', 'Admin\DiscountMasterController@update_records');
     /* My Missing Person Module Ends here...! */
 
     /* Country , State and City Dynamic */

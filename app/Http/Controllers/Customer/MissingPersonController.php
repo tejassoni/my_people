@@ -226,7 +226,6 @@ class MissingPersonController extends Controller
                 })
                 ->addColumn('action', function ($list) {
                     $find_person = find_person::where('status', 1)->where('missing_id', $list['missing_id'])->first();
-                    // dd($find_person);
                     $button = '';
                     $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
                     $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
@@ -240,7 +239,7 @@ class MissingPersonController extends Controller
                 })
                 ->addColumn('missing_person_img', function ($list) {
                     if (!empty($list['missing_person_img']))
-                        return '<img src="' . url('uploads/missing_persons/thumbnail/thumb_' . $list['missing_person_img']) . '" title="Image" height="50" width="50"/>';
+                        return '<img src="' . url('uploads/my_missing_persons/thumbnail/thumb_' . $list['missing_person_img']) . '" title="Image" height="50" width="50"/>';
                 })
                 ->rawColumns(['action', 'missing_person_img', 'missing_status'])
                 ->make(true);

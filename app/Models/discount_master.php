@@ -74,14 +74,14 @@ class discount_master extends Model
     * @param  - None        
     * @return : array of all active list records
     */
-    public function list_active_all()
-    {
-      $data = self::select('*')->where('status',1)->get();
-      if (!empty($data)) {
-        $data = $data->toArray();
-      }
-      return $data;
+  public function list_active_all()
+  {
+    $data = self::select('*')->where('status', 1)->get();
+    if (!empty($data)) {
+      $data = $data->toArray();
     }
+    return $data;
+  }
 
   /*
     * author : Tejas Soni

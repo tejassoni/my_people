@@ -75,7 +75,6 @@ class MyMissingPersonController extends Controller
     {
         // default response formate initialize
         $resp = config('response_format.RES_RESULT');
-
         // Set Insert data array for pass into insert query
         $insert_data = $this->_prepareInsertData($request);
 
@@ -92,11 +91,11 @@ class MyMissingPersonController extends Controller
         if ($missing_person_result->exists) {
             $resp['status'] = true;
             $resp['data'] = array();
-            $resp['message'] = 'Missing Person inserted successfully...!';
+            $resp['message'] = 'My Missing Person inserted successfully...!';
             $request->session()->put('success', $resp['message']);
             return redirect()->back()->with('success', $resp['message']);
         } else {
-            $resp['message'] = 'Missing Person not inserted, Please try again...!';
+            $resp['message'] = 'My Missing Person not inserted, Please try again...!';
             $request->session()->put('error', $resp['message']);
             return redirect()->back()->withInput()->with('error', $resp['message']);
         }
@@ -433,6 +432,7 @@ class MyMissingPersonController extends Controller
                 ->addColumn('action', function ($list) {
                     $find_person = find_person::where('status', 1)->where('missing_id', $list['missing_id'])->first();
                     $button = '';
+                    $edit_button = '<a href="' . url("/customer/mymissing_person_edit/{$list['missing_id']}") . '" class="btn btn-xs btn-warning btn_edit" title="Edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
                     $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
                     $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
                     if (isset($find_person) && !empty($find_person) && $find_person->approval_status == "pending") {
@@ -444,6 +444,7 @@ class MyMissingPersonController extends Controller
                         $view_button = '';
                         $download_button = '';
                     }
+                    $button .= $edit_button;
                     $button .= $view_button;
                     $button .= $download_button;
                     return $button;
@@ -456,7 +457,7 @@ class MyMissingPersonController extends Controller
                 ->make(true);
         }
         $country_list = country_master::all();
-        return view('customer.my_my_missing_persons.list_view', compact('country_list'));
+        return view('customer.my_missing_persons.list_view', compact('country_list'));
     }
 
     /**
@@ -517,5 +518,21 @@ class MyMissingPersonController extends Controller
         $preArr['approval_status'] = $request->input('status_select');
         $preArr['status'] = $additional[0];
         return $preArr;
+    }
+
+    /**
+     * Handle routs Controller Load Edit functionality
+     * @author Tejas
+     * @param  Role ID
+     * @return discount_master id wise records into edit view
+     */
+    public function get_edit_records($missing_id = null)
+    {
+        $missing_person_result = missing_person::find($missing_id);
+        if (isset($missing_person_result->missing_person_img) && !empty($missing_person_result->missing_person_img) && file_exists(\public_path('uploads/my_missing_persons/thumbnail/thumb_' . $missing_person_result->missing_person_img))) {
+            $mime_type = $this->_base64_mime_type($missing_person_result->missing_person_img);
+            $missing_person_result->missing_person_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/my_missing_persons/thumbnail/thumb_' . $missing_person_result->missing_person_img)));
+        }
+        return view('customer.my_missing_persons.edit_view', compact(['missing_person_result']));
     }
 }

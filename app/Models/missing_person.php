@@ -266,6 +266,7 @@ class missing_person extends Model
     return $data;
   }
 
+
   /*
     * author : Tejas Soni
     * list_belongsTo - get all table : missing_master and user_master records    
