@@ -52,8 +52,6 @@
     @yield('adminlte_js')
     @else
     <script src="{{ asset('js/app.js') }}"></script>
-
-
     @endif
     <script src="{{ asset('js/admin/admin-js.js') }}"></script>
     <script src="{{ asset('vendor/select2/js/select2.full.min.js') }}"></script>

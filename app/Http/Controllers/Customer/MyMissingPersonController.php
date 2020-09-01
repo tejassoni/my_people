@@ -434,7 +434,7 @@ class MyMissingPersonController extends Controller
                     $button = '';
                     $edit_button = '<a href="' . url("/customer/mymissing_person_edit/{$list['missing_id']}") . '" class="btn btn-xs btn-warning btn_edit" title="Edit"><i class="far fa-edit"></i> Edit</a> &nbsp;';
                     $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
-                    $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
+                    $download_button = '<a href="' . url('/customer/get_pdf_myperson/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
                     if (isset($find_person) && !empty($find_person) && $find_person->approval_status == "pending") {
                         $user_details = user_master::where('id', $find_person['findby_user_id'])->first();
                         $response_person_img = $user_details->user_img;
@@ -529,10 +529,14 @@ class MyMissingPersonController extends Controller
     public function get_edit_records($missing_id = null)
     {
         $missing_person_result = missing_person::find($missing_id);
+        $currency_list = currency_master::where('status', 1)->get();
+        $country_list = country_master::all();
+        $state_list = state_master::where('country_id', $missing_person_result->country_id)->get();
+
         if (isset($missing_person_result->missing_person_img) && !empty($missing_person_result->missing_person_img) && file_exists(\public_path('uploads/my_missing_persons/thumbnail/thumb_' . $missing_person_result->missing_person_img))) {
             $mime_type = $this->_base64_mime_type($missing_person_result->missing_person_img);
             $missing_person_result->missing_person_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/my_missing_persons/thumbnail/thumb_' . $missing_person_result->missing_person_img)));
         }
-        return view('customer.my_missing_persons.edit_view', compact(['missing_person_result']));
+        return view('customer.my_missing_persons.edit_view', compact(['missing_person_result', 'currency_list', 'country_list', 'state_list']));
     }
 }

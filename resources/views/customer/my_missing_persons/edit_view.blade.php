@@ -132,7 +132,7 @@
                   @if(isset($country_list) && !empty($country_list))
                   <option value="" disabled selected><?= ('Select Country') ?></option>
                   @foreach ($country_list as $country_key => $country_val)
-                  <option value="{{ $country_val['country_id'] }}" {{ (is_array(old()) && !empty(old('country_select')) && old('country_select') == $country_val['country_id'])? 'selected' : '' }}>{{ ucwords($country_val['name']).' - '.$country_val['sortname'] }}</option>
+                  <option value="{{ $country_val['country_id'] }}" {{ (is_array(old()) && !empty(old('country_select')) && old('country_select') == $country_val['country_id'])? 'selected' : (isset($missing_person_result->country_id) && !empty($missing_person_result->country_id) && $missing_person_result->country_id == $country_val['country_id']) ? 'selected' : '' }}>{{ ucwords($country_val['name']).' - '.$country_val['sortname'] }}</option>
                   @endforeach
                   @else
                   <option value="" disabled selected><?= ('No Records found..') ?></>
@@ -144,7 +144,14 @@
               <div class="form-group required">
                 <label><?= ('Select State') ?></label>
                 <select class="form-control" name="state_select" id="state_select" required>
+                  @if(isset($state_list) && !empty($state_list))
                   <option value="" disabled selected><?= ('Select State') ?></option>
+                  @foreach ($state_list as $state_key => $state_val)
+                  <option value="{{ $state_val['state_id'] }}" {{ (is_array(old()) && !empty(old('state_select')) && old('state_select') == $state_val['state_id'])? 'selected' : (isset($missing_person_result->state_id) && !empty($missing_person_result->state_id) && $missing_person_result->state_id == $state_val['state_id']) ? 'selected' : '' }}>{{ ucwords($state_val['name']) }}</option>
+                  @endforeach
+                  @else
+                  <option value="" disabled selected><?= ('No Records found..') ?></>
+                    @endif
                 </select>
                 <!-- Dynamic Dependend Validation Selected -->
                 <input type='hidden' id='select_state_hidden' name='select_state_hidden' value='{{ (is_array(old()) && !empty(old('state_select')))?old('state_select'):'' }}'>
@@ -366,7 +373,7 @@
                 <div class="col-sm-6">
                   <div class="form-group clearfix">
                     <label for="reward_amount"><?= ('Reward Amount') ?></label>
-                    <input type="number" class="form-control" min="0" name="reward_amount" id="reward_amount" placeholder="Enter Reward Amount" value="{{ (is_array(old()) && !empty(old('reward_amount')))? old('reward_amount') : 0 }}" />
+                    <input type="number" class="form-control" min="0" name="reward_amount" id="reward_amount" placeholder="Enter Reward Amount" value="{{ (is_array(old()) && !empty(old('reward_amount')))? old('reward_amount') : $missing_person_result->amount }}" />
                   </div>
                 </div>
                 <div class="col-sm-6">
@@ -376,7 +383,7 @@
                       @if(isset($currency_list) && !empty($currency_list))
                       <option value="" disabled selected><?= ('Select Currency') ?></option>
                       @foreach ($currency_list as $currency_key => $currency_val)
-                      <option value="{{ $currency_val['currency_id'] }}" {{ (is_array(old()) && !empty(old('currency_select')) && old('currency_select') == $currency_val['currency_id'])? 'selected' : '' }}>{{ ucwords($currency_val['code']).' - '.$currency_val['symbol'] }}</option>
+                      <option value="{{ $currency_val['currency_id'] }}" {{ (is_array(old()) && !empty(old('currency_select')) && old('currency_select') == $currency_val['currency_id'])? 'selected' : (isset($missing_person_result->currency_id) && !empty($missing_person_result->currency_id) && $missing_person_result->currency_id == $currency_val['currency_id']) ? 'selected' : '' }}>{{ ucwords($currency_val['code']).' - '.$currency_val['symbol'] }}</option>
                       @endforeach
                       @else
                       <option value="" disabled selected><?= ('No Records found..') ?></>

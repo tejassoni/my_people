@@ -527,7 +527,7 @@ $(document).ready(function() {
         if (view_id) {
             $.ajax({
                 type: "GET", // Default GET
-                url: APPURL + "/customer/get_missing_person/" + view_id,
+                url: APPURL + "/customer/get_mymissing_person/" + view_id,
                 dataType: "json", // text , XML, HTML
                 beforeSend: function() {},
                 success: function(data_resp, textStatus, jqXHR) {

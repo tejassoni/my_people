@@ -345,13 +345,15 @@ class MissingPersonController extends Controller
             if (empty($missing_person_result))
                 throw new Exception('Missing Person List not found..!', 422);
 
+
             // Missing Person Image Base 64 encoded
-            if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img']))) {
+            if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/my_missing_persons/' . $missing_person_result[0]['missing_person_img']))) {
                 $mime_type = $this->_base64_mime_type($missing_person_result[0]['missing_person_img']);
-                $missing_person_result[0]['missing_person_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img'])));
+                $missing_person_result[0]['missing_person_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/my_missing_persons/' . $missing_person_result[0]['missing_person_img'])));
             } else { // Default
                 $missing_person_result[0]['missing_person_img'] = $this->_default_image('no-preview.jpg');
             }
+
 
             // Face / Jaw Image Base 64 encoded
             if (isset($missing_person_result[0]['jaw_img']) && !empty($missing_person_result[0]['ear_img']) && file_exists(\public_path('uploads/jaws/' . $missing_person_result[0]['jaw_img']))) {
@@ -541,9 +543,9 @@ class MissingPersonController extends Controller
             $missing_person_result = $missing_person_obj->list_belongsToBy_id($download_id);
 
             // Missing Person Image Base 64 encoded
-            if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img']))) {
+            if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/my_missing_persons/' . $missing_person_result[0]['missing_person_img']))) {
                 $mime_type = $this->_base64_mime_type($missing_person_result[0]['missing_person_img']);
-                $missing_person_result[0]['missing_person_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/missing_persons/' . $missing_person_result[0]['missing_person_img'])));
+                $missing_person_result[0]['missing_person_img'] = $mime_type . base64_encode(file_get_contents(\public_path('uploads/my_missing_persons/' . $missing_person_result[0]['missing_person_img'])));
             } else { // Default
                 $missing_person_result[0]['missing_person_img'] = $this->_default_image('no-preview.jpg');
             }

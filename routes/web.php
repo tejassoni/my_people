@@ -196,6 +196,8 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
 
     /* My Missing Person Module Starts here...! */
     Route::get('/mymissing_person_list', 'Customer\MyMissingPersonController@mymissing_list_view');
+    Route::get('/get_mymissing_person/{id?}', 'Customer\MyMissingPersonController@get_personby_id');
+    Route::get('/get_pdf_myperson/{id?}', 'Customer\MyMissingPersonController@download_pdf');
     Route::post('/response_person', 'Customer\MyMissingPersonController@find_person_response');
     Route::get('/missing_person_add', 'Customer\MyMissingPersonController@add_view');
     Route::post('/missing_person_insert', 'Customer\MyMissingPersonController@insert_records');
