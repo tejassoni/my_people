@@ -16,40 +16,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateFindPersonRequest;
 
-class MissingPersonController extends Controller
+class IdentifiedPersonController extends Controller
 {
-
-    /**
-     * _fileUploads : Complete Fileupload Handling
-     * @author Tejas
-     * @param  Request $request
-     * @return File save
-     */
-    private function _fileUploads($request = "")
-    {
-        try {
-            $fileNameOnly = preg_replace("/[^a-z0-9\_\-]/i", '', basename($request->file('filename')->getClientOriginalName(), '.' . $request->file('filename')->getClientOriginalExtension()));
-            $fileFullName = $fileNameOnly . "_" . date('dmY') . "_" . time() . "." . $request->file('filename')->getClientOriginalExtension();
-            $request->file('filename')->move(public_path('uploads/missing_persons'), $fileFullName);
-            // Thumbnail Image
-            Image::make(public_path("uploads/missing_persons/$fileFullName"))->resize(300, 200)->save(public_path("uploads/missing_persons/thumbnail/thumb_$fileFullName"));
-            $resp['status'] = true;
-            $resp['data'] = array('filename' => $fileFullName, 'thumbnail' => "thumb_$fileFullName");
-            $resp['message'] = "File uploaded successfully..!";
-            return $resp;
-        } catch (Exception $ex) {
-            $resp['status'] = false;
-            $resp['data'] = array('filename' => "", 'thumbnail' => "");
-            $resp['message'] = $ex->getMessage();
-            $resp['ex_message'] = $ex->getMessage();
-            $resp['ex_code'] = $ex->getCode();
-            $resp['ex_file'] = $ex->getFile();
-            $resp['ex_line'] = $ex->getLine();
-            $resp['message'] = 'Missing Person not inserted, Please try again...!';
-            $request->session()->put('error', $resp['message']);
-            return redirect()->back()->withInput()->with('error', $resp['message']);
-        }
-    }
 
     /**
      * Handle routs Controller load view request
@@ -90,30 +58,20 @@ class MissingPersonController extends Controller
                 $PostData['city_id'] = $request->get('city_id');
 
             $missing_person_obj = new missing_person;
-            $list = $missing_person_obj->list_belongsToSearch($PostData);
+            $list = $missing_person_obj->list_belongsToIdentifiedSearch($PostData);
             // $list = $missing_person_obj->list_belongsTo();
 
             return DataTables::of($list)
                 ->addIndexColumn()
                 ->addColumn('missing_status', function ($list) {
-                    $missing_status = '<span class="text-danger"><i class="fa fa-ban" aria-hidden="true"></i> Missing </span>';
-                    $find_person = find_person::where('status', 1)->where('missing_id', $list['missing_id'])->first();
-                    if (isset($find_person) && !empty($find_person) && $find_person['approval_status'] == "pending") {
-                        $missing_status = '<span class="text-warning"><i class="fa fa-clock" aria-hidden="true"></i> Pending Approval</span>';
-                    }
-                    return $missing_status;
+                    return '<span class="text-success"><i class="fa fa-user-check" aria-hidden="true"></i> Found </span>';
                 })
                 ->addColumn('action', function ($list) {
-                    $find_person = find_person::where('status', 1)->where('missing_id', $list['missing_id'])->first();
                     $button = '';
                     $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
                     $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
                     $button .= $view_button;
                     $button .= $download_button;
-                    if (empty($find_person) || $find_person->approval_status != "pending") {
-                        $request_button = '<a href="#request-' . $list['missing_id'] . '" request_id="' . $list['missing_id'] . '" class="btn btn-xs btn-warning btn_request" title="Request" data-toggle="modal" data-target="#personRequestModal"><i class="fa fa-reply"></i> Request Parents</a>';
-                        $button .= $request_button;
-                    }
                     return $button;
                 })
                 ->addColumn('missing_person_img', function ($list) {
@@ -124,7 +82,7 @@ class MissingPersonController extends Controller
                 ->make(true);
         }
         $country_list = country_master::all();
-        return view('customer.missing_persons.list_view', compact('country_list'));
+        return view('customer.identified_persons.list_view', compact('country_list'));
     }
 
     /**
@@ -315,70 +273,6 @@ class MissingPersonController extends Controller
                 return "data:" . $mime_types['mime_types'][strtolower($filename)] . ";base64,";
             }
         }
-    }
-
-    /**
-     * Handle routs Controller Find Person functionality
-     * @author Tejas
-     * @param  Person Image, Message
-     * @return Boolean
-     */
-    public function find_person_request(CreateFindPersonRequest $request)
-    {   // default response formate initialize
-        $resp = config('response_format.RES_RESULT');
-
-        // Set Insert data array for pass into insert query
-        $updatematches_data = $this->_prepareFindUpdateMatchData($request, [1]);
-        $insert_data = $this->_prepareInsertFindPersonData($request);
-        // File Upload Starts Folder Path : // root\public\uploads        
-        if ($request->hasFile('filename')) {
-            $filehandle = $this->_fileUploads($request);
-            $insert_data['find_person_img'] = $filehandle['data']['filename'];
-        }
-
-        // File Upload Ends
-        $find_person_obj = new find_person();
-        $find_person_result = $find_person_obj->update_Or_Create($updatematches_data, $insert_data);
-
-        if ($find_person_result->exists) {
-            $resp['status'] = true;
-            $resp['data'] = array();
-            $resp['message'] = 'Find Person inserted successfully...!';
-            return response()->json($resp);
-        } else {
-            $resp['message'] = 'Find Person not inserted, Please try again...!';
-            return response()->json($resp);
-        }
-    }
-
-    /**
-     * Prepare Update Or Create Data Array
-     * @author Tejas
-     * @param  Request Inputs, (Optional) Addtional Array Datas
-     * @return Array
-     */
-    private function _prepareFindUpdateMatchData($request = "", $additional = array())
-    {
-        $preArr['findby_user_id'] = Auth::user()->id;
-        $preArr['missing_id'] = $request->input('missing_id');
-        $preArr['status'] = $additional[0];
-        return $preArr;
-    }
-
-    /**
-     * Prepare Insert Find Person Data Array
-     * @author Tejas
-     * @param  Request Inputs, (Optional) Addtional Array Datas
-     * @return Array
-     */
-    private function _prepareInsertFindPersonData($request = "", $additional = array())
-    {
-        $preArr['missing_id'] = $request->input('missing_id');
-        $preArr['description'] = $request->input('message');
-        $preArr['approval_status'] = 'pending';
-        $preArr['findby_user_id'] = Auth::user()->id;
-        $preArr['status'] = 1;
-        return $preArr;
     }
 
     /**

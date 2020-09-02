@@ -344,7 +344,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Identified Person List',
-                    'url'  => '/customer/mymissing_person_list1',
+                    'url'  => '/customer/identified_person_list',
                     'icon'    => 'fas fa-fw fa-th-list',
                 ]
             ]

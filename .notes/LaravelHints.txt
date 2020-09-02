@@ -14,6 +14,12 @@ Quick Tutorial on Console.php for command line processes - Author: Tejas Soni
 3. Specific Request Validation File
 php artisan make:request StoreDrinksPostRequest
 
+4. Laravel Custom UI Error Pages
+php artisan vendor:publish --tag=laravel-errors
+
+5. Laravel Show Error Page redirect
+return abort(403, 'Unauthorized action.');
+
 
 
 

@@ -205,6 +205,10 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
     Route::put('/mymissing_update/{id?}', 'Customer\MyMissingPersonController@update_records');
     /* My Missing Person Module Ends here...! */
 
+    /* Identified Person Module Starts here...! */
+    Route::get('/identified_person_list', 'Customer\IdentifiedPersonController@list_view');
+    /* Identified Person Module Ends here...! */
+
     /* Country , State and City Dynamic */
     Route::get('/getstate/{id?}', 'Customer\MissingPersonController@get_stateby_id');
     Route::get('/getcity/{id?}', 'Customer\MissingPersonController@get_cityby_id');

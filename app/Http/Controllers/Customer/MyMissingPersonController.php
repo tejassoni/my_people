@@ -32,16 +32,6 @@ class MyMissingPersonController extends Controller
 {
 
     /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    { // coonstructor code starts here        
-
-    }
-
-    /**
      * Handle routs Controller load add request
      * @author Tejas
      * @param  none
@@ -568,13 +558,13 @@ class MyMissingPersonController extends Controller
         // File Upload Starts Folder Path : // root\public\uploads         
         if ($request->hasFile('filename')) {
             $filehandle = $this->_fileUploads($request);
-            $update_data['user_img'] = $filehandle['data']['filename'];
+            $update_data['missing_person_img'] = $filehandle['data']['filename'];
             // Remove Old Uploaded Files From Folder
             if ($filehandle['status']) {
-                $user_data = user_master::find($update_id);
-                if (isset($user_data) && !empty($user_data) && !empty($user_data->user_img) && file_exists(\public_path("uploads/users/$user_data->user_img")) && file_exists(\public_path("uploads/users/thumbnail/thumb_$user_data->user_img"))) {
-                    unlink(\public_path("uploads/users/$user_data->user_img"));
-                    unlink(\public_path("uploads/users/thumbnail/thumb_$user_data->user_img"));
+                $missing_person_data = missing_person::find($update_id);
+                if (isset($missing_person_data) && !empty($missing_person_data) && !empty($missing_person_data->my_missing_persons) && file_exists(\public_path("uploads/my_missing_persons/$missing_person_data->my_missing_persons")) && file_exists(\public_path("uploads/my_missing_persons/thumbnail/thumb_$missing_person_data->missing_person_img"))) {
+                    unlink(\public_path("uploads/my_missing_persons/$missing_person_data->my_missing_persons"));
+                    unlink(\public_path("uploads/my_missing_persons/thumbnail/thumb_$missing_person_data->my_missing_persons"));
                 }
             }
         }
@@ -607,19 +597,18 @@ class MyMissingPersonController extends Controller
         $preArr['f_name'] = $request->input('first_name');
         $preArr['m_name'] = $request->input('middle_name');
         $preArr['l_name'] = $request->input('last_name');
-        $preArr['birth_date'] = $request->input('birth_date');
+        $preArr['birth_date'] = date("Y-m-d", strtotime(str_replace("/", "-", $request->input('birth_date'))));
         $preArr['gender'] = $request->input('gender');
+        $preArr['age'] = $request->input('age');
         $preArr['height'] = $request->input('height');
         $preArr['weight'] = $request->input('weight');
-        $preArr['age'] = $request->input('age');
         $preArr['address'] = $request->input('address');
         $preArr['country_id'] = $request->input('country_select');
         $preArr['state_id'] = $request->input('state_select');
-        $preArr['city_id'] = $request->input('city_select');
+        $preArr['city_id'] = ($request->input('city_select') == "Select City") ? null : $request->input('city_select');
         $preArr['pincode'] = $request->input('pincode');
-        $preArr['missing_date'] = $request->input('missing_date');
-        $preArr['cloth_description'] = $request->input('cloth_description');
-        $preArr['hair_select'] = $request->input('hair_select');
+        $preArr['user_id'] = Auth::user()->id;
+        $preArr['hair_id'] = $request->input('hair_select');
         $preArr['eye_id'] = $request->input('eye_select');
         $preArr['eye_brow_id'] = $request->input('eyebrow_select');
         $preArr['lip_id'] = $request->input('lip_select');
@@ -628,8 +617,11 @@ class MyMissingPersonController extends Controller
         $preArr['ear_id'] = $request->input('ear_select');
         $preArr['nose_id'] = $request->input('nose_select');
         $preArr['remark'] = $request->input('remark');
+        $preArr['cloth_description'] = $request->input('cloth_description');
         $preArr['currency_id'] = $request->input('currency_select');
-        $preArr['status'] = $additional[0];
+        $preArr['missed_date'] = date("Y-m-d", strtotime(str_replace("/", "-", $request->input('missing_date'))));;
+        $preArr['amount'] = ($request->has('reward_amount')) ? $request->input('reward_amount') : 0;
+        $preArr['status'] = 1;
         return $preArr;
     }
 }

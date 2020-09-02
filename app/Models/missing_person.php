@@ -134,8 +134,8 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_belongsTo - get all table : missing_master and user_master records    
-    * @param  - None        
+    * list_belongsToSearch - get all table : missing_master and user_master records    
+    * @param  - Filter Missing Date, Full Name, Gender, Age, Country, State, City
     * @return : array of all list records
     */
   public function list_belongsToSearch($PostData = array())
@@ -210,6 +210,63 @@ class missing_person extends Model
       ->where('missing_person.status', 1)
       ->whereIn('missing_person.is_found', [0, 1])
       ->get();
+    if (!empty($data)) {
+      $data = $data->toArray();
+    }
+    return $data;
+  }
+
+  /*
+    * author : Tejas Soni
+    * list_belongsToIdentifiedSearch - get all table : missing_master and user_master records    
+    * @param  - Filter Missing Date, Full Name, Gender, Age, Country, State, City    
+    * @return : array of all list records
+    */
+  public function list_belongsToIdentifiedSearch($PostData = array())
+  {
+    // DB::enableQueryLog();
+    $data = self::selectRaw('`missing_person`.`missing_id` as `missing_id`, CONCAT(missing_person.f_name," ",missing_person.l_name) AS `missing_full_name`, `missing_person`.`age` AS `age`, `missing_person`.`missing_person_img` as `missing_person_img`, DATE_FORMAT(missed_date, "%d/%m/%Y") as missing_date,CONCAT(country_master.name,", ",state_master.name,", ",city_master.name,", ",missing_person.pincode) AS `location`')
+      ->selectRaw('`user_master`.`id` as `user_id`,CONCAT(user_master.f_name," ",user_master.l_name) AS `parent_full_name`,`user_master`.`mobile` as `parent_mobile`,`user_master`.`email` as `parent_email`')
+      ->selectRaw('`country_master`.`country_id` as `country_id`,`country_master`.`name` as `country_name`')
+      ->selectRaw('`state_master`.`country_id` as `state_id`,`state_master`.`name` as `state_name`')
+      ->selectRaw('`city_master`.`city_id` as `city_id`,`city_master`.`name` as `city_name`')
+      ->leftJoin('user_master', 'missing_person.user_id', '=', 'user_master.id')
+      ->leftJoin('country_master', 'missing_person.country_id', '=', 'country_master.country_id')
+      ->leftJoin('state_master', 'missing_person.state_id', '=', 'state_master.state_id')
+      ->leftJoin('city_master', 'missing_person.city_id', '=', 'city_master.city_id')
+      ->where('missing_person.status', 1)
+      ->where('missing_person.is_found', 1);
+    if (isset($PostData) && !empty($PostData)) {
+
+      if (isset($PostData['missed_date']) && !empty($PostData['missed_date'])) {
+        $data =  $data->whereBetween('missing_person.missed_date', [$PostData['missed_date']['start'], $PostData['missed_date']['end']]);
+      }
+
+      if (isset($PostData['full_name']) && !empty($PostData['full_name'])) {
+        $data =  $data->where(function ($query) use ($PostData) {
+          $query->where('missing_person.f_name', 'like', '%' . $PostData['full_name'] . '%')
+            ->orWhere('missing_person.m_name', 'like', '%' . $PostData['full_name'] . '%')
+            ->orWhere('missing_person.l_name', 'like', '%' . $PostData['full_name'] . '%');
+        });
+      }
+      if (isset($PostData['gender']) && !empty($PostData['gender']) && $PostData['gender'] != "all") {
+        $data =  $data->where('missing_person.gender', $PostData['gender']);
+      }
+      if (isset($PostData['age']) && !empty($PostData['age'])) {
+        $data =  $data->where('missing_person.age', $PostData['age']);
+      }
+      if (isset($PostData['country_id']) && !empty($PostData['country_id']) && $PostData['country_id'] != "Select Country") {
+        $data =  $data->where('missing_person.country_id', $PostData['country_id']);
+      }
+      if (isset($PostData['state_id']) && !empty($PostData['state_id']) && $PostData['state_id'] != "Select State") {
+        $data =  $data->where('missing_person.state_id', $PostData['state_id']);
+      }
+      if (isset($PostData['city_id']) && !empty($PostData['city_id']) && $PostData['city_id'] != "Select City") {
+        $data =  $data->where('missing_person.city_id', $PostData['city_id']);
+      }
+    }
+    $data =  $data->get();
+    // dd(DB::getQueryLog());
     if (!empty($data)) {
       $data = $data->toArray();
     }
