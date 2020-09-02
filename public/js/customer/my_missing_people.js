@@ -57,7 +57,7 @@ $(document).ready(function() {
     /* File Upload Ends  */
 
     // Datatables Operation Starts
-    var dataTable = $("#my_missing_person_list_table").DataTable({
+    $("#my_missing_person_list_table").DataTable({
         processing: true,
         serverSide: true,
         type: "get",
@@ -324,6 +324,11 @@ $(document).ready(function() {
     });
     /* Dynamic Country Wise State , City Ends */
 
+    // Dynamic Dependent Select Box While Validation Fails Selected
+    if ($("#select_country_hidden").val()) {
+        $("#country_select").trigger("change");
+    }
+
     $(document).on("change", "#hair_select", function() {
         var hair_id = $(this).val();
         if (hair_id) {
@@ -517,11 +522,6 @@ $(document).ready(function() {
         }
     });
 
-    // Dynamic Dependent Select Box While Validation Fails Selected
-    if ($("#select_country_hidden").val()) {
-        $("#country_select").trigger("change");
-    }
-
     $(document).on("click", ".btn_view", function() {
         var view_id = $(this).attr("view_id");
         if (view_id) {
@@ -619,12 +619,12 @@ $(document).ready(function() {
     $(document).on("click", ".btn_response", function() {
         $("#find_id_hidden").val($(this).attr("find_id"));
         $("#missing_id_hidden").val($(this).attr("response_id"));
-        $("#missing_message").text($(this).attr("missing_message"));        
+        $("#missing_message").text($(this).attr("missing_message"));
         $("#response_name").text($(this).attr("response_user_name"));
         $("#response_email").text($(this).attr("response_user_email"));
         $("#response_mobile").text($(this).attr("response_user_mobile"));
         $("#response_address").text($(this).attr("response_user_address"));
-        
+
         // parents calls based child attr find
         var img_src = $(this)
             .closest("tr")

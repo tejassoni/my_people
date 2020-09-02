@@ -23,10 +23,7 @@ use App\Models\currency_master;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\DeleteBulkRequest;
-use App\Http\Requests\StatusUpdateRequest;
-use App\Http\Requests\UpdateDiscountRequest;
-use App\Http\Requests\CreateFindPersonRequest;
+use App\Http\Requests\UpdateMyMissingPersonRequest;
 use App\Http\Requests\UpdateFindPersonResponse;
 use App\Http\Requests\CreateMissingPersonRequest;
 use App\Models\user_master;
@@ -441,6 +438,7 @@ class MyMissingPersonController extends Controller
                         $request_button = '<a href="#response-' . $list['missing_id'] . '" response_id="' . $list['missing_id'] . '" find_id="' . $find_person->find_id . '" class="btn btn-xs btn-secondary btn_response" title="Response" data-toggle="modal" data-target="#personResponseModal" response_user_img="' . $response_person_img . '" response_user_name="' . $user_details->f_name . ' ' . $user_details->l_name . '" response_user_email="' . $user_details->email . '" response_user_mobile="' . $user_details->mobile . '" response_user_address="' . $user_details->address . '" missing_message="' . $find_person->description . '"><i class="fa fa-reply"></i> Response User</a>';
                         $button .= $request_button;
                     } else if (isset($find_person) && !empty($find_person) && $find_person->approval_status == "accept") {
+                        $edit_button = '';
                         $view_button = '';
                         $download_button = '';
                     }
@@ -529,14 +527,109 @@ class MyMissingPersonController extends Controller
     public function get_edit_records($missing_id = null)
     {
         $missing_person_result = missing_person::find($missing_id);
+        $hair_list = hair_master::all();
+        $eye_list = eye_master::where('status', 1)->get();
+        $eyebrow_list = eyebrow_master::where('status', 1)->get();
+        $lip_list = lip_master::where('status', 1)->get();
+        $jaw_list = jaw_master::where('status', 1)->get();
+        $skin_list = skin_master::where('status', 1)->get();
+        $ear_list = ear_master::where('status', 1)->get();
+        $nose_list = nose_master::where('status', 1)->get();
         $currency_list = currency_master::where('status', 1)->get();
         $country_list = country_master::all();
         $state_list = state_master::where('country_id', $missing_person_result->country_id)->get();
+        $city_list = city_master::where('state_id', $missing_person_result->state_id)->get();
 
         if (isset($missing_person_result->missing_person_img) && !empty($missing_person_result->missing_person_img) && file_exists(\public_path('uploads/my_missing_persons/thumbnail/thumb_' . $missing_person_result->missing_person_img))) {
             $mime_type = $this->_base64_mime_type($missing_person_result->missing_person_img);
             $missing_person_result->missing_person_img = $mime_type . base64_encode(file_get_contents(\public_path('uploads/my_missing_persons/thumbnail/thumb_' . $missing_person_result->missing_person_img)));
         }
-        return view('customer.my_missing_persons.edit_view', compact(['missing_person_result', 'currency_list', 'country_list', 'state_list']));
+        return view('customer.my_missing_persons.edit_view', compact(['missing_person_result', 'currency_list', 'country_list', 'state_list', 'city_list', 'hair_list', 'eye_list', 'eyebrow_list', 'lip_list', 'jaw_list', 'skin_list', 'ear_list', 'nose_list']));
+    }
+
+    /**
+     * Handle routs Controller update functionality
+     * @author Tejas
+     * @param  Update_id, Name, Alias, Description, Status
+     * @return user_master id update records accordingly
+     */
+    public function update_records(UpdateMyMissingPersonRequest $request, $update_id = null)
+    {
+        // default response formate initialize
+        $resp = config('response_format.RES_RESULT');
+        // set ternary status as per database schema
+        $status = 0;
+        if ($request->has('status')) {
+            $status = 1;
+        }
+        // Set Update data array for pass into update query
+        $update_data = $this->_prepareUpdateData($request, [$status]);
+
+        // File Upload Starts Folder Path : // root\public\uploads         
+        if ($request->hasFile('filename')) {
+            $filehandle = $this->_fileUploads($request);
+            $update_data['user_img'] = $filehandle['data']['filename'];
+            // Remove Old Uploaded Files From Folder
+            if ($filehandle['status']) {
+                $user_data = user_master::find($update_id);
+                if (isset($user_data) && !empty($user_data) && !empty($user_data->user_img) && file_exists(\public_path("uploads/users/$user_data->user_img")) && file_exists(\public_path("uploads/users/thumbnail/thumb_$user_data->user_img"))) {
+                    unlink(\public_path("uploads/users/$user_data->user_img"));
+                    unlink(\public_path("uploads/users/thumbnail/thumb_$user_data->user_img"));
+                }
+            }
+        }
+        // File Upload Ends
+
+        $mymissing_obj = new missing_person();
+        $mymissing_result = $mymissing_obj->update_records($update_data, $update_id);
+
+        if (isset($mymissing_result) && $mymissing_result) {
+            $resp['status'] = true;
+            $resp['data'] = array();
+            $resp['message'] = 'My Missing Person Updated successfully...!';
+            $request->session()->put('success', $resp['message']);
+            return redirect()->back()->with('success', $resp['message']);
+        } else {
+            $resp['message'] = 'My Missing Person not Updated, Please try again...!';
+            $request->session()->put('error', $resp['message']);
+            return redirect()->back()->withInput()->with('error', $resp['message']);
+        }
+    }
+
+    /**
+     * Prepare Update Data Array
+     * @author Tejas
+     * @param  Request Inputs, (Optional) Addtional Array Datas
+     * @return Array
+     */
+    private function _prepareUpdateData($request = "", $additional = array())
+    {
+        $preArr['f_name'] = $request->input('first_name');
+        $preArr['m_name'] = $request->input('middle_name');
+        $preArr['l_name'] = $request->input('last_name');
+        $preArr['birth_date'] = $request->input('birth_date');
+        $preArr['gender'] = $request->input('gender');
+        $preArr['height'] = $request->input('height');
+        $preArr['weight'] = $request->input('weight');
+        $preArr['age'] = $request->input('age');
+        $preArr['address'] = $request->input('address');
+        $preArr['country_id'] = $request->input('country_select');
+        $preArr['state_id'] = $request->input('state_select');
+        $preArr['city_id'] = $request->input('city_select');
+        $preArr['pincode'] = $request->input('pincode');
+        $preArr['missing_date'] = $request->input('missing_date');
+        $preArr['cloth_description'] = $request->input('cloth_description');
+        $preArr['hair_select'] = $request->input('hair_select');
+        $preArr['eye_id'] = $request->input('eye_select');
+        $preArr['eye_brow_id'] = $request->input('eyebrow_select');
+        $preArr['lip_id'] = $request->input('lip_select');
+        $preArr['jaw_id'] = $request->input('face_jaw_select');
+        $preArr['skin_id'] = $request->input('skin_select');
+        $preArr['ear_id'] = $request->input('ear_select');
+        $preArr['nose_id'] = $request->input('nose_select');
+        $preArr['remark'] = $request->input('remark');
+        $preArr['currency_id'] = $request->input('currency_select');
+        $preArr['status'] = $additional[0];
+        return $preArr;
     }
 }

@@ -457,9 +457,3 @@ $(document).ready(function() {
         $("option:selected", this).attr("selected", "selected");
     });
 });
-
-https://content.jwplatform.com/videos/0LDVU6iF.mp4
-http://content.jwplatform.com/videos/0LDVU6iF.mp4
-
-
-date('M D', strtotime($resList['slotList']['org_date']))

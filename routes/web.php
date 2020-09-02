@@ -202,7 +202,7 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
     Route::get('/missing_person_add', 'Customer\MyMissingPersonController@add_view');
     Route::post('/missing_person_insert', 'Customer\MyMissingPersonController@insert_records');
     Route::get('/mymissing_person_edit/{id?}', 'Customer\MyMissingPersonController@get_edit_records');
-    Route::put('/mymissing_update/{id?}', 'Admin\DiscountMasterController@update_records');
+    Route::put('/mymissing_update/{id?}', 'Customer\MyMissingPersonController@update_records');
     /* My Missing Person Module Ends here...! */
 
     /* Country , State and City Dynamic */
