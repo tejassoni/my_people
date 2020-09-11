@@ -66,16 +66,16 @@ $(document).ready(function() {
                 searchable: true
             },
             {
-                data: "missing_date",
-                name: "missing_date",
+                data: "found_date",
+                name: "found_date",
                 title: "Found Date",
                 orderable: true,
                 searchable: true
             },
             {
-                data: "parent_mobile",
-                name: "parent_mobile",
-                title: "Emergency Contact",
+                data: "reward_amount",
+                name: "reward_amount",
+                title: "Reward Claim",
                 orderable: true,
                 searchable: true
             },
@@ -284,7 +284,7 @@ $(document).ready(function() {
         if (view_id) {
             $.ajax({
                 type: "GET", // Default GET
-                url: APPURL + "/customer/get_missing_person/" + view_id,
+                url: APPURL + "/customer/get_identified_person/" + view_id,
                 dataType: "json", // text , XML, HTML
                 beforeSend: function() {},
                 success: function(data_resp, textStatus, jqXHR) {

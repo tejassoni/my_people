@@ -69,7 +69,7 @@ class IdentifiedPersonController extends Controller
                 ->addColumn('action', function ($list) {
                     $button = '';
                     $view_button = '<a href="#view-' . $list['missing_id'] . '" class="btn btn-xs btn-info btn_view" view_id="' . $list['missing_id'] . '" title="View" data-toggle="modal" data-target="#personViewModal"><i class="far fa-eye"></i> View </a> &nbsp;';
-                    $download_button = '<a href="' . url('/customer/get_pdf_person/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
+                    $download_button = '<a href="' . url('/customer/get_pdf_identifiedperson/' . $list['missing_id']) . '" download_id="' . $list['missing_id'] . '" class="btn btn-xs btn-success btn_download" title="Download"><i class="fa fa-download"></i> Download</a>';
                     $button .= $view_button;
                     $button .= $download_button;
                     return $button;
@@ -155,9 +155,9 @@ class IdentifiedPersonController extends Controller
                 throw new Exception('Person Id not found..!', 1);
 
             $missing_person_obj = new missing_person();
-            $missing_person_result = $missing_person_obj->list_belongsToBy_id($person_id);
+            $missing_person_result = $missing_person_obj->list_belongsToIndentifiedBy_id($person_id);
             if (empty($missing_person_result))
-                throw new Exception('Missing Person List not found..!', 422);
+                throw new Exception('Identified Person List not found..!', 422);
 
 
             // Missing Person Image Base 64 encoded
@@ -234,7 +234,7 @@ class IdentifiedPersonController extends Controller
             }
 
             $resp['status'] = true;
-            $resp['message'] = "Missing Person List get successfully..!";
+            $resp['message'] = "Identified Person List get successfully..!";
             $resp['data'] = $missing_person_result[0];
             return response()->json($resp, 200);
         } catch (Exception $ex) {
@@ -290,7 +290,7 @@ class IdentifiedPersonController extends Controller
                 throw new Exception('Person Id not found..!', 1);
 
             $missing_person_obj = new missing_person();
-            $missing_person_result = $missing_person_obj->list_belongsToBy_id($download_id);
+            $missing_person_result = $missing_person_obj->list_belongsToIndentifiedBy_id($download_id);
 
             // Missing Person Image Base 64 encoded
             if (isset($missing_person_result[0]) && !empty($missing_person_result[0]['missing_person_img']) && file_exists(\public_path('uploads/my_missing_persons/' . $missing_person_result[0]['missing_person_img']))) {

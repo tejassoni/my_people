@@ -207,7 +207,13 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
 
     /* Identified Person Module Starts here...! */
     Route::get('/identified_person_list', 'Customer\IdentifiedPersonController@list_view');
+    Route::get('/get_identified_person/{id?}', 'Customer\IdentifiedPersonController@get_personby_id');
+    Route::get('/get_pdf_identifiedperson/{id?}', 'Customer\IdentifiedPersonController@download_pdf');
     /* Identified Person Module Ends here...! */
+
+    /* Subscribe Module Starts here...! */
+    Route::get('/subscribe', 'Customer\SubscribeController@list_view');
+    /* Subscribe Module Ends here...! */
 
     /* Country , State and City Dynamic */
     Route::get('/getstate/{id?}', 'Customer\MissingPersonController@get_stateby_id');
