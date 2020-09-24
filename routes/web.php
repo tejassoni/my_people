@@ -183,7 +183,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web']], function ()
 }); // Email Verified enables
 
 
-// Admin Panel all routs from website backend
+// Customer Panel all routs from website backend
 Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function () {
 
     /* Missing Person Module Starts here...! */
@@ -220,6 +220,9 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
     Route::get('/getcity/{id?}', 'Customer\MissingPersonController@get_cityby_id');
 });
 
+Route::group(['prefix' => 'payment', 'middleware' => ['auth', 'web']], function () {
+    Route::get('/txnTest', 'PaytmChecksum\PaytmRequestController@get_payment_list');
+});
 
 
 // Send Email By Hit URL

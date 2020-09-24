@@ -15,7 +15,7 @@
         "intervention/image": "^2.5",
         "jeroennoten/laravel-adminlte": "^3.0",
         "laravel/framework": "6.*",
-        "laravel/tinker": "^1.0",
+        "laravel/tinker": "^1.0",        
         "tymon/jwt-auth": "1.0.*",
         "yajra/laravel-datatables": "^1.0",
         "yajra/laravel-datatables-oracle": "^9.9"
@@ -45,7 +45,8 @@
         "classmap": [
             "database/seeds",
             "database/factories"
-        ]
+        ],
+        "files": ["app/Helpers/encdec_paytm.php"]
     },
     "autoload-dev": {
         "psr-4": {
