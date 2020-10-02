@@ -221,9 +221,11 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
 });
 
 Route::group(['prefix' => 'payment', 'middleware' => ['auth', 'web']], function () {
-    Route::get('/txnTest', 'PaytmChecksum\PaytmRequestController@get_payment_list');
+    Route::get('/txnTest', 'PaytmApi\PaytmRequestController@txtTest');
+    Route::get('/pgRedirect', 'PaytmApi\PaytmRequestController@pgRedirect');
 });
 
+Route::any('paytm/success', 'PaytmApi\PaytmRequestController@pgResponse');
 
 // Send Email By Hit URL
 Route::get('send-mail', 'Email\MailSend@mailsend');

@@ -10,7 +10,7 @@
  * @link       https://developer.paytm.com/docs/checksum/#php
  */
 
-namespace App\Http\Controllers\PaytmChecksum;
+namespace App\Http\Controllers\PaytmApi;
 
 use Exception;
 
