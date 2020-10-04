@@ -17,10 +17,13 @@ class CreateCronSchedulerTable extends Migration
             $table->bigIncrements('cron_id');
             $table->string('cron_name', 255)->nullable();
             $table->string('cron_alias', 50)->nullable()->comment('slug');
-            $table->text('cron2_description')->nullable();
+            $table->text('cron_description')->nullable();
             $table->longText('cron_data')->nullable()->comment('format: json, xml');
             $table->string('cron_time_duration', 50)->nullable()->comment('Eg. 06:15-am, 12:00-pm');
             $table->string('cron_interval', 50)->nullable()->comment('minute, hour, week, month, year');
+            $table->string('cron_status', 50)->nullable()->comment('minute, hour, week, month, year');
+            $table->integer('user_id')->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
