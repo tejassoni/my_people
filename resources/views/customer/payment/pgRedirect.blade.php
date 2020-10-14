@@ -8,7 +8,7 @@
 	<center>
 		<h1>Please do not refresh this page...</h1>
 	</center>
-	<form method="post" action="<?php echo env('PAYTM_TXN_URL'); ?>" name="f1">
+	<form method="post" action="<?= PAYTM_TXN_URL; ?>" name="f1">
 		@csrf
 		<table border="1">
 			<tbody>
@@ -20,12 +20,6 @@
 				<input type="hidden" name="CHECKSUMHASH" value="<?php echo $checkSum ?>">
 			</tbody>
 		</table>
-		<?php
-		// echo "<pre> tet";
-		// print_r($checkSum);
-		// echo "</pre>";
-		// exit;
-		?>
 		<script type="text/javascript">
 			document.f1.submit();
 		</script>

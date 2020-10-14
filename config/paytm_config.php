@@ -10,3 +10,4 @@ define('PAYTM_REFUND_URL', '');
 define('PAYTM_STATUS_QUERY_URL', 'https://securegw-stage.paytm.in/merchant-status/getTxnStatus');
 define('PAYTM_STATUS_QUERY_NEW_URL', 'https://securegw-stage.paytm.in/merchant-status/getTxnStatus');
 define('PAYTM_TXN_URL', 'https://securegw-stage.paytm.in/theia/processTransaction');
+define('PAYTM_RESPONSE_URL', 'http://127.0.0.1:8000/paytm/success');
