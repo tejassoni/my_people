@@ -45,7 +45,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * insert_data - insert records into table : discount_master
+    * insert_data - insert records into table : missing_person
     * @param  - array of input records // Fields will be same as table column name        
     * @return : boolean
     */
@@ -56,7 +56,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_all - get all table : discount_master records    
+    * list_all - get all table : missing_person records    
     * @param  - None        
     * @return : array of all list records
     */
@@ -71,7 +71,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_active_all - get all table : discount_master active records    
+    * list_active_all - get all table : missing_person active records    
     * @param  - None        
     * @return : array of all active list records
     */
@@ -86,7 +86,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_by_params - check dynamic where condition from controller table : discount_master 
+    * list_by_params - check dynamic where condition from controller table : missing_person 
     * @param  - dynamic where conditions
     * @return : array of all list records
     */
@@ -108,7 +108,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_belongsTo - get all table : missing_master and user_master records    
+    * list_belongsTo - get all table : missing_master,country_master,state_master,city_master and user_master records    
     * @param  - None        
     * @return : array of all list records
     */
@@ -134,7 +134,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_belongsToSearch - get all table : missing_master and user_master records    
+    * list_belongsToSearch - get all table : missing_master,country_master,state_master,city_master and user_master records    
     * @param  - Filter Missing Date, Full Name, Gender, Age, Country, State, City
     * @return : array of all list records
     */
@@ -191,7 +191,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_belongsTo - get all table : missing_master and user_master records    
+    * list_belongsTo - get all table : missing_master,country_master,state_master,city_master and user_master records    
     * @param  - None        
     * @return : array of all list records
     */
@@ -218,7 +218,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_belongsToIdentifiedSearch - get all table : missing_master and user_master records    
+    * list_belongsToIdentifiedSearch - get all table : missing_master,country_master,state_master,city_master and user_master records    
     * @param  - Filter Missing Date, Full Name, Gender, Age, Country, State, City    
     * @return : array of all list records
     */
@@ -275,7 +275,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * update_records - update records into table : discount_master 
+    * update_records - update records into table : missing_master 
     * @param  - Update Array, ID to update
     * @return : boolean
     */
@@ -286,7 +286,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * delete_bulk_records - Delete multiple : discount_master 
+    * delete_bulk_records - Delete multiple : missing_master 
     * @param  - IDs Array [1,34,5]
     * @return : boolean
     */
@@ -299,7 +299,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * deleteRecords - Delete ID : discount_master 
+    * deleteRecords - Delete ID : missing_master 
     * @param  - ID
     * @return : boolean
     */
@@ -310,7 +310,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_all - get record by id table : city_master records    
+    * list_all - get record by id table : missing_master records    
     * @param  - None        
     * @return : array of all list records
     */
@@ -326,7 +326,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_belongsTo - get all table : missing_master and user_master records    
+    * list_belongsTo - get all table : missing_master,country_master,state_master,city_master,currency_master,lip_master,eye_master, jaw_master,skin_master,ear_master,hair_master,nose_master,eye_brow_master and user_master records    
     * @param  - None        
     * @return : array of all list records
     */
@@ -371,7 +371,7 @@ class missing_person extends Model
 
   /*
     * author : Tejas Soni
-    * list_belongsTo - get all table : missing_master and user_master records    
+    * list_belongsTo - get all table : missing_master,country_master,state_master,city_master,currency_master,lip_master,eye_master, jaw_master,skin_master,ear_master,hair_master,nose_master,eye_brow_master and user_master records    
     * @param  - None        
     * @return : array of all list records
     */

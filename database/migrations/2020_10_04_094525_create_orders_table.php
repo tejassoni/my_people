@@ -28,6 +28,7 @@ class CreateOrdersTable extends Migration
             $table->string('payment_status', 100)->nullable();
             $table->char('payment_received', 3)->nullable();
             $table->text('cart_data')->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

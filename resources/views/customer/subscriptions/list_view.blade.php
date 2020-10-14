@@ -43,7 +43,7 @@
             <li> <b>Discount : </b>{{ (isset($subscription_val['discount_amount']) && !empty($subscription_val['discount_amount'])) ? $subscription_val['discount_amount'] : 0 }} &#8377; </li>
             <li> <b>Total Price : </b>{{ $subscription_val['plan_amount'] - $subscription_val['discount_amount'] }} &#8377; </li>
           </ul>
-          <button type="button" class="btn btn-lg btn-block btn-outline-primary">Subscribe Now</button>
+          <a href="{{ url("/payment/dopayment/".$subscription_val['sub_id']) }}" class="btn btn-lg btn-block btn-outline-primary">Subscribe Now</a>
         </div>
       </div>
       @endforeach

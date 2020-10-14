@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB; // DB::enableQueryLog(); dd(DB::getQueryLog());
 
-class ear_master extends Model
+class orders extends Model
 {
   /**
    * The table associated with the model.
    *
    * @var string
    */
-  protected $table = 'ear_master';
+  protected $table = 'orders';
 
   /**
    * The primary key associated with the table.
    *
    * @var string
    */
-  protected $primaryKey = 'ear_id';
+  protected $primaryKey = 'id';
 
   /**
    * Indicates if the model should be timestamped.
@@ -33,7 +33,7 @@ class ear_master extends Model
    *
    * @var array
    */
-  protected $fillable = ['ear_name', 'ear_color', 'ear_description', 'ear_img', 'status'];
+  protected $fillable = ['order_id', 'user_id', 'subscription_id', 'payment_id', 'payment_request_id', 'payment_method', 'payment_mode', 'payment_currency', 'qty', 'total_amount', 'payment_status', 'payment_received', 'cart_data', 'status'];
 
   /**
    * The attributes that aren't mass assignable.
@@ -44,7 +44,7 @@ class ear_master extends Model
 
   /*
     * author : Tejas Soni
-    * insert_data - insert records into table : ear_master
+    * insert_data - insert records into table : orders
     * @param  - array of input records // Fields will be same as table column name        
     * @return : boolean
     */
@@ -55,7 +55,7 @@ class ear_master extends Model
 
   /*
     * author : Tejas Soni
-    * list_all - get all table : ear_master records    
+    * list_all - get all table : orders records    
     * @param  - None        
     * @return : array of all list records
     */
@@ -70,7 +70,7 @@ class ear_master extends Model
 
   /*
     * author : Tejas Soni
-    * list_by_params - check dynamic where condition from controller table : ear_master 
+    * list_by_params - check dynamic where condition from controller table : orders 
     * @param  - dynamic where conditions
     * @return : array of all list records
     */
@@ -92,48 +92,48 @@ class ear_master extends Model
 
   /*
     * author : Tejas Soni
-    * update_records - update records into table : ear_master 
+    * update_records - update records into table : orders 
     * @param  - Update Array, ID to update
     * @return : boolean
     */
   public function update_records($udpate_data = array(), $where_check)
   {
-    return self::where('ear_id', $where_check)->update($udpate_data);
+    return self::where('id', $where_check)->update($udpate_data);
   }
 
   /*
     * author : Tejas Soni
-    * delete_bulk_records - Delete multiple : ear_master 
+    * delete_bulk_records - Delete multiple : orders 
     * @param  - IDs Array [1,34,5]
     * @return : boolean
     */
   public function delete_bulk_records($delete_ids = array())
   {
-    return self::whereIn('ear_id', $delete_ids)->delete();
+    return self::whereIn('id', $delete_ids)->delete();
   }
 
 
 
   /*
     * author : Tejas Soni
-    * deleteRecords - Delete ID : ear_master 
+    * deleteRecords - Delete ID : orders 
     * @param  - ID
     * @return : boolean
     */
   public function deleteRecords($delete_id = "")
   {
-    return self::where('ear_id', $delete_id)->delete();
+    return self::where('id', $delete_id)->delete();
   }
 
   /*
     * author : Tejas Soni
-    * list_all - get record by id table : ear_master records    
+    * list_all - get record by id table : orders records    
     * @param  - None        
     * @return : array of all list records
     */
   public function get_recordby_Id($id = "")
   {
-    $data = self::select('*')->where('ear_id', $id)->get();
+    $data = self::select('*')->where('hair_id', $id)->get();
     if (!empty($data)) {
       $data = $data->toArray();
     }

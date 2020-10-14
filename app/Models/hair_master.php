@@ -44,7 +44,7 @@ class hair_master extends Model
 
   /*
     * author : Tejas Soni
-    * insert_data - insert records into table : role_master
+    * insert_data - insert records into table : hair_master
     * @param  - array of input records // Fields will be same as table column name        
     * @return : boolean
     */
@@ -55,7 +55,7 @@ class hair_master extends Model
 
   /*
     * author : Tejas Soni
-    * list_all - get all table : role_master records    
+    * list_all - get all table : hair_master records    
     * @param  - None        
     * @return : array of all list records
     */
@@ -70,7 +70,7 @@ class hair_master extends Model
 
   /*
     * author : Tejas Soni
-    * list_by_params - check dynamic where condition from controller table : role_master 
+    * list_by_params - check dynamic where condition from controller table : hair_master 
     * @param  - dynamic where conditions
     * @return : array of all list records
     */
@@ -92,7 +92,7 @@ class hair_master extends Model
 
   /*
     * author : Tejas Soni
-    * update_records - update records into table : role_master 
+    * update_records - update records into table : hair_master 
     * @param  - Update Array, ID to update
     * @return : boolean
     */
@@ -103,7 +103,7 @@ class hair_master extends Model
 
   /*
     * author : Tejas Soni
-    * delete_bulk_records - Delete multiple : role_master 
+    * delete_bulk_records - Delete multiple : hair_master 
     * @param  - IDs Array [1,34,5]
     * @return : boolean
     */
@@ -116,7 +116,7 @@ class hair_master extends Model
 
   /*
     * author : Tejas Soni
-    * deleteRecords - Delete ID : role_master 
+    * deleteRecords - Delete ID : hair_master 
     * @param  - ID
     * @return : boolean
     */

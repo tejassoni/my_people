@@ -223,6 +223,7 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
 Route::group(['prefix' => 'payment', 'middleware' => ['auth', 'web']], function () {
     Route::get('/txnTest', 'PaytmApi\PaytmRequestController@txtTest');
     Route::get('/pgRedirect', 'PaytmApi\PaytmRequestController@pgRedirect');
+    Route::get('/dopayment/{id?}', 'PaytmApi\PaytmRequestController@subscriptionPayment');
 });
 
 Route::any('paytm/success', 'PaytmApi\PaytmRequestController@pgResponse');
