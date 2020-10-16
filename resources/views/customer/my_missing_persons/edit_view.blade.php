@@ -131,12 +131,12 @@
                 <label><?= ('Select Country') ?></label>
                 <select class="form-control" name="country_select" id="country_select" required>
                   @if(isset($country_list) && !empty($country_list))
-                  <option value="" disabled selected><?= ('Select Country') ?></option>
+                  <option value="null" disabled selected><?= ('Select Country') ?></option>
                   @foreach ($country_list as $country_key => $country_val)
                   <option value="{{ $country_val['country_id'] }}" {{ (is_array(old()) && !empty(old('country_select')) && old('country_select') == $country_val['country_id'])? 'selected' : (isset($missing_person_result->country_id) && !empty($missing_person_result->country_id) && $missing_person_result->country_id == $country_val['country_id']) ? 'selected' : '' }}>{{ ucwords($country_val['name']).' - '.$country_val['sortname'] }}</option>
                   @endforeach
                   @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
+                  <option value="null" disabled selected><?= ('No Records found..') ?></>
                     @endif
                 </select>
                 <!-- Dynamic Dependend Validation Selected -->
@@ -146,12 +146,12 @@
                 <label><?= ('Select State') ?></label>
                 <select class="form-control" name="state_select" id="state_select" required>
                   @if(isset($state_list) && !empty($state_list))
-                  <option value="" disabled selected><?= ('Select State') ?></option>
+                  <option value="null" disabled selected><?= ('Select State') ?></option>
                   @foreach ($state_list as $state_key => $state_val)
                   <option value="{{ $state_val['state_id'] }}" {{ (is_array(old()) && !empty(old('state_select')) && old('state_select') == $state_val['state_id'])? 'selected' : (isset($missing_person_result->state_id) && !empty($missing_person_result->state_id) && $missing_person_result->state_id == $state_val['state_id']) ? 'selected' : '' }}>{{ ucwords($state_val['name']) }}</option>
                   @endforeach
                   @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
+                  <option value="null" disabled selected><?= ('No Records found..') ?></>
                     @endif
                 </select>
                 <!-- Dynamic Dependend Validation Selected -->
@@ -161,12 +161,12 @@
                 <label><?= ('Select City') ?></label>
                 <select class="form-control" name="city_select" id="city_select">
                   @if(isset($city_list) && !empty($city_list))
-                  <option value="" disabled selected><?= ('Select City') ?></option>
+                  <option value="null" disabled selected><?= ('Select City') ?></option>
                   @foreach ($city_list as $city_key => $city_val)
                   <option value="{{ $city_val['city_id'] }}" {{ (is_array(old()) && !empty(old('state_select')) && old('state_select') == $city_id['city_id'])? 'selected' : (isset($missing_person_result->city_id) && !empty($missing_person_result->city_id) && $missing_person_result->city_id == $city_val['city_id']) ? 'selected' : '' }}>{{ ucwords($city_val['name']) }}</option>
                   @endforeach
                   @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
+                  <option value="null" disabled selected><?= ('No Records found..') ?></>
                     @endif
                 </select>
                 <!-- Dynamic Dependend Validation Selected -->

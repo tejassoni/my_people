@@ -57,6 +57,10 @@
                 <label for="sub_description"><?= ('Description') ?></label>
                 <textarea class="form-control" name="sub_description" id="sub_description" rows="3" placeholder="Enter Subscription Description" required>{{ old('sub_description') }}</textarea>
               </div>
+              <div class="form-group required">
+                <label for="sub_validity"><?= ('Days Of Validity') ?></label>
+                <input type="number" class="form-control" name="sub_validity" id="sub_validity" placeholder="Enter Subscription Validity" value="{{ old('sub_validity') }}" min="1" required />
+              </div>
               <div class="form-group w-120 required">
                 <label><?= ('Select Plan') ?></label>
                 <select class="form-control" name="plan_id_select" id="plan_id_select" required>

@@ -33,7 +33,7 @@ class orders extends Model
    *
    * @var array
    */
-  protected $fillable = ['order_id', 'user_id', 'subscription_id', 'payment_id', 'payment_request_id', 'payment_method', 'payment_mode', 'payment_currency', 'qty', 'total_amount', 'payment_status', 'payment_received', 'cart_data', 'status'];
+  protected $fillable = ['order_id', 'user_id', 'subscription_id', 'payment_id', 'payment_request_id', 'payment_method', 'payment_mode', 'payment_currency', 'qty', 'total_amount', 'payment_status', 'payment_received', 'cart_data', 'payment_date', 'bank_name', 'status'];
 
   /**
    * The attributes that aren't mass assignable.
@@ -98,7 +98,7 @@ class orders extends Model
     */
   public function update_records($udpate_data = array(), $where_check)
   {
-    return self::where('id', $where_check)->update($udpate_data);
+    return self::where('order_id', $where_check)->update($udpate_data);
   }
 
   /*
@@ -133,9 +133,24 @@ class orders extends Model
     */
   public function get_recordby_Id($id = "")
   {
-    $data = self::select('*')->where('hair_id', $id)->get();
+    $data = self::select('*')->where('id', $id)->get();
     if (!empty($data)) {
       $data = $data->toArray();
+    }
+    return $data;
+  }
+
+  /*
+    * author : Tejas Soni
+    * list_all - get record by id table : orders records    
+    * @param  - None        
+    * @return : array of all list records
+    */
+  public function get_recordby_SubscribeId($customer_id = "", $status = 1)
+  {
+    $data = self::select('*')->where('user_id', $customer_id)->where('status', $status)->get();
+    if (!empty($data)) {
+      $data = $data->first();
     }
     return $data;
   }

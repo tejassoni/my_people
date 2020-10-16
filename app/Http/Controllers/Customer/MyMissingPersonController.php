@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customer;
 use Image;
 use Exception;
 use DataTables;
+use App\Models\orders;
 use App\Models\ear_master;
 use App\Models\eye_master;
 use App\Models\jaw_master;
@@ -14,6 +15,7 @@ use App\Models\find_person;
 use App\Models\hair_master;
 use App\Models\nose_master;
 use App\Models\skin_master;
+use App\Models\user_master;
 use App\Models\state_master;
 use Illuminate\Http\Request;
 use App\Models\country_master;
@@ -23,10 +25,9 @@ use App\Models\currency_master;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UpdateMyMissingPersonRequest;
 use App\Http\Requests\UpdateFindPersonResponse;
 use App\Http\Requests\CreateMissingPersonRequest;
-use App\Models\user_master;
+use App\Http\Requests\UpdateMyMissingPersonRequest;
 
 class MyMissingPersonController extends Controller
 {
@@ -80,7 +81,7 @@ class MyMissingPersonController extends Controller
             $resp['data'] = array();
             $resp['message'] = 'My Missing Person inserted successfully...!';
             $request->session()->put('success', $resp['message']);
-            return redirect()->back()->with('success', $resp['message']);
+            return redirect('customer/missing_person_list')->with('success', $resp['message']);
         } else {
             $resp['message'] = 'My Missing Person not inserted, Please try again...!';
             $request->session()->put('error', $resp['message']);
@@ -445,7 +446,9 @@ class MyMissingPersonController extends Controller
                 ->make(true);
         }
         $country_list = country_master::all();
-        return view('customer.my_missing_persons.list_view', compact('country_list'));
+        $subscribe_order_list = (new orders)->get_recordby_SubscribeId(Auth::user()->id);
+        // dd($subscribe_order_list);
+        return view('customer.my_missing_persons.list_view', compact('country_list', 'subscribe_order_list'));
     }
 
     /**

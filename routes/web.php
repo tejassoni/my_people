@@ -225,8 +225,12 @@ Route::group(['prefix' => 'payment', 'middleware' => ['auth', 'web']], function 
     Route::get('/pgRedirect', 'PaytmApi\PaytmRequestController@pgRedirect');
     Route::get('/dopayment/{id?}', 'PaytmApi\PaytmRequestController@subscriptionPayment');
 });
-
-Route::any('paytm/success', 'PaytmApi\PaytmRequestController@pgResponse');
+// Customer Panel all routs from website backend
+Route::group(['prefix' => 'cron'], function () {
+    Route::get('/subscribeCustomers', 'Cron\CronJobController@subscriptionExpiredCustomers');
+});
+// Route::any('paytm/success', 'PaytmApi\PaytmRequestController@pgResponse');
+Route::any('paytm/success', 'PaytmApi\PaytmRequestController@subscriptionPaymentResponse');
 
 // Send Email By Hit URL
 Route::get('send-mail', 'Email\MailSend@mailsend');

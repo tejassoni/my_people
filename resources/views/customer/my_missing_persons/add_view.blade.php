@@ -128,12 +128,12 @@
                 <label><?= ('Select Country') ?></label>
                 <select class="form-control" name="country_select" id="country_select" required>
                   @if(isset($country_list) && !empty($country_list))
-                  <option value="" disabled selected><?= ('Select Country') ?></option>
+                  <option value="null" disabled selected><?= ('Select Country') ?></option>
                   @foreach ($country_list as $country_key => $country_val)
                   <option value="{{ $country_val['country_id'] }}" {{ (is_array(old()) && !empty(old('country_select')) && old('country_select') == $country_val['country_id'])? 'selected' : '' }}>{{ ucwords($country_val['name']).' - '.$country_val['sortname'] }}</option>
                   @endforeach
                   @else
-                  <option value="" disabled selected><?= ('No Records found..') ?></>
+                  <option value="null" disabled selected><?= ('No Records found..') ?></>
                     @endif
                 </select>
                 <!-- Dynamic Dependend Validation Selected -->
@@ -142,7 +142,7 @@
               <div class="form-group required">
                 <label><?= ('Select State') ?></label>
                 <select class="form-control" name="state_select" id="state_select" required>
-                  <option value="" disabled selected><?= ('Select State') ?></option>
+                  <option value="null" disabled selected><?= ('Select State') ?></option>
                 </select>
                 <!-- Dynamic Dependend Validation Selected -->
                 <input type='hidden' id='select_state_hidden' name='select_state_hidden' value='{{ (is_array(old()) && !empty(old('state_select')))?old('state_select'):'' }}'>
@@ -150,7 +150,7 @@
               <div class="form-group">
                 <label><?= ('Select City') ?></label>
                 <select class="form-control" name="city_select" id="city_select">
-                  <option value="" disabled selected><?= ('Select City') ?></option>
+                  <option value="null" disabled selected><?= ('Select City') ?></option>
                 </select>
                 <!-- Dynamic Dependend Validation Selected -->
                 <input type='hidden' id='select_city_hidden' name='select_city_hidden' value='{{ (is_array(old()) && !empty(old('city_select')))?old('city_select'):'' }}'>

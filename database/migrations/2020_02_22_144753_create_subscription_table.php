@@ -18,7 +18,8 @@ class CreateSubscriptionTable extends Migration
             $table->string('sub_name', 100)->nullable();
             $table->string('sub_alias', 50)->nullable();
             $table->text('sub_description')->nullable();
-            $table->integer('plan_id')->nullable();            
+            $table->integer('sub_validity')->nullable();
+            $table->integer('plan_id')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

@@ -1,8 +1,8 @@
 @extends('adminlte::page')
 
 @section('title', 'AdminLTE')
-@include('vendor.adminlte.partials.header_response_messages')
 @section('content_header')
+@include('vendor.adminlte.partials.header_messages')
 <div class="row">
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
     <!-- <h1 class="m-0 text-dark"><a href='{{ url("/customer/missing_person_add") }}' class="btn-success btn-sm" title="Add New Button"><i class="fa fa-plus-circle" aria-hidden="true"></i> <?= ('Add New') ?></a></h1> -->
