@@ -14,7 +14,7 @@
                         <div class="form-group custom-file mb-3">
                             <input type="file" class="custom-file-input" id="find_person_img" name="filename">
                             <input type='hidden' id='missing_id' name='missing_id' value=''>
-                            <label class="custom-file-label" for="customFile">{{ __('Upload Image Of Missing Person You Have Find') }}</label>
+                            <label class="custom-file-label" for="customFile">{{ __('Upload Image Of Missing Person You Have Find') }} <span style="color:red;">*</span></span></label>
                             <!-- File preview Starts -->
                             <img class="file_preview mb-5 d-none" id="img_view" alt="Image Preview" src="#" height="70" width="70">
                             <button type="button" class="file_preview close float-left d-none" data-dismiss="modal" aria-label="Close">

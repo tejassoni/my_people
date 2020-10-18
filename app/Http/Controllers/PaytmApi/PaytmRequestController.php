@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\PaytmApi;
 
+use Exception;
+use App\Models\orders;
 use Illuminate\Http\Request;
 use App\Helpers\encdec_paytm;
 use Illuminate\Http\Response;
-use App\Models\orders;
 use App\Models\subscription_master;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -136,7 +137,10 @@ class PaytmRequestController extends Controller
     {
         // config fetch message
         $resp = config('response_format.RES_RESULT');
-        if (isset($subscription_id) && !empty($subscription_id)) {
+        try {
+            if (!isset($subscription_id) || empty($subscription_id))
+                throw new Exception('Error Processing Request', 1);
+
             $subscription_list = (new subscription_master)->listById_belongsTo($subscription_id);
 
             if (isset($subscription_list['sub_alias']) && !empty($subscription_list['sub_alias']) && $subscription_list['sub_alias'] == "trail_subscription") {
@@ -151,8 +155,12 @@ class PaytmRequestController extends Controller
                 $orderInsertData["PAYMENT_RECEIVED"] = 'yes';
                 $orderInsertData["PAYMENT_DATE"] = date('Y-m-d H:m:i');
                 $orderInsertData["STATUS"] = 1;
+
+                $updatematches_data = $this->_updatePaymentTrailDetails([0]);
+                $insertnew_data = $this->_insertPaymentTrailDetails($orderInsertData);
                 // Insert Payment Data to Order Table 
-                $insertOrder = $this->_insertPaymentTrailDetails($orderInsertData);
+                $payment_result = (new orders)->update_Or_Create($updatematches_data, $insertnew_data);
+
                 $resp['status'] = true;
                 $resp['data'] = array();
                 $resp['message'] = 'Congrats, You have Subscribe successfully...!';
@@ -190,12 +198,45 @@ class PaytmRequestController extends Controller
                 $orderInsertData["QTY"] = 1;
                 $orderInsertData["PAYMENT_STATUS"] = 'pending';
                 $orderInsertData["PAYMENT_RECEIVED"] = 'no';
-                $orderInsertData["STATUS"] = 1;
+                $orderInsertData["STATUS"] = 0;
                 // Insert Payment Data to Order Table 
-                $insertOrder = $this->_insertPaymentDetails($orderInsertData);
+                $updatematches_data = $this->_updatePaymentTrailDetails([0]);
+                $insertnew_data = $this->_insertpreparePaymentDetails($orderInsertData);
+                $payment_result = (new orders)->update_Or_Create($updatematches_data, $insertnew_data);
+                // $insertOrder = $this->_insertPaymentDetails($orderInsertData);
                 return view('customer.payment.pgRedirect', compact('checkSum', 'paramList'));
             }
+        } catch (Exception $ex) {
+            $resp['status'] = false;
+            $resp['data'] = [];
+            $resp['message'] = $ex->getMessage();
+            $resp['ex_message'] = $ex->getMessage();
+            $resp['ex_code'] = $ex->getCode();
+            $resp['ex_file'] = $ex->getFile();
+            $resp['ex_line'] = $ex->getLine();
+            Session::put('error', $resp['message']);
+            return redirect()->back()->with('error', $resp['message']);
         }
+    }
+
+    /*
+     @author    :: Tejas
+     @task_id   :: 
+     @task_desc :: 
+     @params    :: 
+     @return    :: 
+    */
+    private function _insertpreparePaymentDetails($paymentData = array(), $additionalData = array())
+    {
+        $insertData['order_id'] = $paymentData['ORDER_ID'];
+        $insertData['user_id'] = str_replace('CUST_', '', $paymentData['CUST_ID']);
+        $insertData['subscription_id'] = $paymentData['SUBSCRIPTION_ID'];
+        $insertData['qty'] = $paymentData['QTY'];
+        $insertData['total_amount'] = $paymentData['TXN_AMOUNT'];
+        $insertData['payment_status'] = $paymentData['PAYMENT_STATUS'];
+        $insertData['payment_received'] = $paymentData['PAYMENT_RECEIVED'];
+        $insertData['status'] = $paymentData['STATUS'];
+        return $insertData;
     }
 
     /*
@@ -237,7 +278,21 @@ class PaytmRequestController extends Controller
         $insertData['payment_currency'] = $paymentData['CURRENCY'];
         $insertData['payment_date'] = $paymentData["PAYMENT_DATE"];
         $insertData['status'] = $paymentData['STATUS'];
-        return (new orders)->insert_data($insertData);
+        return $insertData;
+    }
+
+    /*
+     @author    :: Tejas
+     @task_id   :: 
+     @task_desc :: 
+     @params    :: 
+     @return    :: 
+    */
+    private function _updatePaymentTrailDetails($paymentData = array(), $additionalData = array())
+    {
+        $updateData['user_id'] = Auth()->user()->id;
+        $updateData['status'] = $paymentData[0];
+        return $updateData;
     }
 
     /*
@@ -272,6 +327,7 @@ class PaytmRequestController extends Controller
                 $additionalData['PAYMENT_STATUS'] = 'completed';
                 $additionalData['PAYMENT_RECEIVED'] = 'yes';
                 $additionalData['PAYMENT_METHOD'] = 'paytm';
+                $additionalData['STATUS'] = 1;
                 $this->_updatePaymentDetails($_POST, $additionalData);
                 $resp['status'] = true;
                 $resp['data'] = array();
@@ -283,6 +339,7 @@ class PaytmRequestController extends Controller
                 $additionalData['PAYMENT_STATUS'] = 'fail';
                 $additionalData['PAYMENT_RECEIVED'] = 'no';
                 $additionalData['PAYMENT_METHOD'] = 'paytm';
+                $additionalData['STATUS'] = 0;
                 $this->_updatePaymentDetails($_POST, $additionalData);
                 $resp['message'] = 'Subscription was unsuccessfull, Please try again...!';
                 Session::put('error', $resp['message']);
@@ -300,6 +357,7 @@ class PaytmRequestController extends Controller
             $additionalData['PAYMENT_STATUS'] = 'fail';
             $additionalData['PAYMENT_RECEIVED'] = 'no';
             $additionalData['PAYMENT_METHOD'] = 'paytm';
+            $additionalData['STATUS'] = 0;
             $this->_updatePaymentDetails($_POST, $additionalData);
             $resp['message'] = 'Subscription was unsuccessfull, Please try again...!';
             Session::put('error', $resp['message']);
@@ -326,6 +384,42 @@ class PaytmRequestController extends Controller
         $updateData['total_amount'] = $paymentData['TXNAMOUNT'];
         $updateData['cart_data'] = json_encode($paymentData);
         $updateData['payment_date'] = $paymentData['TXNDATE'];
+        $updateData['status'] = $additionalData['STATUS'];
         return (new orders)->update_records($updateData, $paymentData['ORDERID']);
+    }
+
+    /*
+     @author    :: Tejas
+     @task_id   :: 
+     @task_desc :: 
+     @params    :: 
+     @return    :: 
+    */
+    public function donationPayment(Request $request)
+    {
+        header("Pragma: no-cache");
+        header("Cache-Control: no-cache");
+        header("Expires: 0");
+        $checkSum = "";
+        $paramList = array();
+        // Create an array having all required parameters for creating checksum.
+        $paramList["MID"] = PAYTM_MERCHANT_MID;
+        $paramList["ORDER_ID"] = $request->input("ORDER_ID");
+        $paramList["CUST_ID"] = $request->input("CUST_ID");
+        $paramList["INDUSTRY_TYPE_ID"] = $request->input("INDUSTRY_TYPE_ID");
+        $paramList["CHANNEL_ID"] = $request->input("CHANNEL_ID");
+        $paramList["TXN_AMOUNT"] = $request->input("TXN_AMOUNT");
+        $paramList["WEBSITE"] = PAYTM_MERCHANT_WEBSITE;
+
+        $paramList["CALLBACK_URL"] = PAYTM_RESPONSE_URL;
+        $paramList["MSISDN"] = 9662768548; //Mobile number of customer
+        $paramList["EMAIL"] = "tejas.soni@gmail.com"; //Email ID of customer
+        $paramList["VERIFIED_BY"] = "EMAIL"; //
+        $paramList["IS_USER_VERIFIED"] = "YES"; //
+
+        //Here checksum string will return by getChecksumFromArray() function.
+        $checkSum = getChecksumFromArray($paramList, PAYTM_MERCHANT_KEY);
+        // $insertOrder = $this->_insertPaymentDetails($orderInsertData);
+        return view('customer.payment.pgRedirect', compact('checkSum', 'paramList'));
     }
 }

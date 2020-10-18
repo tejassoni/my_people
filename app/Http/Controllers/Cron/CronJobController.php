@@ -30,6 +30,8 @@ class CronJobController extends Controller
     */
     protected function subscriptionExpiredCustomers()
     {
+        // config fetch message
+        $resp = config('response_format.RES_RESULT');
         $searchParams['payment_status'] = 'completed';
         $searchParams['payment_received'] = 'yes';
         $searchParams['status'] = 1;
@@ -42,13 +44,18 @@ class CronJobController extends Controller
                     $days = $subscription_details['sub_validity'] + 1;
                     $expire_subscription_date = date('d-m-Y', strtotime("+$days days", strtotime($val_order->payment_date)));
                     if ($expire_subscription_date <= date('d-m-Y')) {
-                        // dd("subscription expire");
+                        $this->setCustomerSubscriptionExpire($val_order->order_id);
                     } else {
                         // dd("subscription not expire");
                     }
                 }
             } // Loops Ends
+            $resp['status'] = true;
+            $resp['message'] = 'Cron Process Completed..!';
+            return response()->json($resp);
         }
+        $resp['message'] = 'Cron Process Not Required..!';
+        return response()->json($resp);
     }
 
     /*
@@ -61,5 +68,18 @@ class CronJobController extends Controller
     private function _getSubscriptionDetails(int $subscription_id)
     {
         return (new subscription_master)->listById_belongsTo($subscription_id);
+    }
+
+
+    /*
+     @author    :: Tejas
+     @task_id   :: 
+     @task_desc :: 
+     @params    :: 
+     @return    :: 
+    */
+    private function setCustomerSubscriptionExpire($order_id = "")
+    {
+        return (new orders)->update_records(['status' => 0], $order_id);
     }
 }

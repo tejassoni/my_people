@@ -55,10 +55,10 @@
 
               <div class="form-group custom-file mb-3">
                 <input type="file" class="custom-file-input" id="missing_person_img" name="filename">
-                <label class="custom-file-label" for="customFile">Upload Missing Person Image</label>
+                <label class="custom-file-label" for="customFile">Upload Missing Person Image <span style="color:red;">*</span></label>
                 <!-- File preview Starts -->
                 <img class="file_preview mb-5 d-none" id="img_view" alt="Image Preview" src="#" height="70" width="70">
-                <button type="button" class="file_preview close float-left d-none" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="file_preview missing_close close float-left d-none" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>
                 <!-- File preview Ends -->

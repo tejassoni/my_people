@@ -232,6 +232,11 @@ Route::group(['prefix' => 'cron'], function () {
 // Route::any('paytm/success', 'PaytmApi\PaytmRequestController@pgResponse');
 Route::any('paytm/success', 'PaytmApi\PaytmRequestController@subscriptionPaymentResponse');
 
+Route::group(['prefix' => 'supportwork', 'middleware' => ['auth', 'web']], function () {
+    Route::get('/donate', 'Donate\SupportWorkController@list_view');
+    Route::post('/dopayment', 'PaytmApi\PaytmRequestController@pgRedirect');
+});
+
 // Send Email By Hit URL
 Route::get('send-mail', 'Email\MailSend@mailsend');
 Route::post('user_email/{id?}', 'Email\MailSend@mailsend');

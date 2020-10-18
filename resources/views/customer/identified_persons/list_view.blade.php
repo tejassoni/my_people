@@ -14,7 +14,7 @@
           <a href="/home" title="MyPeople Dashboard"><?= ('Dashboard') ?></a>
         </li>
         <li class="breadcrumb-item">
-          <a href="/customer/missing_person_list" title="Indentified Missing Persons"><?= ('Identified Missing Persons') ?></a>
+          <a href="/customer/identified_person_list" title="Indentified Missing Persons"><?= ('Identified Missing Persons') ?></a>
         </li>
         <li class="breadcrumb-item active"><?= ('List') ?></li>
       </ol>
@@ -34,7 +34,7 @@
           <div class="form-group clearfix">
             <div class="icheck-primary d-inline">
               <input type="checkbox" name="missdate_validity_chkbx" class="missdate_validity_chkbx" id="missdate_validity_chkbx" value="0">
-              <label for="missdate_validity_chkbx"> <?= ('Missing Date') ?> </label>
+              <label for="missdate_validity_chkbx"> <?= ('Found Date') ?> </label>
             </div>
             <input type="text" class="form-control" name="missing_date_filter" id="missing_date_filter" placeholder="Enter Dates" value="{{ old('missing_date') }}" disabled />
           </div>

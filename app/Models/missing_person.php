@@ -239,7 +239,7 @@ class missing_person extends Model
     if (isset($PostData) && !empty($PostData)) {
 
       if (isset($PostData['missed_date']) && !empty($PostData['missed_date'])) {
-        $data =  $data->whereBetween('missing_person.missed_date', [$PostData['missed_date']['start'], $PostData['missed_date']['end']]);
+        $data =  $data->whereBetween('missing_person.updated_at', [$PostData['missed_date']['start'], $PostData['missed_date']['end']]);
       }
 
       if (isset($PostData['full_name']) && !empty($PostData['full_name'])) {

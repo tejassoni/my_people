@@ -364,6 +364,7 @@ return [
         ['header' => 'DONATE'],
         [
             'text'       => 'Donate Support Work',
+            'url'  => '/supportwork/donate',
             'icon_color' => 'green',
         ],
     ],

@@ -6,7 +6,9 @@
 
 <body>
 	<center>
-		<h1>Please do not refresh this page...</h1>
+		<h1><b>Please do not refresh this page...!</b></h1>
+		<h2>Redirecting into Payment Gateway...!</h2>
+		<h3>Please Wait...!</h3>
 	</center>
 	<form method="post" action="<?= PAYTM_TXN_URL; ?>" name="f1">
 		@csrf

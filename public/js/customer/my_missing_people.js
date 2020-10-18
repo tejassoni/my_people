@@ -614,6 +614,7 @@ $(document).ready(function() {
             });
         }
     });
+  
 
     /* Bind / Append Data To Modal On Click */
     $(document).on("click", ".btn_response", function() {
@@ -676,6 +677,10 @@ $(document).ready(function() {
                     $(".statusMsg").html(
                         '<span style="color:green;"> Thanks, Your message sent successfully.</p>'
                     );
+
+                    setTimeout(() => {
+                        location.reload(true); 
+                    }, 3000);
                 } else {
                     $(".statusMsg").html(
                         '<span style="color:red;"> Some problem occurred, please try again.</span>'

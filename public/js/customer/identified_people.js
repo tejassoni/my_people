@@ -393,4 +393,8 @@ $(document).ready(function() {
         }
     });
     // Checkbox checked popup Ends
+
+    $('.btn_clear_search').click(function () {
+        location.reload(true);
+    });
 });

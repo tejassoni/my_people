@@ -154,4 +154,16 @@ class orders extends Model
     }
     return $data;
   }
+
+  /*
+    * author : Tejas Soni
+    * update_records - update records into table : orders 
+    * @param  - updatematches_data Array [Will act like where condition to check matches from data],
+    * @param  - to_update_or_newcreate_data Array [Will update if matched found OR Create new data]
+    * @return : boolean
+    */
+  public function update_Or_Create($updatematches_data = array(), $to_update_or_newcreate_data = array())
+  {
+    return self::updateOrCreate($updatematches_data, $to_update_or_newcreate_data);
+  }
 }

@@ -15,7 +15,7 @@
           <a href="/home" title="MyPeople Dashboard"><?= ('Dashboard') ?></a>
         </li>
         <li class="breadcrumb-item">
-          <a href="/customer/missing_person_list" title="Missing Persons"><?= ('Missing Persons') ?></a>
+          <a href="/customer/mymissing_person_list" title="Missing Persons"><?= ('Missing Persons') ?></a>
         </li>
         <li class="breadcrumb-item active"><?= ('Edit') ?></li>
       </ol>
@@ -57,11 +57,11 @@
 
               <div class="form-group custom-file mb-3">
                 <input type="file" class="custom-file-input" id="missing_person_img" name="filename">
-                <label class="custom-file-label" for="customFile">Upload Missing Person Image</label>
+                <label class="custom-file-label" for="customFile">Upload Missing Person Image <span style="color:red;">*</span></label>
                 <input type="hidden" class="form-control" id="missing_person_hidden" name="filename_hidden" value="{{ (is_array(old()) && !empty(old('missing_person_img')))? old('missing_person_img') : $missing_person_result->missing_person_img }}">
                 <!-- File preview Starts -->
                 <img class="file_preview mb-5 {{ (!empty($missing_person_result->missing_person_img))? '' : 'd-none' }}" id="img_view" alt="Image Preview" src="{{ (is_array(old()) && !empty(old('missing_person_img')))? old('missing_person_img') : $missing_person_result->missing_person_img }}" height="70" width="70">
-                <button type="button" class="file_preview close float-left {{ (!empty($missing_person_result->missing_person_img))? '' : 'd-none' }}" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="file_preview missing_close close float-left {{ (!empty($missing_person_result->missing_person_img))? '' : 'd-none' }}" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>
                 <!-- File preview Ends -->
