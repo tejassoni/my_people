@@ -223,18 +223,26 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'web']], function
 Route::group(['prefix' => 'payment', 'middleware' => ['auth', 'web']], function () {
     Route::get('/txnTest', 'PaytmApi\PaytmRequestController@txtTest');
     Route::get('/pgRedirect', 'PaytmApi\PaytmRequestController@pgRedirect');
+    // Subscription Payment Initiate
     Route::get('/dopayment/{id?}', 'PaytmApi\PaytmRequestController@subscriptionPayment');
+
+    // Donation Payment Initiate
+    Route::post('/donationpayment', 'PaytmApi\PaytmRequestController@donationPayment');
 });
-// Customer Panel all routs from website backend
-Route::group(['prefix' => 'cron'], function () {
-    Route::get('/subscribeCustomers', 'Cron\CronJobController@subscriptionExpiredCustomers');
-});
+
+
 // Route::any('paytm/success', 'PaytmApi\PaytmRequestController@pgResponse');
 Route::any('paytm/success', 'PaytmApi\PaytmRequestController@subscriptionPaymentResponse');
+Route::any('paytm/donate_success', 'PaytmApi\PaytmRequestController@donatePaymentResponse');
 
 Route::group(['prefix' => 'supportwork', 'middleware' => ['auth', 'web']], function () {
     Route::get('/donate', 'Donate\SupportWorkController@list_view');
     Route::post('/dopayment', 'PaytmApi\PaytmRequestController@pgRedirect');
+});
+
+// Cron Job Service , Scheduler
+Route::group(['prefix' => 'cron'], function () {
+    Route::get('/subscribeCustomers', 'Cron\CronJobController@subscriptionExpiredCustomers');
 });
 
 // Send Email By Hit URL

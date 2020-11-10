@@ -20,6 +20,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        'paytm/success', 'paytm/fail'
+        'paytm/success', 'paytm/fail', 'paytm/donate_success',
     ];
 }

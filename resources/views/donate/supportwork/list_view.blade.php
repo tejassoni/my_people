@@ -1,8 +1,8 @@
 @extends('adminlte::page')
 
 @section('title', 'AdminLTE')
-@include('vendor.adminlte.partials.header_response_messages')
 @section('content_header')
+@include('vendor.adminlte.partials.header_messages')
 <div class="row">
   <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
     <!-- <h1 class="m-0 text-dark"><a href='{{ url("/customer/missing_person_add") }}' class="btn-success btn-sm" title="Add New Button"><i class="fa fa-plus-circle" aria-hidden="true"></i> <?= ('Add New') ?></a></h1> -->
@@ -54,7 +54,7 @@
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <form role="form" name="discount_add" id="discount_add" method="post" action="{{ url('admin/discount_insert') }}">
+          <form role="form" name="donation_add" id="donation_add" method="post" action="{{ url('payment/donationpayment') }}">
             <!-- csrf security starts -->
             @csrf
             <!-- csrf security ends -->
@@ -75,7 +75,7 @@
                 <input type="text" class="form-control" name="donate_mobile" id="donate_mobile" placeholder="Enter Donator Mobile" value="{{ old('donate_mobile') }}" />
               </div>
 
-              <div class="form-group">
+              <div class="form-group required">
                 <label for="donate_amount"><?= ('Donate Amount') ?></label>
                 <input type="number" class="form-control" name="donate_amount" id="donate_amount" placeholder="Enter Donator Amount" value="{{ old('donate_amount') }}" required />
               </div>
