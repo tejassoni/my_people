@@ -31,3 +31,18 @@
 	// if git pull throws an error of remove files first than only process below steps 
 	d) git clean -f -d
 	e) git pull                  [ Done ]
+	
+	
+How to Delete Any Branch From Git Hub
+1) Delete branch from local system
+-> git branch -d mukesh_dev
+
+2) Delete branch from git server
+-> git push origin :mukesh_dev
+
+How to check branches List in Github
+1) git branch
+
+How to Create New Branch in Git hub
+1) git checkout -b new_branch_name
+
