@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Models\user_master;
 use Illuminate\Http\Request;
 use App\Models\subscription_master;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SubscribeController extends Controller
 {
@@ -17,7 +19,8 @@ class SubscribeController extends Controller
      */
     public function list_view(Request $request)
     {
-        $subscription_list = (new subscription_master)->list_belongsTo();
+        $user_detail_trail = (new user_master())->find(Auth::user()->id)->is_trail_used;
+        $subscription_list = (new subscription_master)->list_belongsTo($user_detail_trail);
         return view('customer.subscriptions.list_view', compact('subscription_list'));
     }
 }

@@ -11,6 +11,7 @@ use App\Models\subscription_master;
 use App\Models\donation;
 use App\Models\donation_order;
 use App\Http\Controllers\Controller;
+use App\Models\user_master;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -162,6 +163,8 @@ class PaytmRequestController extends Controller
                 $insertnew_data = $this->_insertPaymentTrailDetails($orderInsertData);
                 // Insert Payment Data to Order Table 
                 $payment_result = (new orders)->update_Or_Create($updatematches_data, $insertnew_data);
+                $update_subscribe_data = array('subscription_id' => $subscription_id, 'is_trail_used' => 1);
+                $updateUserSubscribe = (new user_master())->update_records($update_subscribe_data, Auth::user()->id);
 
                 $resp['status'] = true;
                 $resp['data'] = array();

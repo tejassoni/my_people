@@ -33,7 +33,7 @@ class user_master extends Model
    *
    * @var array
    */
-  protected $fillable = ['f_name', 'm_name', 'l_name', 'address', 'mobile', 'email', 'role_id', 'subscription_id', 'password', 'user_img', 'status'];
+  protected $fillable = ['f_name', 'm_name', 'l_name', 'address', 'mobile', 'email', 'role_id', 'subscription_id', 'password', 'user_img', 'status', 'is_trail_used'];
 
   /**
    * The attributes that aren't mass assignable.
